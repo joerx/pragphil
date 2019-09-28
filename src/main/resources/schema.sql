@@ -64,7 +64,7 @@ CREATE TABLE "public"."users" (
     "id" integer DEFAULT nextval('user_id_seq') NOT NULL,
     "username" character varying(50) NOT NULL,
     "password" character varying(68) NOT NULL,
-    "enabled" smallint NOT NULL,
+    "enabled" boolean DEFAULT true NOT NULL,
     CONSTRAINT "user_id" PRIMARY KEY ("id"),
     CONSTRAINT "user_username" UNIQUE ("username")
 ) WITH (oids = false);

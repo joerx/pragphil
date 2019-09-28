@@ -9,12 +9,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class LecturesDAOImpl implements LecturesDAO {
+public class LectureDAOImpl implements LectureDAO {
 
     private final SessionFactory sessionFactory;
 
     @Autowired
-    public LecturesDAOImpl(SessionFactory sessionFactory) {
+    public LectureDAOImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 

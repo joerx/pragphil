@@ -8,8 +8,8 @@
     <p>Awesome stuff ahead. Stay tuned!</p>
     <ul>
         <li><a href="${pageContext.request.contextPath}/lectures/list">Lectures</a></li>
-        <li><a href="${pageContext.request.contextPath}/lecturers/list">Lecturers</a></li>
-        <li><a href="${pageContext.request.contextPath}/students/list">Students</a></li>
+        <li><a href="${pageContext.request.contextPath}/users/list">Users</a></li>
+<%--        <li><a href="${pageContext.request.contextPath}/students/list">Students</a></li>--%>
     </ul>
 </body>
 </html>

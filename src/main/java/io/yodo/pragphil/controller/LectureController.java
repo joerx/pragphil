@@ -2,7 +2,7 @@ package io.yodo.pragphil.controller;
 
 import io.yodo.pragphil.entity.Lecture;
 import io.yodo.pragphil.error.NoSuchThingException;
-import io.yodo.pragphil.service.LecturesService;
+import io.yodo.pragphil.service.LectureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,13 +17,13 @@ import java.util.List;
 
 @Controller
 @RequestMapping(path = "/lectures")
-public class LecturesController {
+public class LectureController {
 
-    private final LecturesService lecturesService;
+    private final LectureService lectureService;
 
     @Autowired
-    public LecturesController(LecturesService lecturesService) {
-        this.lecturesService = lecturesService;
+    public LectureController(LectureService lectureService) {
+        this.lectureService = lectureService;
     }
 
     @RequestMapping(path = "", method = RequestMethod.GET)
@@ -33,14 +33,14 @@ public class LecturesController {
 
     @RequestMapping(path = "/list", method = RequestMethod.GET)
     public String findLectures(Model model) {
-        List<Lecture> lectures = lecturesService.findAll();
+        List<Lecture> lectures = lectureService.findAll();
         model.addAttribute("lectures", lectures);
         return "lectures/list";
     }
 
     @RequestMapping(path = "/view/{id}", method = RequestMethod.GET)
     public String showLecture(@PathVariable int id, Model model) {
-        Lecture lecture = lecturesService.findById(id);
+        Lecture lecture = lectureService.findById(id);
 
         if (lecture == null) throw new NoSuchThingException("No lecture with id " + id);
 
@@ -66,13 +66,13 @@ public class LecturesController {
             model.addAttribute("lecture", lecture);
             return "lectures/new";
         }
-        lecturesService.create(lecture);
+        lectureService.create(lecture);
         return "redirect:/lectures/view/" + lecture.getId();
     }
 
     @RequestMapping(path = "/edit/{id}", method = RequestMethod.GET)
     public String editLecture(@PathVariable int id, Model model) {
-        Lecture lecture = lecturesService.findById(id);
+        Lecture lecture = lectureService.findById(id);
 
         if (lecture == null) throw new NoSuchThingException("No lecture with id " + id);
 
@@ -91,17 +91,17 @@ public class LecturesController {
             model.addAttribute("lecture", lecture);
             return "lectures/edit";
         }
-        lecturesService.update(lecture);
+        lectureService.update(lecture);
         return "redirect:/lectures/view/" + lecture.getId();
     }
 
     @RequestMapping(path = "/delete/{id}", method = RequestMethod.GET)
     public String deleteLecture(@PathVariable int id) {
-        Lecture lecture = lecturesService.findById(id);
+        Lecture lecture = lectureService.findById(id);
 
         if (lecture == null) throw new NoSuchThingException("No lecture with id " + id);
 
-        lecturesService.delete(lecture);
+        lectureService.delete(lecture);
         return "redirect:/lectures/list";
     }
 }

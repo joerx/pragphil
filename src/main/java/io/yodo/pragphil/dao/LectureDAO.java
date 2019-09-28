@@ -4,7 +4,7 @@ import io.yodo.pragphil.entity.Lecture;
 
 import java.util.List;
 
-public interface LecturesDAO {
+public interface LectureDAO {
 
     List<Lecture> findAll();
 
