@@ -1,8 +1,6 @@
 # The Pragmatic Philosopher
 
-Best Philosopher management app on the web. Discover how ancient wisdom can lead to a better life for you and your favourite pet.
-
-Complex Spring WebMVC demo app, loosely based on [Chad Darbys Udemy course](https://www.udemy.com/spring-hibernate-tutorial)
+Best Philosopher management app on the web. Discover how ancient wisdom can lead to a better life for you and your favourite pet. Spring WebMVC demo app, loosely based on [Chad Darbys Udemy course](https://www.udemy.com/spring-hibernate-tutorial)
 
 ## Usage
 
