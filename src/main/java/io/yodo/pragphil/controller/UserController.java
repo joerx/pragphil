@@ -3,8 +3,8 @@ package io.yodo.pragphil.controller;
 import io.yodo.pragphil.entity.User;
 import io.yodo.pragphil.error.NoSuchThingException;
 import io.yodo.pragphil.service.UserService;
+import io.yodo.pragphil.view.helper.FlashHelper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -61,12 +62,20 @@ public class UserController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String createUser(@ModelAttribute User user, BindingResult binding, Model model) {
+    public String createUser(
+            @ModelAttribute User user,
+            BindingResult binding,
+            Model model,
+            RedirectAttributes ra
+    ) {
         if (binding.hasErrors()) {
             model.addAttribute("user", user);
             return "users/new";
         }
+
         userService.create(user);
+
+        FlashHelper.setInfo(ra, "User created");
         return "redirect:/users/view/" + user.getId();
     }
 
@@ -83,42 +92,55 @@ public class UserController {
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String updateUser(@ModelAttribute User user, BindingResult binding, Model model) {
+    public String updateUser(
+            @ModelAttribute User user,
+            BindingResult binding,
+            Model model,
+            RedirectAttributes ra
+    ) {
         if (binding.hasErrors()) {
             model.addAttribute("user", user);
             return "users/edit";
         }
         userService.update(user);
+
+        FlashHelper.setInfo(ra, "User created");
         return "redirect:/users/view/" + user.getId();
     }
 
     @RequestMapping(value = "/disable/{id}", method = RequestMethod.GET)
-    public String disableUser(@PathVariable int id, HttpServletRequest req) {
+    public String disableUser(@PathVariable int id, HttpServletRequest req, RedirectAttributes ra) {
         User u = userService.findById(id);
 
         if (u == null) throw new NoSuchThingException("No user with id " + id);
 
         userService.disableUser(u);
+
+        FlashHelper.setInfo(ra, "User disabled");
         return redirectToReferrer(req, "/users/list");
     }
 
     @RequestMapping(value = "/enable/{id}", method = RequestMethod.GET)
-    public String enableUser(@PathVariable int id, HttpServletRequest req) {
+    public String enableUser(@PathVariable int id, HttpServletRequest req, RedirectAttributes ra) {
         User u = userService.findById(id);
 
         if (u == null) throw new NoSuchThingException("No user with id " + id);
 
         userService.enableUser(u);
+
+        FlashHelper.setInfo(ra,"User enabled");
         return redirectToReferrer(req, "/users/list");
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
-    public String deleteUser(@PathVariable int id) {
+    public String deleteUser(@PathVariable int id, RedirectAttributes ra) {
         User u = userService.findById(id);
 
         if (u == null) throw new NoSuchThingException("No user with id " + id);
 
         userService.delete(u);
+
+        FlashHelper.setInfo(ra, "User deleted");
         return "redirect:/users/list";
     }
 

@@ -1,6 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main.css"/>
+
     <title>The Pragmatic Philosopher</title>
 </head>
 <body>

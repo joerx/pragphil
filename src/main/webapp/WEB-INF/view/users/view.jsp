@@ -3,9 +3,13 @@
 
 <html>
 <head>
-    <title>Title</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main.css"/>
+
+    <title>User ${user.username}</title>
 </head>
 <body>
+    <jsp:include page="../fragments/_flash.jsp" />
+
     <h1>User ${user.username}</h1>
     <p>
         <a href="${pageContext.request.contextPath}/users/list">

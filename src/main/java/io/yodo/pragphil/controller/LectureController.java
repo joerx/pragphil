@@ -3,6 +3,7 @@ package io.yodo.pragphil.controller;
 import io.yodo.pragphil.entity.Lecture;
 import io.yodo.pragphil.error.NoSuchThingException;
 import io.yodo.pragphil.service.LectureService;
+import io.yodo.pragphil.view.helper.FlashHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -67,6 +68,8 @@ public class LectureController {
             return "lectures/new";
         }
         lectureService.create(lecture);
+
+        FlashHelper.setInfo(r, "Lecture created");
         return "redirect:/lectures/view/" + lecture.getId();
     }
 
@@ -92,16 +95,20 @@ public class LectureController {
             return "lectures/edit";
         }
         lectureService.update(lecture);
+
+        FlashHelper.setInfo(r, "Lecture updated");
         return "redirect:/lectures/view/" + lecture.getId();
     }
 
     @RequestMapping(path = "/delete/{id}", method = RequestMethod.GET)
-    public String deleteLecture(@PathVariable int id) {
+    public String deleteLecture(@PathVariable int id, RedirectAttributes r) {
         Lecture lecture = lectureService.findById(id);
 
         if (lecture == null) throw new NoSuchThingException("No lecture with id " + id);
 
         lectureService.delete(lecture);
+
+        FlashHelper.setInfo(r, "Lecture deleted");
         return "redirect:/lectures/list";
     }
 }

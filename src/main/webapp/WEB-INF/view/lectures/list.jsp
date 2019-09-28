@@ -3,10 +3,15 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main.css"/>
+
     <title>Lectures</title>
 </head>
 <body>
+    <jsp:include page="../fragments/_flash.jsp" />
+
     <h1>Lectures</h1>
+
     <p>
         <a href="${pageContext.request.contextPath}/lectures/new">New Lecture</a>
     </p>
