@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import javax.sql.DataSource;
@@ -110,5 +111,16 @@ public class ApplicationConfig implements WebMvcConfigurer {
         HibernateTransactionManager m = new HibernateTransactionManager();
         m.setSessionFactory(sess);
         return m;
+    }
+
+    @Bean
+    public SimpleMappingExceptionResolver errorHandler() {
+        SimpleMappingExceptionResolver r = new SimpleMappingExceptionResolver();
+
+        r.setDefaultErrorView("error");
+        r.setExceptionAttribute("ex");
+        r.setWarnLogCategory("io.yodo.pragphil.error");
+
+        return r;
     }
 }

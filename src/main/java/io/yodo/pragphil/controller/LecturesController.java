@@ -1,6 +1,7 @@
 package io.yodo.pragphil.controller;
 
 import io.yodo.pragphil.entity.Lecture;
+import io.yodo.pragphil.error.NoSuchThingException;
 import io.yodo.pragphil.service.LecturesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +26,11 @@ public class LecturesController {
         this.lecturesService = lecturesService;
     }
 
+    @RequestMapping(path = "", method = RequestMethod.GET)
+    public String index() {
+        return "redirect:/lectures/list";
+    }
+
     @RequestMapping(path = "/list", method = RequestMethod.GET)
     public String findLectures(Model model) {
         List<Lecture> lectures = lecturesService.findAll();
@@ -35,9 +41,9 @@ public class LecturesController {
     @RequestMapping(path = "/view/{id}", method = RequestMethod.GET)
     public String showLecture(@PathVariable int id, Model model) {
         Lecture lecture = lecturesService.findById(id);
-        if (lecture == null) {
-            throw new IllegalArgumentException("No lecture with id " + id); // FIXME: 404
-        }
+
+        if (lecture == null) throw new NoSuchThingException("No lecture with id " + id);
+
         model.addAttribute("lecture", lecture);
         return "lectures/view";
     }
@@ -67,9 +73,9 @@ public class LecturesController {
     @RequestMapping(path = "/edit/{id}", method = RequestMethod.GET)
     public String editLecture(@PathVariable int id, Model model) {
         Lecture lecture = lecturesService.findById(id);
-        if (lecture == null) {
-            throw new IllegalArgumentException("No lecture with id " + id); // FIXME: 404
-        }
+
+        if (lecture == null) throw new NoSuchThingException("No lecture with id " + id);
+
         model.addAttribute("lecture", lecture);
         return "lectures/edit";
     }
@@ -92,9 +98,9 @@ public class LecturesController {
     @RequestMapping(path = "/delete/{id}", method = RequestMethod.GET)
     public String deleteLecture(@PathVariable int id) {
         Lecture lecture = lecturesService.findById(id);
-        if (lecture == null) {
-            throw new IllegalArgumentException("No lecture with id " + id); // FIXME: 404
-        }
+
+        if (lecture == null) throw new NoSuchThingException("No lecture with id " + id);
+
         lecturesService.delete(lecture);
         return "redirect:/lectures/list";
     }
