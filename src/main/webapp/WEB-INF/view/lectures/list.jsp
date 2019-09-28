@@ -7,6 +7,9 @@
 </head>
 <body>
     <h1>Lectures</h1>
+    <p>
+        <a href="${pageContext.request.contextPath}/lectures/new">New Lecture</a>
+    </p>
     <table>
         <thead>
             <tr>

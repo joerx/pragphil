@@ -6,7 +6,16 @@
 <body>
     <h1>Lecture ${lecture.name}</h1>
     <p>
-        <a href="${pageContext.request.contextPath}/lectures/list">back to list</a>
+        <a href="${pageContext.request.contextPath}/lectures/list">
+            Back to List
+        </a>|
+        <a href="${pageContext.request.contextPath}/lectures/edit/${lecture.id}">
+            Edit
+        </a>|
+        <a href="${pageContext.request.contextPath}/lectures/delete/${lecture.id}"
+            onclick="if (!confirm('Are you sure you want to do this?')) return false">
+            Delete
+        </a>
     </p>
     <table>
         <tr>

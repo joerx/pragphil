@@ -29,4 +29,22 @@ public class LecturesServiceImpl implements LecturesService {
     public Lecture findById(int id) {
         return lecturesDAO.findById(id);
     }
+
+    @Override
+    @Transactional
+    public void create(Lecture lecture) {
+        lecturesDAO.create(lecture);
+    }
+
+    @Override
+    @Transactional
+    public void update(Lecture lecture) {
+        lecturesDAO.update(lecture);
+    }
+
+    @Override
+    @Transactional
+    public void delete(Lecture lecture) {
+        lecturesDAO.delete(lecture);
+    }
 }

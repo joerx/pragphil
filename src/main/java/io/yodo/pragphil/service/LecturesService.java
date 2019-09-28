@@ -9,4 +9,10 @@ public interface LecturesService {
     List<Lecture> findAll();
 
     Lecture findById(int id);
+
+    void create(Lecture lecture);
+
+    void update(Lecture lecture);
+
+    void delete(Lecture lecture);
 }

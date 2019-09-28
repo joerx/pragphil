@@ -34,7 +34,7 @@ CREATE SEQUENCE lecture_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 92233720368547758
 CREATE TABLE "public"."lectures" (
     "id" integer DEFAULT nextval('lecture_id_seq') NOT NULL,
     "name" character varying(50) NOT NULL,
-    "lecturer_id" integer NOT NULL,
+    "lecturer_id" integer,
     CONSTRAINT "lecture_id" PRIMARY KEY ("id"),
     CONSTRAINT "lecture_lecturer_id_fkey" FOREIGN KEY (lecturer_id) REFERENCES users(id) ON DELETE SET NULL NOT DEFERRABLE
 ) WITH (oids = false);
