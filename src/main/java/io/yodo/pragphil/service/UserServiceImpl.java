@@ -4,7 +4,6 @@ import io.yodo.pragphil.dao.RolesDAO;
 import io.yodo.pragphil.dao.UserDAO;
 import io.yodo.pragphil.entity.Role;
 import io.yodo.pragphil.entity.User;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -80,10 +79,8 @@ public class UserServiceImpl implements UserService {
 
         rolesDAO.deleteForUser(user);
         for (Role r : dto.getRoles()) {
-            if (r != null) {
-                user.addRole(r);
-                rolesDAO.create(r);
-            }
+            user.addRole(r);
+            rolesDAO.create(r);
         }
 
         userDAO.update(user);
