@@ -52,7 +52,11 @@
         </tr>
         <tr>
             <td>Authorities</td>
-            <td>TBD</td>
+            <td>
+                <c:forEach items="${user.roles}" var="role">
+                ${role.role}<br/>
+                </c:forEach>
+            </td>
         </tr>
     </table>
 </body>

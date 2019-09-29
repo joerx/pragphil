@@ -28,6 +28,19 @@
         </spring:bind>
     </div>
     <div class="form-group">
+        <c:forEach items="${allRoles}" var="role" varStatus="s">
+        <label for="roles-${s.index}">
+            <input type="checkbox"
+                   name="roles[${s.index}]"
+                   value="${role.id}:${role.role}"
+                   id="roles-${s.index}"
+                   ${user.hasRole(role) ? "checked" : ""}
+            />
+            ${role.role}
+        </label><br/>
+        </c:forEach>
+    </div>
+    <div class="form-group">
         <form:label path="enabled">Enabled</form:label>
         <form:checkbox path="enabled" cssClass="form-control"/>
     </div>

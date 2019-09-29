@@ -1,5 +1,6 @@
 package io.yodo.pragphil.service;
 
+import io.yodo.pragphil.entity.Role;
 import io.yodo.pragphil.entity.User;
 
 import java.util.List;
@@ -21,4 +22,8 @@ public interface UserService {
     void disableUser(User user);
 
     void enableUser(User user);
+
+    List<Role> getAllRoles();
+
+    Role getRoleById(int roleId);
 }

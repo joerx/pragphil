@@ -1,12 +1,15 @@
 package io.yodo.pragphil.service;
 
+import io.yodo.pragphil.dao.RolesDAO;
 import io.yodo.pragphil.dao.UserDAO;
+import io.yodo.pragphil.entity.Role;
 import io.yodo.pragphil.entity.User;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -14,12 +17,18 @@ public class UserServiceImpl implements UserService {
 
     private final UserDAO userDAO;
 
-    private final PasswordEncoder passwordEncoder;
+    private final RolesDAO rolesDAO;
+
+    private static final String[] ALL_ROLE_NAMES = new String[]{
+            "ROLE_MEMBER",
+            "ROLE_LECTURER",
+            "ROLE_STUDENT"
+    };
 
     @Autowired
-    public UserServiceImpl(UserDAO userDAO, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserDAO userDAO, RolesDAO rolesDAO) {
         this.userDAO = userDAO;
-        this.passwordEncoder = passwordEncoder;
+        this.rolesDAO = rolesDAO;
     }
 
     @Override
@@ -42,28 +51,42 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void create(User user) {
-        user.setPassword(encodePassword(user.getPassword()));
+    public void create(User dto) {
+        User user = new User();
+
+        user.setPassword(dto.getPassword());
+        user.setUsername(dto.getUsername());
+        user.setEnabled(dto.isEnabled());
+
+        for (Role r : dto.getRoles()) {
+            user.addRole(r);
+        }
+
         userDAO.create(user);
+        dto.setId(user.getId());
     }
 
     @Override
     @Transactional
-    public void update(User user) {
-        if (user.getPassword() != null && user.getPassword().length() > 0) {
-            // password change, encode new password
-            user.setPassword(encodePassword(user.getPassword()));
-            userDAO.update(user);
-        } else {
-            // no password change, reset password to original value
-            User u2 = userDAO.findById(user.getId());
-            // we cannot write back the new user object since the Hibernate session is already associated with
-            // the one we just retrieved from the DB
-            // instead we map the props for the new user back to the one from the DB
-            u2.setUsername(user.getUsername());
-            u2.setEnabled(user.isEnabled());
-            userDAO.update(u2);
+    public void update(User dto) {
+        // Automated form bindings and ORMs only work in a very narrow frame of acceptable use cases,
+        // otherwise they are a headache-inducing cartload of horseshit. so we need to map this by hand...
+        User user = new User();
+
+        user.setId(dto.getId());
+        user.setPassword(dto.getPassword());
+        user.setUsername(dto.getUsername());
+        user.setEnabled(dto.isEnabled());
+
+        rolesDAO.deleteForUser(user);
+        for (Role r : dto.getRoles()) {
+            if (r != null) {
+                user.addRole(r);
+                rolesDAO.create(r);
+            }
         }
+
+        userDAO.update(user);
     }
 
     @Override
@@ -92,7 +115,20 @@ public class UserServiceImpl implements UserService {
         userDAO.update(user);
     }
 
-    private String encodePassword(String password) {
-        return passwordEncoder.encode(password);
+    @Override
+    public List<Role> getAllRoles() {
+        List<Role> roles = new ArrayList<>(ALL_ROLE_NAMES.length);
+        for (String name : ALL_ROLE_NAMES) {
+            Role r = new Role();
+            r.setRole(name);
+            roles.add(r);
+        }
+        return roles;
+    }
+
+    @Override
+    @Transactional
+    public Role getRoleById(int roleId) {
+        return rolesDAO.getById(roleId);
     }
 }

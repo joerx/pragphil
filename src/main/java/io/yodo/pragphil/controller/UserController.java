@@ -1,21 +1,22 @@
 package io.yodo.pragphil.controller;
 
+import io.yodo.pragphil.entity.Role;
 import io.yodo.pragphil.entity.User;
 import io.yodo.pragphil.error.NoSuchThingException;
 import io.yodo.pragphil.service.UserService;
 import io.yodo.pragphil.view.helper.FlashHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -27,14 +28,24 @@ public class UserController {
 
     private final Logger log = Logger.getLogger(getClass().getName());
 
+    private static final String DEFAULT_REDIRECT_LOCATION = "/users/list";
+
+    private final PasswordEncoder passwordEncoder;
+
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String index() {
         return "redirect:/users/list";
+    }
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(Role.class, "roles", new UserRoleEditor());
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -58,7 +69,8 @@ public class UserController {
     public String newUser(Model model) {
         User u = new User();
         u.setEnabled(true);
-        model.addAttribute("user", u);
+
+        prepareUserForm(model, u);
         return "users/new";
     }
 
@@ -70,10 +82,13 @@ public class UserController {
             RedirectAttributes ra
     ) {
         if (binding.hasErrors()) {
-            model.addAttribute("user", user);
+            prepareUserForm(model, user);
             return "users/new";
         }
 
+        log.info("Creating user with roles " + user.getRoles());
+
+        user.setPassword(encodePassword(user.getPassword()));
         userService.create(user);
 
         FlashHelper.setInfo(ra, "User " + user.getUsername() + " created (" + user.getId() + ")");
@@ -85,10 +100,9 @@ public class UserController {
         User u = userService.findById(id);
 
         if (u == null) throw new NoSuchThingException("No user with id " + id);
-
         u.setPassword(null);
-        model.addAttribute("user", u);
 
+        prepareUserForm(model, u);
         return "users/edit";
     }
 
@@ -99,10 +113,19 @@ public class UserController {
             Model model,
             RedirectAttributes ra
     ) {
+        log.info("Updating user with roles " + user.getRoles());
+
         if (binding.hasErrors()) {
-            model.addAttribute("user", user);
+            log.warning("Binding errors" + binding.getAllErrors());
+            prepareUserForm(model, user);
             return "users/edit";
         }
+
+        // if password changes, encode new password
+        if (user.getPassword() != null && user.getPassword().length() > 0) {
+            user.setPassword(encodePassword(user.getPassword()));
+        }
+
         userService.update(user);
 
         FlashHelper.setInfo(ra, "User " + user.getUsername() + " updated");
@@ -118,7 +141,7 @@ public class UserController {
         userService.disableUser(u);
 
         FlashHelper.setInfo(ra, "User disabled");
-        return redirectToReferrer(req, "/users/list");
+        return redirectToReferrer(req);
     }
 
     @RequestMapping(value = "/enable/{id}", method = RequestMethod.GET)
@@ -130,7 +153,7 @@ public class UserController {
         userService.enableUser(u);
 
         FlashHelper.setInfo(ra,"User enabled");
-        return redirectToReferrer(req, "/users/list");
+        return redirectToReferrer(req);
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
@@ -145,14 +168,32 @@ public class UserController {
         return "redirect:/users/list";
     }
 
-    private String redirectToReferrer(HttpServletRequest req, String defaultLocation) {
+    private String redirectToReferrer(HttpServletRequest req) {
         String referrer = req.getHeader("referer");
         log.info("Got referrer " + referrer);
 
         if (referrer == null) {
-            return "redirect:" + defaultLocation;
+            return "redirect:" + DEFAULT_REDIRECT_LOCATION;
         } else {
             return "redirect:" + referrer;
         }
+    }
+
+    private void prepareUserForm(Model model, User u) {
+        List<Role> allRoles = userService.getAllRoles();
+        List<Role> rolesForView = new ArrayList<>(u.getRoles()); // shallow copy
+
+        for (Role r : allRoles) {
+            if (!u.hasRole(r)) {
+                rolesForView.add(r);
+            }
+        }
+
+        model.addAttribute("user", u);
+        model.addAttribute("allRoles", rolesForView);
+    }
+
+    private String encodePassword(String password) {
+        return passwordEncoder.encode(password);
     }
 }

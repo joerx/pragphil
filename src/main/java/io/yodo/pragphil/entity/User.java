@@ -6,6 +6,9 @@ import org.springframework.stereotype.Service;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /*
@@ -24,7 +27,8 @@ import java.util.Objects;
 @Entity
 @Table(name = "users")
 @Password(message = User.PASSWORD_VALIDATION_MSG, minLength = User.PASSWORD_MIN_LENGTH)
-public class User {
+// Serializable: see https://hibernate.atlassian.net/browse/HHH-7668
+public class User implements Serializable  {
 
     private static final String USERNAME_VALIDATION_MSG =
             "must be between 3-50 characters long and contain only characters, numbers and underscores";
@@ -49,6 +53,9 @@ public class User {
 
     @Column(name = "enabled")
     private boolean enabled;
+
+    @OneToMany(mappedBy = "user", fetch=FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Role> roles = new ArrayList<>();
 
     public User() {
     }
@@ -85,12 +92,38 @@ public class User {
         this.enabled = enabled;
     }
 
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+
+    public void removeRole(Role r) {
+        if (r == null) return;
+        r.setUser(null);
+        roles.remove(r);
+    }
+
+    public void addRole(Role r) {
+        if (r == null) return;
+        r.setUser(this);
+        roles.add(r);
+    }
+
+    public boolean hasRole(Role role) {
+        for (Role r : roles) {
+            if (r.getRole().equals(role.getRole())) return true;
+        }
+        return false;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", userName='" + username + '\'' +
-                ", password='" + password + '\'' +
                 ", enabled=" + enabled +
                 '}';
     }
