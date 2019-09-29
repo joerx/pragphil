@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -63,7 +64,7 @@ public class UserController {
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String createUser(
-            @ModelAttribute User user,
+            @Valid @ModelAttribute User user,
             BindingResult binding,
             Model model,
             RedirectAttributes ra
@@ -75,7 +76,7 @@ public class UserController {
 
         userService.create(user);
 
-        FlashHelper.setInfo(ra, "User created");
+        FlashHelper.setInfo(ra, "User " + user.getUsername() + " created (" + user.getId() + ")");
         return "redirect:/users/view/" + user.getId();
     }
 
@@ -93,7 +94,7 @@ public class UserController {
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String updateUser(
-            @ModelAttribute User user,
+            @Valid @ModelAttribute User user,
             BindingResult binding,
             Model model,
             RedirectAttributes ra
@@ -104,7 +105,7 @@ public class UserController {
         }
         userService.update(user);
 
-        FlashHelper.setInfo(ra, "User created");
+        FlashHelper.setInfo(ra, "User " + user.getUsername() + " updated");
         return "redirect:/users/view/" + user.getId();
     }
 

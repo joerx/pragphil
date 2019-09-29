@@ -5,3 +5,8 @@
 .alert-danger {
     color: red;
 }
+
+.invalid-feedback {
+    color: red;
+    font-style: italic;
+}

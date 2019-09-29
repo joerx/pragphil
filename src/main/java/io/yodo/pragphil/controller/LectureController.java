@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -58,7 +59,7 @@ public class LectureController {
 
     @RequestMapping(path = "/create", method = RequestMethod.POST)
     public String createLecture(
-            @ModelAttribute Lecture lecture,
+            @Valid @ModelAttribute Lecture lecture,
             BindingResult binding,
             Model model,
             RedirectAttributes r
@@ -85,7 +86,7 @@ public class LectureController {
 
     @RequestMapping(path = "/update", method = RequestMethod.POST)
     public String updateLecture(
-            @ModelAttribute Lecture lecture,
+            @Valid @ModelAttribute Lecture lecture,
             BindingResult binding,
             Model model,
             RedirectAttributes r

@@ -1,11 +1,20 @@
 package io.yodo.pragphil.entity;
 
+import io.yodo.pragphil.validation.Password;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Objects;
 
 @Entity
 @Table(name = "lectures")
 public class Lecture {
+
+    private static final int LECTURE_NAME_MIN_LENGTH = 5;
+
+    private static final String LECTURE_NAME_VALIDATION_MSG =
+            "should be longer than " + LECTURE_NAME_MIN_LENGTH + " characters";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,6 +22,8 @@ public class Lecture {
     private int id;
 
     @Column(name = "name")
+    @NotNull(message = "is required")
+    @Size(min = LECTURE_NAME_MIN_LENGTH, message = LECTURE_NAME_VALIDATION_MSG)
     private String name;
 
     public Lecture() {

@@ -1,5 +1,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%--@elvariable id="user" type="io.yodo.pragphil.entity.User"--%>
@@ -12,12 +13,18 @@
         <spring:bind path="username">
             <label for="username">Username</label>
             <input type="text" name="username" id="username" value="${user.username}" class="form-control"/>
+            <c:if test="${status.error}">
+            <span class="invalid-feedback">${status.errorMessage}</span>
+            </c:if>
         </spring:bind>
     </div>
     <div class="form-group">
         <spring:bind path="password">
             <label for="password">Password</label>
             <input type="text" name="password" id="password" value="${user.password}" class="form-control"/>
+            <c:if test="${status.error}">
+            <span class="invalid-feedback">${status.errorMessage}</span>
+            </c:if>
         </spring:bind>
     </div>
     <div class="form-group">

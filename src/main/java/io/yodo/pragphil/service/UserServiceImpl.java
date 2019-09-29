@@ -53,12 +53,17 @@ public class UserServiceImpl implements UserService {
         if (user.getPassword() != null && user.getPassword().length() > 0) {
             // password change, encode new password
             user.setPassword(encodePassword(user.getPassword()));
+            userDAO.update(user);
         } else {
             // no password change, reset password to original value
-            User oldUser = findById(user.getId());
-            user.setPassword(oldUser.getPassword());
+            User u2 = userDAO.findById(user.getId());
+            // we cannot write back the new user object since the Hibernate session is already associated with
+            // the one we just retrieved from the DB
+            // instead we map the props for the new user back to the one from the DB
+            u2.setUsername(user.getUsername());
+            u2.setEnabled(user.isEnabled());
+            userDAO.update(u2);
         }
-        userDAO.update(user);
     }
 
     @Override
