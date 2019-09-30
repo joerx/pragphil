@@ -29,7 +29,7 @@
     </div>
     <div class="form-group">
         <%--suppress ELValidationInJSP --%>
-        <form:checkboxes path="roles" items="${allRoles}" itemLabel="role"/>
+        <form:checkboxes path="roles" items="${allRoles}" itemLabel="name" delimiter="<br/>"/>
     </div>
     <div class="form-group">
         <form:label path="enabled">Enabled</form:label>

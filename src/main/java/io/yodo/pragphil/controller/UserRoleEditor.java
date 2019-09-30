@@ -10,26 +10,21 @@ public class UserRoleEditor extends PropertyEditorSupport {
 
     private final Logger log = Logger.getLogger(getClass().getName());
 
-    UserRoleEditor() {}
+    private final UserService userService;
 
-    @Override
-    public void setAsText(String text) throws IllegalArgumentException {
-        log.info("Setting thing " + text);
-
-        String[] parts = text.split(":");
-        int id = Integer.parseInt(parts[0]);
-        String name = parts[1];
-
-        Role r = new Role();
-        r.setRole(name);
-        r.setId(id);
-        setValue(r);
+    UserRoleEditor(UserService userService) {
+        this.userService = userService;
     }
 
     @Override
+    public void setAsText(String text) throws IllegalArgumentException {
+        int roleId = Integer.parseInt(text);
+        setValue(userService.findRoleById(roleId));
+    }
+
+//    @Override
     public String getAsText() {
         Role r = (Role) super.getValue();
-        log.info("Getting text for role " + r);
-        return r.getId() + ":" + r.getRole();
+        return r.getId() + "";
     }
 }

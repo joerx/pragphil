@@ -8,6 +8,7 @@
     <title>Lectures</title>
 </head>
 <body>
+    <jsp:include page="../fragments/_navbar.jsp" />
     <jsp:include page="../fragments/_flash.jsp" />
 
     <h1>Lectures</h1>

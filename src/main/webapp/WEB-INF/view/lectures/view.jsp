@@ -6,6 +6,7 @@
     <title>Lecture ${lecture.name}</title>
 </head>
 <body>
+    <jsp:include page="../fragments/_navbar.jsp" />
     <jsp:include page="../fragments/_flash.jsp" />
 
     <h1>Lecture ${lecture.name}</h1>

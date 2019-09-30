@@ -8,6 +8,7 @@
     <title>User ${user.username}</title>
 </head>
 <body>
+    <jsp:include page="../fragments/_navbar.jsp" />
     <jsp:include page="../fragments/_flash.jsp" />
 
     <h1>User ${user.username}</h1>
@@ -51,10 +52,10 @@
             </td>
         </tr>
         <tr>
-            <td>Authorities</td>
+            <td>Roles</td>
             <td>
                 <c:forEach items="${user.roles}" var="role">
-                ${role.role}<br/>
+                ${role.name}<br/>
                 </c:forEach>
             </td>
         </tr>

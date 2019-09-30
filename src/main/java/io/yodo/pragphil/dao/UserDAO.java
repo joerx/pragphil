@@ -14,6 +14,8 @@ public interface UserDAO {
 
     User findByUsername(String username);
 
+    String getPassword(int userId);
+
     void create(User user);
 
     void update(User user);

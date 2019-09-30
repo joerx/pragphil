@@ -6,6 +6,7 @@
     <title>Edit Lecture</title>
 </head>
 <body>
+    <jsp:include page="../fragments/_navbar.jsp" />
     <jsp:include page="../fragments/_flash.jsp" />
 
     <h1>Edit Lecture</h1>

@@ -26,6 +26,10 @@ public class Lecture {
     @Size(min = LECTURE_NAME_MIN_LENGTH, message = LECTURE_NAME_VALIDATION_MSG)
     private String name;
 
+    @ManyToOne
+    @JoinColumn(name = "lecturer_id", referencedColumnName = "id")
+    private User lecturer;
+
     public Lecture() {
     }
 

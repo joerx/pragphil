@@ -27,5 +27,5 @@ public interface UserService {
 
     List<Role> getAllRoles();
 
-    Role getRoleById(int roleId);
+    Role findRoleById(int roleId);
 }

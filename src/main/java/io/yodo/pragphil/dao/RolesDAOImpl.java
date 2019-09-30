@@ -6,6 +6,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class RolesDAOImpl implements RolesDAO {
 
@@ -16,7 +18,7 @@ public class RolesDAOImpl implements RolesDAO {
     }
 
     @Override
-    public Role getById(int roleId) {
+    public Role findById(int roleId) {
         Session sess = sessionFactory.getCurrentSession();
         return sess.get(Role.class, roleId);
     }
@@ -39,11 +41,17 @@ public class RolesDAOImpl implements RolesDAO {
         s.delete(r);
     }
 
+//    @Override
+//    public void deleteForUser(User user) {
+//        Session s = sessionFactory.getCurrentSession();
+//        s.createQuery("delete from Role where username = :username")
+//                .setParameter("username", user.getUsername())
+//                .executeUpdate();
+//    }
+
     @Override
-    public void deleteForUser(User user) {
+    public List<Role> getAllRoles() {
         Session s = sessionFactory.getCurrentSession();
-        s.createQuery("delete from Role where user = :user")
-                .setParameter("user", user)
-                .executeUpdate();
+        return s.createQuery("from Role order by name asc", Role.class).getResultList();
     }
 }

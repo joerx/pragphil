@@ -5,7 +5,6 @@ import io.yodo.pragphil.entity.User;
 import io.yodo.pragphil.error.NoSuchThingException;
 import io.yodo.pragphil.service.UserService;
 import io.yodo.pragphil.view.helper.FlashHelper;
-import jdk.internal.jline.internal.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -17,8 +16,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import javax.validation.constraints.Null;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -47,7 +44,7 @@ public class UserController {
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
-        binder.registerCustomEditor(Role.class, "roles", new UserRoleEditor());
+        binder.registerCustomEditor(Role.class, "roles", new UserRoleEditor(userService));
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -188,16 +185,8 @@ public class UserController {
 
     private void prepareUserForm(Model model, User u) {
         List<Role> allRoles = userService.getAllRoles();
-        List<Role> rolesForView = new ArrayList<>(u.getRoles()); // shallow copy
-
-        for (Role r : allRoles) {
-            if (!u.hasRole(r)) {
-                rolesForView.add(r);
-            }
-        }
-
         model.addAttribute("user", u);
-        model.addAttribute("allRoles", rolesForView);
+        model.addAttribute("allRoles", allRoles);
     }
 
     private String encodePassword(String password) {
