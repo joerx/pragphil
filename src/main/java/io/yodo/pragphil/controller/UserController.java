@@ -5,6 +5,7 @@ import io.yodo.pragphil.entity.User;
 import io.yodo.pragphil.error.NoSuchThingException;
 import io.yodo.pragphil.service.UserService;
 import io.yodo.pragphil.view.helper.FlashHelper;
+import jdk.internal.jline.internal.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import javax.validation.constraints.Null;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -49,8 +51,13 @@ public class UserController {
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public String listUsers(Model model) {
-        List<User> users = userService.findAll();
+    public String listUsers(@RequestParam(required=false) String role, Model model) {
+        List<User> users;
+        if (role == null) {
+            users = userService.findAll();
+        } else {
+            users = userService.findByRole(role);
+        }
         model.addAttribute("users", users);
         return "users/list";
     }

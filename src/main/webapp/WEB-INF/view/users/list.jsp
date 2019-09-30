@@ -12,7 +12,11 @@
 
     <h1>Users</h1>
     <p>
-        <a href="${pageContext.request.contextPath}/users/new">New User</a>
+        <a href="${pageContext.request.contextPath}/users/new">New User</a> |
+        Show:
+        <a href="${pageContext.request.contextPath}/users/list">All</a>
+        <a href="${pageContext.request.contextPath}/users/list?role=ROLE_LECTURER">Lecturers</a>
+        <a href="${pageContext.request.contextPath}/users/list?role=ROLE_STUDENT">Students</a>
     </p>
     <table>
         <thead>

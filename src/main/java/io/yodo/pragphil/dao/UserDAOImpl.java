@@ -39,6 +39,15 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
+    public List<User> findByRole(String rolename) {
+        Session s = sessionFactory.getCurrentSession();
+        String query = "select u from User u inner join Role r on u.username = r.user where r.role = :rolename";
+        return s.createQuery(query, User.class)
+                .setParameter("rolename", rolename)
+                .getResultList();
+    }
+
+    @Override
     public void create(User user) {
         Session s = sessionFactory.getCurrentSession();
         s.save(user);

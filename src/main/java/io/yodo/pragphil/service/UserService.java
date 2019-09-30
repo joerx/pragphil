@@ -9,6 +9,8 @@ public interface UserService {
 
     List<User> findAll();
 
+    List<User> findByRole(String rolename);
+
     User findById(int id);
 
     User findByUsername(String username);
