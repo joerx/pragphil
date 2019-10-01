@@ -1,5 +1,6 @@
 package io.yodo.pragphil.controller;
 
+import io.yodo.pragphil.entity.Lecture;
 import io.yodo.pragphil.entity.Role;
 import io.yodo.pragphil.entity.User;
 import io.yodo.pragphil.error.NoSuchThingException;
@@ -61,10 +62,8 @@ public class UserController {
 
     @RequestMapping(value = "/view/{id}", method = RequestMethod.GET)
     public String viewUser(@PathVariable int id, Model model) {
-        User user = userService.findById(id);
-
+        User user = userService.findByIdWithLectures(id);
         if (user == null) throw new NoSuchThingException("No user with id " + id);
-
         model.addAttribute("user", user);
         return "users/view";
     }

@@ -27,7 +27,10 @@ public class LectureDAOImpl implements LectureDAO {
     @Override
     public Lecture findById(int id) {
         Session sess = sessionFactory.getCurrentSession();
-        return sess.get(Lecture.class, id);
+        String q = "select l from Lecture l join fetch l.lecturer where l.id = :id";
+        return sess.createQuery(q, Lecture.class)
+                .setParameter("id", id)
+                .getSingleResult();
     }
 
     @Override

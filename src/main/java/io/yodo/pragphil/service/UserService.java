@@ -1,8 +1,10 @@
 package io.yodo.pragphil.service;
 
+import io.yodo.pragphil.entity.Lecture;
 import io.yodo.pragphil.entity.Role;
 import io.yodo.pragphil.entity.User;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 public interface UserService {
@@ -12,6 +14,8 @@ public interface UserService {
     List<User> findByRole(String rolename);
 
     User findById(int id);
+
+    User findByIdWithLectures(int id);
 
     User findByUsername(String username);
 

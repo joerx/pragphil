@@ -34,6 +34,7 @@
             Delete
         </a>
     </p>
+    <h2>Properties</h2>
     <table>
         <tr>
             <td>Username</td>
@@ -60,5 +61,11 @@
             </td>
         </tr>
     </table>
+    <h2>Conducted Lectures</h2>
+    <ul>
+        <c:forEach items="${user.conductedLectures}" var="lecture">
+        <li>${lecture.name}</li>
+        </c:forEach>
+    </ul>
 </body>
 </html>

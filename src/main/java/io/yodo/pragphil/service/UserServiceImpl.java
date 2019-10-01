@@ -2,6 +2,7 @@ package io.yodo.pragphil.service;
 
 import io.yodo.pragphil.dao.RolesDAO;
 import io.yodo.pragphil.dao.UserDAO;
+import io.yodo.pragphil.entity.Lecture;
 import io.yodo.pragphil.entity.Role;
 import io.yodo.pragphil.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,12 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public User findById(int id) {
         return userDAO.findById(id);
+    }
+
+    @Override
+    @Transactional
+    public User findByIdWithLectures(int id) {
+        return userDAO.findByIdWithLectures(id);
     }
 
     @Override

@@ -8,6 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -123,6 +124,11 @@ public class ApplicationConfig implements WebMvcConfigurer {
         r.setWarnLogCategory("io.yodo.pragphil.error");
 
         return r;
+    }
+
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+
     }
 
     @Bean

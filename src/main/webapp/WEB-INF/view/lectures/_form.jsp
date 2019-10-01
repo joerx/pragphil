@@ -7,6 +7,8 @@
 
 <form:form action="${pageContext.request.contextPath}/lectures/${param.action}" method="post" modelAttribute="lecture">
 
+<%--    <form:errors delimiter="<br/>" cssClass="error" path="*" />--%>
+
     <form:hidden path="id"/>
 
     <div class="form-group">
@@ -17,6 +19,13 @@
             <span class="invalid-feedback">${status.errorMessage}</span>
             </c:if>
         </spring:bind>
+    </div>
+    <div class="form-group">
+        <form:label path="lecturer">Lecturer</form:label>
+        <form:select path="lecturer">
+            <form:option value="0">&nbsp;</form:option>
+            <form:options items="${lecturers}" itemLabel="username" itemValue="id"/>
+        </form:select>
     </div>
 
     <button type="submit" class="btn btn-primary">Submit</button>

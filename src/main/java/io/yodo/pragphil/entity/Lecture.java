@@ -1,7 +1,5 @@
 package io.yodo.pragphil.entity;
 
-import io.yodo.pragphil.validation.Password;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -26,7 +24,7 @@ public class Lecture {
     @Size(min = LECTURE_NAME_MIN_LENGTH, message = LECTURE_NAME_VALIDATION_MSG)
     private String name;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "lecturer_id", referencedColumnName = "id")
     private User lecturer;
 
@@ -47,6 +45,14 @@ public class Lecture {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public User getLecturer() {
+        return lecturer;
+    }
+
+    public void setLecturer(User lecturer) {
+        this.lecturer = lecturer;
     }
 
     @Override

@@ -9,12 +9,16 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Logger;
 
 @Entity
 @Table(name = "users")
 @Password(message = User.PASSWORD_VALIDATION_MSG, minLength = User.PASSWORD_MIN_LENGTH)
 // Serializable: see https://hibernate.atlassian.net/browse/HHH-7668
 public class User implements Serializable  {
+
+    @Transient
+    private final Logger log = Logger.getLogger(getClass().getName());
 
     private static final String USERNAME_VALIDATION_MSG =
             "must be between 3-50 characters long and contain only characters, numbers and underscores";
@@ -47,6 +51,9 @@ public class User implements Serializable  {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private List<Role> roles = new ArrayList<>();
+
+    @OneToMany(mappedBy = "lecturer")
+    private List<Lecture> conductedLectures;
 
     public User() {
     }
@@ -99,6 +106,14 @@ public class User implements Serializable  {
         roles.add(r);
     }
 
+    public List<Lecture> getConductedLectures() {
+        return conductedLectures;
+    }
+
+    public void setConductedLectures(List<Lecture> conductedLectures) {
+        this.conductedLectures = conductedLectures;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -110,6 +125,7 @@ public class User implements Serializable  {
 
     @Override
     public boolean equals(Object o) {
+        log.info("User " + o + " equals " + this + "?");
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;

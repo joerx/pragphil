@@ -22,7 +22,7 @@ public class UserRoleEditor extends PropertyEditorSupport {
         setValue(userService.findRoleById(roleId));
     }
 
-//    @Override
+    @Override
     public String getAsText() {
         Role r = (Role) super.getValue();
         return r.getId() + "";

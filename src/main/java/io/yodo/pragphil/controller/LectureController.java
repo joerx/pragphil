@@ -1,17 +1,18 @@
 package io.yodo.pragphil.controller;
 
 import io.yodo.pragphil.entity.Lecture;
+import io.yodo.pragphil.entity.User;
 import io.yodo.pragphil.error.NoSuchThingException;
+import io.yodo.pragphil.formatters.IdToUserFormatter;
 import io.yodo.pragphil.service.LectureService;
+import io.yodo.pragphil.service.UserService;
 import io.yodo.pragphil.view.helper.FlashHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
@@ -23,9 +24,17 @@ public class LectureController {
 
     private final LectureService lectureService;
 
+    private final UserService userService;
+
     @Autowired
-    public LectureController(LectureService lectureService) {
+    public LectureController(LectureService lectureService, UserService userService) {
         this.lectureService = lectureService;
+        this.userService = userService;
+    }
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.addCustomFormatter(new IdToUserFormatter(userService), User.class);
     }
 
     @RequestMapping(path = "", method = RequestMethod.GET)
@@ -52,8 +61,7 @@ public class LectureController {
 
     @RequestMapping(path = "/new", method = RequestMethod.GET)
     public String newLecture(Model model) {
-        Lecture lecture = new Lecture();
-        model.addAttribute("lecture", lecture);
+        prepareForm(model, new Lecture());
         return "lectures/new";
     }
 
@@ -65,7 +73,7 @@ public class LectureController {
             RedirectAttributes r
     ) {
         if (binding.hasErrors()) {
-            model.addAttribute("lecture", lecture);
+            prepareForm(model, lecture);
             return "lectures/new";
         }
         lectureService.create(lecture);
@@ -80,7 +88,7 @@ public class LectureController {
 
         if (lecture == null) throw new NoSuchThingException("No lecture with id " + id);
 
-        model.addAttribute("lecture", lecture);
+        prepareForm(model, lecture);
         return "lectures/edit";
     }
 
@@ -92,7 +100,7 @@ public class LectureController {
             RedirectAttributes r
     ) {
         if (binding.hasErrors()) {
-            model.addAttribute("lecture", lecture);
+            prepareForm(model, lecture);
             return "lectures/edit";
         }
         lectureService.update(lecture);
@@ -111,5 +119,11 @@ public class LectureController {
 
         FlashHelper.setInfo(r, "Lecture deleted");
         return "redirect:/lectures/list";
+    }
+
+    private void prepareForm(Model model, Lecture lecture) {
+        List<User> lecturers = lectureService.findLecturers();
+        model.addAttribute("lecturers", lecturers);
+        model.addAttribute("lecture", lecture);
     }
 }

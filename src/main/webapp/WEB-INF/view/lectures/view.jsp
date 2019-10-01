@@ -33,7 +33,7 @@
         </tr>
         <tr>
             <td>Lecturer</td>
-            <td>TBD</td>
+            <td>${lecture.lecturer.username}</td>
         </tr>
     </table>
 </body>
