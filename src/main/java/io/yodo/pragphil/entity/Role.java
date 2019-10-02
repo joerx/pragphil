@@ -1,6 +1,6 @@
 package io.yodo.pragphil.entity;
 
-import org.graalvm.compiler.api.replacements.ClassSubstitution;
+import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "roles")
+@Table(name = "roles", uniqueConstraints = @UniqueConstraint(columnNames = "name"))
 public class Role implements Serializable {
 
     @Id
@@ -16,10 +16,19 @@ public class Role implements Serializable {
     @Column(name = "id")
     private int id;
 
+    @NotNull(message = "is required")
     @Column(name = "name")
     private String name;
 
     public Role() {
+    }
+
+    private Role(String name){
+        this.name = name;
+    }
+
+    static Role byName(String name) {
+        return new Role(name);
     }
 
     public int getId() {
@@ -43,13 +52,12 @@ public class Role implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Role role = (Role) o;
-        return id == role.id &&
-                Objects.equals(name, role.name);
+        return Objects.equals(name, role.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name);
+        return Objects.hash(name);
     }
 
     @Override

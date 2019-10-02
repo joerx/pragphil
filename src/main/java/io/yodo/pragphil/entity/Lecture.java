@@ -3,6 +3,7 @@ package io.yodo.pragphil.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -27,6 +28,9 @@ public class Lecture {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "lecturer_id", referencedColumnName = "id")
     private User lecturer;
+
+    @ManyToMany(mappedBy = "attendedLectures")
+    private List<User> students;
 
     public Lecture() {
     }
@@ -53,6 +57,14 @@ public class Lecture {
 
     public void setLecturer(User lecturer) {
         this.lecturer = lecturer;
+    }
+
+    public List<User> getStudents() {
+        return students;
+    }
+
+    public void setStudents(List<User> students) {
+        this.students = students;
     }
 
     @Override

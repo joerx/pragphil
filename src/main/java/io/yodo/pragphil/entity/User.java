@@ -1,6 +1,7 @@
 package io.yodo.pragphil.entity;
 
 import io.yodo.pragphil.validation.Password;
+import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -11,8 +12,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.logging.Logger;
 
+import static javax.persistence.CascadeType.*;
+import static javax.persistence.FetchType.*;
+
 @Entity
-@Table(name = "users")
+@Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "username"))
 @Password(message = User.PASSWORD_VALIDATION_MSG, minLength = User.PASSWORD_MIN_LENGTH)
 // Serializable: see https://hibernate.atlassian.net/browse/HHH-7668
 public class User implements Serializable  {
@@ -44,7 +48,7 @@ public class User implements Serializable  {
     @Column(name = "enabled")
     private boolean enabled;
 
-    @OneToMany(fetch=FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @OneToMany(fetch= EAGER, cascade = {MERGE, PERSIST})
     @JoinTable(
             name = "roles_users",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -54,6 +58,14 @@ public class User implements Serializable  {
 
     @OneToMany(mappedBy = "lecturer")
     private List<Lecture> conductedLectures;
+
+    @ManyToMany(cascade = {MERGE, REFRESH}, fetch = LAZY)
+    @JoinTable(
+            name = "lectures_students",
+            joinColumns = @JoinColumn(name = "student_id"),
+            inverseJoinColumns = @JoinColumn(name = "lecture_id")
+    )
+    private List<Lecture> attendedLectures;
 
     public User() {
     }
@@ -114,6 +126,24 @@ public class User implements Serializable  {
         this.conductedLectures = conductedLectures;
     }
 
+    public List<Lecture> getAttendedLectures() {
+        return attendedLectures;
+    }
+
+    public void setAttendedLectures(List<Lecture> attendedLectures) {
+        this.attendedLectures = attendedLectures;
+    }
+
+    public void enroll(Lecture l) {
+        attendedLectures.add(l);
+        l.getStudents().add(this);
+    }
+
+    public void delist(Lecture l) {
+        attendedLectures.remove(l);
+        l.getStudents().remove(this);
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -125,17 +155,22 @@ public class User implements Serializable  {
 
     @Override
     public boolean equals(Object o) {
-        log.info("User " + o + " equals " + this + "?");
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id == user.id &&
-                enabled == user.enabled &&
-                Objects.equals(username, user.username);
+        return Objects.equals(username, user.username);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, enabled);
+        return Objects.hash(username);
+    }
+
+    public boolean isStudent() {
+        return this.roles.contains(Role.byName("ROLE_STUDENT"));
+    }
+
+    public boolean isEnrolledIn(Lecture l) {
+        return attendedLectures.contains(l);
     }
 }

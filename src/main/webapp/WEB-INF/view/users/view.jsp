@@ -47,9 +47,7 @@
         <tr>
             <td>Enabled</td>
             <td>
-                <c:if test="${user.enabled}">
-                yes
-                </c:if>
+                <c:if test="${user.enabled}">yes</c:if>
             </td>
         </tr>
         <tr>
@@ -61,11 +59,19 @@
             </td>
         </tr>
     </table>
+
     <h2>Conducted Lectures</h2>
     <ul>
         <c:forEach items="${user.conductedLectures}" var="lecture">
         <li>${lecture.name}</li>
         </c:forEach>
     </ul>
+
+    <c:if test="${user.student}">
+    <h2>Attended Lectures</h2>
+    <p>
+        <a href="${pageContext.request.contextPath}/students/view/${user.id}">View Attended Lectures</a>
+    </p>
+    </c:if>
 </body>
 </html>

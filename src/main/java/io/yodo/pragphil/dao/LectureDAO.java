@@ -10,6 +10,8 @@ public interface LectureDAO {
 
     Lecture findById(int id);
 
+    List<Lecture> findAttendedLectures(int studentId);
+
     void create(Lecture l);
 
     void update(Lecture l);

@@ -34,6 +34,15 @@ public class LectureDAOImpl implements LectureDAO {
     }
 
     @Override
+    public List<Lecture> findAttendedLectures(int studentId) {
+        Session sess = sessionFactory.getCurrentSession();
+        String q = "select l from Lecture l join l.students s where s.id = :id";
+        return sess.createQuery(q, Lecture.class)
+                .setParameter("id", studentId)
+                .getResultList();
+    }
+
+    @Override
     public void create(Lecture l) {
         Session sess = sessionFactory.getCurrentSession();
         sess.save(l);

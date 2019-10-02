@@ -33,7 +33,11 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public User findByIdWithLectures(int id) {
         Session s = sessionFactory.getCurrentSession();
-        String q = "select u from User u join fetch u.conductedLectures where u.id = :id";
+
+        String q = "select u from User u " +
+                "join fetch u.conductedLectures " +
+                "where u.id = :id";
+
         return s.createQuery(q, User.class)
                 .setParameter("id", id)
                 .getSingleResult();
