@@ -7,6 +7,8 @@
     <title>Error</title>
 </head>
 <body>
+    <jsp:include page="fragments/_navbar.jsp" />
+
     <h1>Error</h1>
 
     <p>

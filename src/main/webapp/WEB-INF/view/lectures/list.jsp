@@ -34,7 +34,11 @@
                         ${lecture.name}
                     </a>
                 </td>
-                <td></td>
+                <td>
+                    <a href="${pageContext.request.contextPath}/users/view/${lecture.lecturer.id}">
+                        ${lecture.lecturer.username}
+                    </a>
+                </td>
                 <td>
                     <a href="${pageContext.request.contextPath}/lectures/edit/${lecture.id}">edit</a>
                 </td>

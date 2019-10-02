@@ -4,7 +4,9 @@ import io.yodo.pragphil.dao.LectureDAO;
 import io.yodo.pragphil.dao.UserDAO;
 import io.yodo.pragphil.entity.Lecture;
 import io.yodo.pragphil.entity.User;
+import io.yodo.pragphil.error.InvalidArgumentException;
 import io.yodo.pragphil.error.NoSuchThingException;
+import io.yodo.pragphil.error.IllegalAccessException;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Service;
 
@@ -71,15 +73,50 @@ public class StudentServiceImpl implements StudentService {
     @Override
     @Transactional
     public void enroll(int studentId, int lectureId) {
-        User u = userDAO.findById(studentId);
-        if (u == null) {
-            throw new NoSuchThingException("No user with id " + studentId);
+        User u = mustFindUser(studentId);
+        Lecture l = mustFindLecture(lectureId);
+
+        if (l.getLecturer() == u) {
+            throw new InvalidArgumentException("Lecturer can't enroll in their own lecture");
         }
+        if (!u.isStudent()) {
+            throw new InvalidArgumentException("Only students can enroll in lectures");
+        }
+        if (l.getStudents().contains(u)) {
+            throw new IllegalStateException("Student is already enrolled in this course");
+        }
+
+        u.enroll(l);
+        userDAO.update(u);
+    }
+
+    @Override
+    @Transactional
+    public void delist(int studentId, int lectureId) {
+        User u = mustFindUser(studentId);
+        Lecture l = mustFindLecture(lectureId);
+
+        if (!l.getStudents().contains(u)) {
+            throw new IllegalStateException("Student is not enrolled in this course");
+        }
+
+        u.delist(l);
+        userDAO.update(u);
+    }
+
+    private User mustFindUser(int userId) {
+        User u = userDAO.findById(userId);
+        if (u == null) {
+            throw new NoSuchThingException("No user with id " + userId);
+        }
+        return u;
+    }
+
+    private Lecture mustFindLecture(int lectureId) {
         Lecture l = lectureDAO.findById(lectureId);
         if (l == null) {
             throw new NoSuchThingException("No lecture with id " + lectureId);
         }
-        u.enroll(l);
-        userDAO.update(u);
+        return l;
     }
 }

@@ -22,5 +22,5 @@ public interface StudentService {
 
     void enroll(int userId, int lectureId);
 
-
+    void delist(int studentId, int lectureId);
 }
