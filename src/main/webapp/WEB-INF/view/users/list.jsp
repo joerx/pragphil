@@ -1,16 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<html>
-<head>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main.css"/>
-
-    <title>Users</title>
-</head>
-<body>
-    <jsp:include page="../fragments/_navbar.jsp" />
-    <jsp:include page="../fragments/_flash.jsp" />
-
+<t:internal pageTitle="Users">
     <h1>Users</h1>
     <p>
         <a href="${pageContext.request.contextPath}/users/new">New User</a> |
@@ -51,5 +44,4 @@
         </c:forEach>
         </tbody>
     </table>
-</body>
-</html>
+</t:internal>

@@ -1,17 +1,12 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main.css"/>
+<%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
-    <title>The Pragmatic Philosopher</title>
-</head>
-<body>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<t:layout>
     <h1>The Pragmatic Philosopher</h1>
     <p>Awesome stuff ahead. Stay tuned!</p>
     <ul>
         <li><a href="${pageContext.request.contextPath}/lectures/list">Lectures</a></li>
         <li><a href="${pageContext.request.contextPath}/users/list">Users</a></li>
-<%--        <li><a href="${pageContext.request.contextPath}/students/list">Students</a></li>--%>
     </ul>
-</body>
-</html>
+</t:layout>
