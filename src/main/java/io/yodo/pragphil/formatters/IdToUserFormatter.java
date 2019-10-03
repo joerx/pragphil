@@ -16,7 +16,7 @@ public class IdToUserFormatter implements Formatter<User> {
     }
 
     @Override
-    public User parse(String s, Locale locale) throws ParseException {
+    public User parse(String s, Locale locale) {
         if (s.equals("") || s.equals("0")) return null;
         int userId = Integer.parseInt(s);
         return userService.findById(userId);

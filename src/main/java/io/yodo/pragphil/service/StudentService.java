@@ -8,11 +8,7 @@ import java.util.List;
 
 public interface StudentService {
 
-    List<User> findAllStudents();
-
     List<Lecture> findAttendedLectures(int studentId);
-
-    List<Lecture> findAllLectures();
 
     List<Lecture> findEligibleLectures(int studentId);
 

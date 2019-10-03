@@ -4,7 +4,6 @@ import io.yodo.pragphil.entity.User;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import java.util.logging.Logger;
 
 public class PasswordValidator implements ConstraintValidator<Password, User> {
 

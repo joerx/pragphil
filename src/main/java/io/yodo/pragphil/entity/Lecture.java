@@ -6,6 +6,7 @@ import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Objects;
 
+@SuppressWarnings("unused")
 @Entity
 @Table(name = "lectures")
 public class Lecture {
@@ -59,12 +60,12 @@ public class Lecture {
         this.lecturer = lecturer;
     }
 
-    public List<User> getStudents() {
-        return students;
-    }
-
     public void setStudents(List<User> students) {
         this.students = students;
+    }
+
+    public List<User> getStudents() {
+        return students;
     }
 
     @Override

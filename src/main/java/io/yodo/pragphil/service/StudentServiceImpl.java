@@ -6,8 +6,6 @@ import io.yodo.pragphil.entity.Lecture;
 import io.yodo.pragphil.entity.User;
 import io.yodo.pragphil.error.InvalidArgumentException;
 import io.yodo.pragphil.error.NoSuchThingException;
-import io.yodo.pragphil.error.IllegalAccessException;
-import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -20,31 +18,16 @@ public class StudentServiceImpl implements StudentService {
     private final UserDAO userDAO;
 
     private final LectureDAO lectureDAO;
-    private final SessionFactory sessionFactory;
 
-    public StudentServiceImpl(UserDAO userDAO, LectureDAO lectureDAO, SessionFactory sessionFactory) {
+    public StudentServiceImpl(UserDAO userDAO, LectureDAO lectureDAO) {
         this.userDAO = userDAO;
         this.lectureDAO = lectureDAO;
-        this.sessionFactory = sessionFactory;
-    }
-
-    @Override
-    @Transactional
-    public List<User> findAllStudents() {
-        return userDAO.findByRole("ROLE_STUDENT");
     }
 
     @Override
     @Transactional
     public List<Lecture> findAttendedLectures(int studentId) {
         return lectureDAO.findAttendedLectures(studentId);
-    }
-
-
-    @Override
-    @Transactional
-    public List<Lecture> findAllLectures() {
-        return lectureDAO.findAll();
     }
 
     @Override

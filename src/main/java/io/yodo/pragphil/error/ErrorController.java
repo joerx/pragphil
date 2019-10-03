@@ -14,7 +14,7 @@ public class ErrorController {
     private final Logger log = Logger.getLogger(getClass().getName());
 
     @ExceptionHandler(value = Exception.class)
-    public ModelAndView defaultErrorHandler(HttpServletRequest req, Exception e) throws Exception {
+    public ModelAndView defaultErrorHandler(HttpServletRequest req, Exception e) {
         log.log(Level.WARNING, e.getMessage(), e);
         e.printStackTrace();
 

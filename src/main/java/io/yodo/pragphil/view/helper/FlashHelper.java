@@ -6,10 +6,12 @@ public final class FlashHelper {
 
     private FlashHelper() {}
 
+    @SuppressWarnings("unused")
     public static void setInfo(RedirectAttributes ra, String message) {
         ra.addFlashAttribute("flashInfo", message);
     }
 
+    @SuppressWarnings("unused")
     public static void setError(RedirectAttributes ra, String message) {
         ra.addFlashAttribute("flashError", message);
     }

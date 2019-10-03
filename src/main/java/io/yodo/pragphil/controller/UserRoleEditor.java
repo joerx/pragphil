@@ -8,8 +8,6 @@ import java.util.logging.Logger;
 
 public class UserRoleEditor extends PropertyEditorSupport {
 
-    private final Logger log = Logger.getLogger(getClass().getName());
-
     private final UserService userService;
 
     UserRoleEditor(UserService userService) {

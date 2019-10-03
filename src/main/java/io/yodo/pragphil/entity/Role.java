@@ -1,7 +1,5 @@
 package io.yodo.pragphil.entity;
 
-import org.hibernate.annotations.NaturalId;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -46,6 +44,8 @@ public class Role implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
+
 
     @Override
     public boolean equals(Object o) {

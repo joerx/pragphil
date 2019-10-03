@@ -43,7 +43,6 @@ public class StudentController {
     public String enroll(
             @PathVariable int studentId,
             @RequestParam(name = "l") int lectureId,
-            Model model,
             RedirectAttributes rs
     ) {
         studentService.enroll(studentId, lectureId);
@@ -59,7 +58,6 @@ public class StudentController {
     public String delist(
             @PathVariable int studentId,
             @RequestParam(name = "l") int lectureId,
-            Model model,
             RedirectAttributes rs
     ) {
         studentService.delist(studentId, lectureId);

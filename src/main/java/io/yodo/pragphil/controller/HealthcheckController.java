@@ -20,7 +20,7 @@ public class HealthcheckController {
 
     @GetMapping("/healthz")
     @Transactional
-    public String getHealthCheck() throws Exception {
+    public String getHealthCheck() {
         Session s = sessionFactory.getCurrentSession();
         s.createNativeQuery("select 1"); // assuming all is good if we get this far
         return "health";

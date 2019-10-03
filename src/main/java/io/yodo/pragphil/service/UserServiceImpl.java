@@ -2,7 +2,6 @@ package io.yodo.pragphil.service;
 
 import io.yodo.pragphil.dao.RolesDAO;
 import io.yodo.pragphil.dao.UserDAO;
-import io.yodo.pragphil.entity.Lecture;
 import io.yodo.pragphil.entity.Role;
 import io.yodo.pragphil.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,22 +9,13 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.logging.Logger;
 
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final Logger log = Logger.getLogger(getClass().getName());
-
     private final UserDAO userDAO;
 
     private final RolesDAO rolesDAO;
-
-    private static final String[] ALL_ROLE_NAMES = new String[]{
-            "ROLE_MEMBER",
-            "ROLE_LECTURER",
-            "ROLE_STUDENT"
-    };
 
     @Autowired
     public UserServiceImpl(UserDAO userDAO, RolesDAO rolesDAO) {

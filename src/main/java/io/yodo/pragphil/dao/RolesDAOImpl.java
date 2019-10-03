@@ -1,7 +1,6 @@
 package io.yodo.pragphil.dao;
 
 import io.yodo.pragphil.entity.Role;
-import io.yodo.pragphil.entity.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
@@ -40,14 +39,6 @@ public class RolesDAOImpl implements RolesDAO {
         Session s = sessionFactory.getCurrentSession();
         s.delete(r);
     }
-
-//    @Override
-//    public void deleteForUser(User user) {
-//        Session s = sessionFactory.getCurrentSession();
-//        s.createQuery("delete from Role where username = :username")
-//                .setParameter("username", user.getUsername())
-//                .executeUpdate();
-//    }
 
     @Override
     public List<Role> getAllRoles() {

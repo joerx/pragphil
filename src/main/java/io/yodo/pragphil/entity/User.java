@@ -1,7 +1,6 @@
 package io.yodo.pragphil.entity;
 
 import io.yodo.pragphil.validation.Password;
-import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -10,24 +9,22 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.logging.Logger;
 
 import static javax.persistence.CascadeType.*;
-import static javax.persistence.FetchType.*;
+import static javax.persistence.FetchType.EAGER;
+import static javax.persistence.FetchType.LAZY;
 
+@SuppressWarnings("unused")
 @Entity
 @Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "username"))
 @Password(message = User.PASSWORD_VALIDATION_MSG, minLength = User.PASSWORD_MIN_LENGTH)
 // Serializable: see https://hibernate.atlassian.net/browse/HHH-7668
 public class User implements Serializable  {
 
-    @Transient
-    private final Logger log = Logger.getLogger(getClass().getName());
-
     private static final String USERNAME_VALIDATION_MSG =
             "must be between 3-50 characters long and contain only characters, numbers and underscores";
 
-    static final int PASSWORD_MIN_LENGTH = 8;
+    static final int PASSWORD_MIN_LENGTH = 10;
 
     static final String PASSWORD_VALIDATION_MSG =
             "must be at least " + PASSWORD_MIN_LENGTH + " characters long";

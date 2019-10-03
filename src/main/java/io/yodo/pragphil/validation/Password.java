@@ -7,10 +7,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+@SuppressWarnings("unused")
 @Constraint(validatedBy = PasswordValidator.class)
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE})
-
 public @interface Password {
 
     int minLength() default 8;
