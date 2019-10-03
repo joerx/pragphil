@@ -1,5 +1,6 @@
 package io.yodo.pragphil.dao;
 
+import io.yodo.pragphil.entity.RoleName;
 import io.yodo.pragphil.entity.User;
 
 import java.util.List;
@@ -8,7 +9,7 @@ public interface UserDAO {
 
     List<User> findAll();
 
-    List<User> findByRole(String rolename);
+    List<User> findByRole(RoleName rolename);
 
     User findById(int id);
 

@@ -164,7 +164,15 @@ public class User implements Serializable  {
     }
 
     public boolean isStudent() {
-        return this.roles.contains(Role.byName("ROLE_STUDENT"));
+        return this.hasRole(RoleName.ROLE_STUDENT);
+    }
+
+    public boolean isLecturer() {
+        return this.hasRole(RoleName.ROLE_LECTURER);
+    }
+
+    public boolean hasRole(RoleName role) {
+        return this.roles.contains(Role.byName(role));
     }
 
     public boolean isEnrolledIn(Lecture l) {

@@ -1,6 +1,7 @@
 package io.yodo.pragphil.service;
 
 import io.yodo.pragphil.entity.Role;
+import io.yodo.pragphil.entity.RoleName;
 import io.yodo.pragphil.entity.User;
 
 import java.util.List;
@@ -9,7 +10,7 @@ public interface UserService {
 
     List<User> findAll();
 
-    List<User> findByRole(String rolename);
+    List<User> findByRole(RoleName roleName);
 
     User findById(int id);
 

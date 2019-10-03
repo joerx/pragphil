@@ -6,6 +6,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.Query;
 import java.util.List;
 
 @Repository
@@ -27,8 +28,7 @@ public class LectureDAOImpl implements LectureDAO {
     @Override
     public Lecture findById(int id) {
         Session sess = sessionFactory.getCurrentSession();
-        String q = "select l from Lecture l join fetch l.lecturer where l.id = :id";
-        return sess.createQuery(q, Lecture.class)
+        return sess.createQuery("select l from Lecture l left join fetch l.lecturer where l.id = :id", Lecture.class)
                 .setParameter("id", id)
                 .getSingleResult();
     }

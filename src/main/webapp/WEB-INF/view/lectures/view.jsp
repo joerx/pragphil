@@ -27,7 +27,7 @@
             </tr>
             <tr>
                 <td>Lecturer</td>
-                <td>${lecture.lecturer.username}</td>
+                <td>${(empty lecture.lecturer) ? "<em>unassigned</em>" : lecture.lecturer.username}</td>
             </tr>
         </table>
     </main>

@@ -3,7 +3,10 @@ package io.yodo.pragphil.service;
 import io.yodo.pragphil.dao.RolesDAO;
 import io.yodo.pragphil.dao.UserDAO;
 import io.yodo.pragphil.entity.Role;
+import io.yodo.pragphil.entity.RoleName;
 import io.yodo.pragphil.entity.User;
+import io.yodo.pragphil.error.InvalidRequestException;
+import io.yodo.pragphil.error.NoSuchThingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +34,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public List<User> findByRole(String rolename) {
+    public List<User> findByRole(RoleName rolename) {
         return userDAO.findByRole(rolename);
     }
 
@@ -61,14 +64,31 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void update(User user) {
-        // We need to preserve the password if it wasn't supposed to be updated and we can't tell Hibernate to just
-        // ignore a null field. (Why? Who designs crap like this?)
-        if (user.getPassword() == null) {
-            String pw = userDAO.getPassword(user.getId());
-            user.setPassword(pw);
+    public void update(User form) {
+        User u1 = findById(form.getId());
+
+        if (u1 == null) {
+            throw new NoSuchThingException("No user with id " + form.getId());
         }
-        userDAO.update(user);
+        if (!form.isLecturer() && u1.getConductedLectures().size() > 0) {
+            throw new InvalidRequestException("User is still conducting lectures, please reassign these first");
+        }
+        if (!form.isStudent() && u1.getAttendedLectures().size() > 0) {
+            throw new InvalidRequestException("User is still enrolled in lectures, please delist her first");
+        }
+
+        // remap to ensure all non-updated fields and associations are preserved
+        u1.setRoles(form.getRoles());
+        u1.setId(form.getId());
+        u1.setUsername(form.getUsername());
+        u1.setEnabled(form.isEnabled());
+
+        // update password only if it was set before
+        if (form.getPassword() != null) {
+            u1.setPassword(form.getPassword());
+        }
+
+        userDAO.update(u1);
     }
 
     @Override

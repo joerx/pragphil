@@ -8,8 +8,11 @@
     <main id="main">
 
         <h1>Student ${student.username}</h1>
-        <h2>Enrolled Lectures</h2>
+        <p>
+            <a href="${pageContext.request.contextPath}/users/view/${student.id}">Show User Profile</a>
+        </p>
 
+        <h2>Enrolled Lectures</h2>
         <ul>
             <c:forEach items="${attendedLectures}" var="lecture">
             <li>${lecture.name}

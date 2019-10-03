@@ -1,5 +1,6 @@
 package io.yodo.pragphil.dao;
 
+import io.yodo.pragphil.entity.RoleName;
 import io.yodo.pragphil.entity.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -35,7 +36,7 @@ public class UserDAOImpl implements UserDAO {
         Session s = sessionFactory.getCurrentSession();
 
         String q = "select u from User u " +
-                "join fetch u.conductedLectures " +
+                "left join fetch u.conductedLectures " +
                 "where u.id = :id";
 
         return s.createQuery(q, User.class)
@@ -58,11 +59,11 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public List<User> findByRole(String rolename) {
+    public List<User> findByRole(RoleName roleName) {
         Session s = sessionFactory.getCurrentSession();
         String query = "select u from User u join u.roles r where r.name = :rolename";
         return s.createQuery(query, User.class)
-                .setParameter("rolename", rolename)
+                .setParameter("rolename", roleName)
                 .getResultList();
     }
 

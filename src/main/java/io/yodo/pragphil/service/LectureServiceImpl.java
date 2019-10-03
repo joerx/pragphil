@@ -4,6 +4,7 @@ import io.yodo.pragphil.controller.UserEditor;
 import io.yodo.pragphil.dao.LectureDAO;
 import io.yodo.pragphil.dao.UserDAO;
 import io.yodo.pragphil.entity.Lecture;
+import io.yodo.pragphil.entity.RoleName;
 import io.yodo.pragphil.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,7 +42,7 @@ public class LectureServiceImpl implements LectureService {
     @Override
     @Transactional
     public List<User> findLecturers() {
-        return userDAO.findByRole("ROLE_LECTURER");
+        return userDAO.findByRole(RoleName.ROLE_LECTURER);
     }
 
     @Override

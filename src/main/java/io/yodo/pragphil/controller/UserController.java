@@ -2,6 +2,7 @@ package io.yodo.pragphil.controller;
 
 import io.yodo.pragphil.entity.Lecture;
 import io.yodo.pragphil.entity.Role;
+import io.yodo.pragphil.entity.RoleName;
 import io.yodo.pragphil.entity.User;
 import io.yodo.pragphil.error.NoSuchThingException;
 import io.yodo.pragphil.service.UserService;
@@ -54,7 +55,7 @@ public class UserController {
         if (role == null) {
             users = userService.findAll();
         } else {
-            users = userService.findByRole(role);
+            users = userService.findByRole(RoleName.valueOf(role));
         }
         model.addAttribute("users", users);
         return "users/list";
