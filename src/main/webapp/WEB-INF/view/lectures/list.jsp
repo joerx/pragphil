@@ -41,9 +41,14 @@
                     </a>
                 </td>
                 <td>
-                    <a href="${pageContext.request.contextPath}/users/view/${lecture.lecturer.id}">
-                        ${lecture.lecturer.username}
-                    </a>
+                    <c:choose>
+                        <c:when test="${!empty lecture.lecturer}">
+                            <a href="${pageContext.request.contextPath}/users/view/${lecture.lecturer.id}">
+                                    ${lecture.lecturer.username}
+                            </a>
+                        </c:when>
+                        <c:otherwise><span class="thing-disabled">unassigned</span></c:otherwise>
+                    </c:choose>
                 </td>
             </tr>
             </c:forEach>

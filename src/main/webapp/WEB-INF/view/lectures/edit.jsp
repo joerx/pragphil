@@ -7,6 +7,8 @@
     <ul class="page-nav">
         <li>
             <a href="${pageContext.request.contextPath}/lectures/list">Back to List</a>
+        </li>
+        <li>
             <a href="${pageContext.request.contextPath}/lectures/view/${lecture.id}">View Lecture</a>
         </li>
     </ul>

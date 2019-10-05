@@ -43,8 +43,8 @@
                 <dt>Roles</dt>
                 <dd>
                     <ul class="list-unstyled">
-                        <c:forEach items="${user.roles}" var="role">
-                            <li>${role.name}</li>
+                        <c:forEach items="${user.roles}" var="item">
+                            <li>${item.name}</li>
                         </c:forEach>
                     </ul>
                 </dd>
@@ -52,7 +52,7 @@
         </div>
         <div class="col-md-6">
             <h2>Lectures</h2>
-            
+
             <dl>
                 <dt>Conducted Lectures</dt>
                 <dd>

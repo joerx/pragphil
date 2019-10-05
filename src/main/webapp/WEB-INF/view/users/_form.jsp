@@ -2,7 +2,9 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="f" tagdir="/WEB-INF/tags/form" %>
+
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%--@elvariable id="user" type="io.yodo.pragphil.entity.User"--%>
 
 <form:form
@@ -12,50 +14,40 @@
         cssClass="page-form">
 
     <form:hidden path="id"/>
+    
+    <f:global-errors name="user"/>
 
     <div class="form-group">
-        <spring:bind path="username">
-            <label for="username">Username</label>
-            <input type="text" name="username" id="username" value="${user.username}" class="form-control"/>
-            <c:if test="${status.error}">
-            <span class="invalid-feedback">${status.errorMessage}</span>
-            </c:if>
-        </spring:bind>
+    <f:input path="username" value="${user.username}" label="Username"/>
     </div>
+
     <div class="form-group">
-        <spring:bind path="password">
-            <label for="password">Password</label>
-            <input type="text" name="password" id="password" value="${user.password}" class="form-control"/>
-            <c:if test="${status.error}">
-            <span class="invalid-feedback">${status.errorMessage}</span>
-            </c:if>
-        </spring:bind>
+    <f:input path="password" value="${user.password}" label="Password" type="password"/>
     </div>
-    <div class="form-group">
-        <%-- Build checkboxes manually so we comply with required structure for Bootstrap --%>
-        <%--@elvariable id="allRoles" type="java.util.List"--%>
-        <c:forEach items="${allRoles}" var="role" varStatus="s">
-        <div class="checkbox">
-            <label>
-                <input type="checkbox"
-                       id="roles${s.count}"
-                       name="roles"
-                       value="${role.id}"
-                        ${user.roles.contains(role) ? "checked" : ""}>
-                ${role.name}
-            </label>
+
+    <fieldset>
+        <legend>Roles</legend>
+        <div class="form-group">
+            <%--@elvariable id="allRoles" type="java.util.List"--%>
+            <f:checkboxes path="roles"
+                          allItems="${allRoles}"
+                          checkedItems="${user.roles}"
+                          itemValue="id"
+                          itemLabel="name"/>
         </div>
-        </c:forEach>
-    </div>
-    <div class="form-group">
-        <div class="checkbox">
-            <p class="label">Status</p>
-            <form:label path="enabled">
-                <form:checkbox path="enabled"/>
-                Enabled
-            </form:label>
+    </fieldset>
+
+    <fieldset>
+        <legend>Status</legend>
+        <div class="form-group">
+            <div class="form-check">
+                <form:checkbox path="enabled" cssClass="form-check-input"/>
+                <form:label path="enabled" cssClass="form-check-label">
+                    Enabled
+                </form:label>
+            </div>
         </div>
-    </div>
+    </fieldset>
 
     <button type="submit" class="btn btn-primary">Submit</button>
 

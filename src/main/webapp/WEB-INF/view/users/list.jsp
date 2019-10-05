@@ -47,19 +47,28 @@
                     <a href="${pageContext.request.contextPath}/users/view/${user.id}">${user.username}</a>
                 </td>
                 <td>
-                    <c:if test="${user.enabled}">yes</c:if>
+                    <c:choose>
+                        <c:when test="${user.enabled}">
+                            yes
+                        </c:when>
+                        <c:otherwise>
+                            <span class="thing-disabled">no</span>
+                        </c:otherwise>
+                    </c:choose>
                 </td>
                 <td>
-                    <c:if test="${user.enabled}">
-                        <a href="${pageContext.request.contextPath}/users/disable/${user.id}">
-                            disable
-                        </a>
-                    </c:if>
-                    <c:if test="${!user.enabled}">
-                        <a href="${pageContext.request.contextPath}/users/enable/${user.id}">
-                            enable
-                        </a>
-                    </c:if>
+                    <c:choose>
+                        <c:when test="${user.enabled}">
+                            <a href="${pageContext.request.contextPath}/users/disable/${user.id}">
+                                disable
+                            </a>
+                        </c:when>
+                        <c:otherwise>
+                            <a href="${pageContext.request.contextPath}/users/enable/${user.id}">
+                                enable
+                            </a>
+                        </c:otherwise>
+                    </c:choose>
                 </td>
             </tr>
         </c:forEach>

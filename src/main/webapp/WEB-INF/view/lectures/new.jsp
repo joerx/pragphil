@@ -3,7 +3,11 @@
 
 <t:internal pageTitle="Create Lecture">
 
-    <p><a href="${pageContext.request.contextPath}/lectures/list">Back to List</a></p>
+    <ul class="page-nav">
+        <li>
+            <a href="${pageContext.request.contextPath}/lectures/list">Back to List</a>
+        </li>
+    </ul>
 
     <jsp:include page="_form.jsp">
         <jsp:param name="action" value="create"/>
