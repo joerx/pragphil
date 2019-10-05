@@ -3,14 +3,10 @@
 
 <t:internal pageTitle="Create Lecture">
 
-    <main id="main">
-        <h1>Create Lecture</h1>
+    <p><a href="${pageContext.request.contextPath}/lectures/list">Back to List</a></p>
 
-        <p><a href="${pageContext.request.contextPath}/lectures/list">Back to List</a></p>
-
-        <jsp:include page="_form.jsp">
-            <jsp:param name="action" value="create"/>
-        </jsp:include>
-    </main>
+    <jsp:include page="_form.jsp">
+        <jsp:param name="action" value="create"/>
+    </jsp:include>
 
 </t:internal>

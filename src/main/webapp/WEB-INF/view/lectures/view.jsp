@@ -1,35 +1,30 @@
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<t:internal pageTitle="Lecture ${lecture.name}">
+<t:internal pageTitle="Lecture \"${lecture.name}\"">
 
-    <main id="main">
-
-        <h1>Lecture ${lecture.name}</h1>
-
-        <p>
-            <a href="${pageContext.request.contextPath}/lectures/list">Back to List</a>|
-            <a href="${pageContext.request.contextPath}/lectures/edit/${lecture.id}">Edit</a>|
+    <ul class="page-nav">
+        <li>
+            <a href="${pageContext.request.contextPath}/lectures/list">Back to List</a>
+        </li>
+        <li>
+            <a href="${pageContext.request.contextPath}/lectures/edit/${lecture.id}">
+                <span class="oi oi-pencil"></span> Edit
+            </a>
+        </li>
+        <li>
             <a href="${pageContext.request.contextPath}/lectures/delete/${lecture.id}"
                 onclick="if (!confirm('Are you sure you want to do this?')) return false">
-                Delete
+                <span class="oi oi-x"></span> Delete
             </a>
-        </p>
+        </li>
+    </ul>
 
-        <table>
-            <tr>
-                <td>Name</td>
-                <td>${lecture.name}</td>
-            </tr>
-            <tr>
-                <td>Id</td>
-                <td>${lecture.id}</td>
-            </tr>
-            <tr>
-                <td>Lecturer</td>
-                <td>${(empty lecture.lecturer) ? "<em>unassigned</em>" : lecture.lecturer.username}</td>
-            </tr>
-        </table>
-    </main>
+    <dl>
+        <dt>Name</dt>
+        <dd>${lecture.name}</dd>
+        <dt>Lecturer</dt>
+        <dd>${(empty lecture.lecturer) ? "<em>unassigned</em>" : lecture.lecturer.username}</dd>
+    </dl>
 
 </t:internal>

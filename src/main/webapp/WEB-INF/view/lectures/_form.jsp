@@ -5,7 +5,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%--@elvariable id="lecture" type="io.yodo.pragphil.entity.Lecture"--%>
 
-<form:form action="${pageContext.request.contextPath}/lectures/${param.action}" method="post" modelAttribute="lecture">
+<form:form
+        action="${pageContext.request.contextPath}/lectures/${param.action}"
+        method="post"
+        modelAttribute="lecture"
+        cssClass="page-form">
 
 <%--    <form:errors delimiter="<br/>" cssClass="error" path="*" />--%>
 
@@ -22,7 +26,7 @@
     </div>
     <div class="form-group">
         <form:label path="lecturer">Lecturer</form:label>
-        <form:select path="lecturer">
+        <form:select path="lecturer" cssClass="form-control">
             <form:option value="0">&nbsp;</form:option>
             <form:options items="${lecturers}" itemLabel="username" itemValue="id"/>
         </form:select>

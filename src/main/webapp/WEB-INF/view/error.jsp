@@ -3,7 +3,9 @@
 
 <jsp:useBean id="ex" scope="request" type="java.lang.Exception"/>
 
-<t:layout pageTitle="error">
+<t:layout pageTitle="Ooops!">
+
+<main id="main" class="container-fluid">
 
     <h1>Error</h1>
 
@@ -19,6 +21,8 @@
 
     </p>
     <p><em>"This too shall pass!"</em></p>
+
+</main>
 
 <!--
 <c:forEach items="${ex.stackTrace}" var="ste">${ste}

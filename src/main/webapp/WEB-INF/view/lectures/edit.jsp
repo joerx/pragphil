@@ -4,14 +4,15 @@
 
 <t:internal pageTitle="Edit Lecture">
 
-    <main id="main">
-        <h1>Edit Lecture</h1>
-        <p>
+    <ul class="page-nav">
+        <li>
             <a href="${pageContext.request.contextPath}/lectures/list">Back to List</a>
-        </p>
-        <jsp:include page="_form.jsp">
-            <jsp:param name="action" value="update"/>
-        </jsp:include>
-    </main>
+            <a href="${pageContext.request.contextPath}/lectures/view/${lecture.id}">View Lecture</a>
+        </li>
+    </ul>
+
+    <jsp:include page="_form.jsp">
+        <jsp:param name="action" value="update"/>
+    </jsp:include>
 
 </t:internal>

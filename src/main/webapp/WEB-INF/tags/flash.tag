@@ -8,19 +8,19 @@
 <section id="flash">
     <c:if test="${not empty flashInfo}">
         <p class="alert alert-info" role="alert">
-                ${flashInfo}
-                <%--        <button type="button" class="close" data-dismiss="alert" aria-label="Close">--%>
-                <%--            <span aria-hidden="true">&times;</span>--%>
-                <%--        </button>--%>
+            ${flashInfo}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </p>
     </c:if>
 
     <c:if test="${not empty flashErr}">
         <p class="alert alert-danger" role="alert">
-                ${flashErr}
-                <%--        <button type="button" class="close" data-dismiss="alert" aria-label="Close">--%>
-                <%--            <span aria-hidden="true">&times;</span>--%>
-                <%--        </button>--%>
+            ${flashErr}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </p>
     </c:if>
 </section>

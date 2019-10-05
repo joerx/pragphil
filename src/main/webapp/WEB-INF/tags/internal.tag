@@ -8,8 +8,18 @@
 <t:layout pageTitle="${pageTitle}">
     <jsp:body>
         <t:navbar/>
-        <t:flash/>
 
-        <jsp:doBody/>
+        <main id="main" class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <t:flash/>
+
+                    <h1>${pageTitle}</h1>
+                    <jsp:doBody/>
+                </div>
+            </div>
+
+        </main>
+
     </jsp:body>
 </t:layout>

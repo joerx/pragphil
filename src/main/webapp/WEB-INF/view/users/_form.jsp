@@ -5,7 +5,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%--@elvariable id="user" type="io.yodo.pragphil.entity.User"--%>
 
-<form:form action="${pageContext.request.contextPath}/users/${param.action}" method="post" modelAttribute="user">
+<form:form
+        action="${pageContext.request.contextPath}/users/${param.action}"
+        method="post"
+        modelAttribute="user"
+        cssClass="page-form">
 
     <form:hidden path="id"/>
 
@@ -28,12 +32,29 @@
         </spring:bind>
     </div>
     <div class="form-group">
-        <%--suppress ELValidationInJSP --%>
-        <form:checkboxes path="roles" items="${allRoles}" itemLabel="name" delimiter="<br/>"/>
+        <%-- Build checkboxes manually so we comply with required structure for Bootstrap --%>
+        <%--@elvariable id="allRoles" type="java.util.List"--%>
+        <c:forEach items="${allRoles}" var="role" varStatus="s">
+        <div class="checkbox">
+            <label>
+                <input type="checkbox"
+                       id="roles${s.count}"
+                       name="roles"
+                       value="${role.id}"
+                        ${user.roles.contains(role) ? "checked" : ""}>
+                ${role.name}
+            </label>
+        </div>
+        </c:forEach>
     </div>
     <div class="form-group">
-        <form:label path="enabled">Enabled</form:label>
-        <form:checkbox path="enabled" cssClass="form-control"/>
+        <div class="checkbox">
+            <p class="label">Status</p>
+            <form:label path="enabled">
+                <form:checkbox path="enabled"/>
+                Enabled
+            </form:label>
+        </div>
     </div>
 
     <button type="submit" class="btn btn-primary">Submit</button>
