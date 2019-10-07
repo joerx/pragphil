@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<%@ tag description="Main page layout" pageEncoding="UTF-8" %>
+<%@ tag description="Flash message area" pageEncoding="UTF-8" %>
 
 <%--@elvariable id="flashInfo" type="java.lang.String"--%>
 <%--@elvariable id="flashErr" type="java.lang.String"--%>

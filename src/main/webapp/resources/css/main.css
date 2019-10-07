@@ -22,3 +22,8 @@
     font-style: italic;
     color: grey;
 }
+
+.login-form {
+    max-width: 350px;
+    margin: 70px auto 0 auto;
+}

@@ -31,14 +31,14 @@ import java.util.logging.Logger;
 @EnableTransactionManagement
 @ComponentScan(basePackages = "io.yodo.pragphil")
 @PropertySource("classpath:datasource.properties")
-public class ApplicationConfig implements WebMvcConfigurer {
+public class WebMvcConfig implements WebMvcConfigurer {
 
     private final Environment env;
 
     private final Logger logger = Logger.getLogger(getClass().getName());
 
     @Autowired
-    public ApplicationConfig(Environment env) {
+    public WebMvcConfig(Environment env) {
         this.env = env;
     }
 

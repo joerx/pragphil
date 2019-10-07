@@ -5,16 +5,16 @@ import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.FrameworkServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-public class WebappInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+public class WebMvcInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[0];
+        return new Class[] { WebSecurityConfig.class };
     }
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class[]{ApplicationConfig.class};
+        return new Class[] { WebMvcConfig.class };
     }
 
     @Override

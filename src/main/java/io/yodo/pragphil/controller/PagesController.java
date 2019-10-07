@@ -13,4 +13,14 @@ public class PagesController {
     public String getHomepage(HttpServletRequest req) {
         return "home";
     }
+
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+
+    @GetMapping("/access-denied")
+    public String accessDenied() {
+        return "access-denied";
+    }
 }
