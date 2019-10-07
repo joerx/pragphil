@@ -1,6 +1,7 @@
 <%@ tag description="Navigation Bar" pageEncoding="UTF-8" %>
 
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="#">PragPhil</a>
@@ -17,12 +18,23 @@
                 Users
             </t:navlink>
         </ul>
+        <%--@elvariable id="userDetails" type="io.yodo.pragphil.security.UserDetailsImpl"--%>
+
         <ul class="navbar-nav justify-content-end">
-            <t:navlink path="/users/view/1">
-                <span class="oi oi-person" title="person" aria-hidden="true"></span>
-                John Doe
-            </t:navlink>
+            <c:choose>
+                <c:when test="${!empty userDetails}">
+                    <t:navlink path="/users/view/${userDetails.user.id}">
+                        <span class="oi oi-person" title="person" aria-hidden="true"></span>
+                        ${userDetails.username}
+                    </t:navlink>
+                    <t:navlink path="/logout">Log Out</t:navlink>
+                </c:when>
+                <c:otherwise>
+                    <t:navlink path="/login">Login</t:navlink>
+                </c:otherwise>
+            </c:choose>
         </ul>
+
     </div>
 
 </nav>

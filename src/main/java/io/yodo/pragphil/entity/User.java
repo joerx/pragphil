@@ -24,7 +24,7 @@ public class User implements Serializable  {
     private static final String USERNAME_VALIDATION_MSG =
             "must be between 3-50 characters long and contain only characters, numbers and underscores";
 
-    static final int PASSWORD_MIN_LENGTH = 10;
+    static final int PASSWORD_MIN_LENGTH = 8;
 
     static final String PASSWORD_VALIDATION_MSG =
             "must be at least " + PASSWORD_MIN_LENGTH + " characters long";

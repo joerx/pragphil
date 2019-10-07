@@ -1,8 +1,6 @@
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<jsp:useBean id="ex" scope="request" type="java.lang.Exception"/>
-
 <t:layout pageTitle="Access Denied">
 
     <main id="main" class="container-fluid">

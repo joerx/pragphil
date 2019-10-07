@@ -9,7 +9,7 @@ public class WebMvcInitializer extends AbstractAnnotationConfigDispatcherServlet
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[] { WebSecurityConfig.class };
+        return new Class[] { };
     }
 
     @Override

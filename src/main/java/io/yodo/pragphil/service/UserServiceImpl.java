@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -84,7 +85,7 @@ public class UserServiceImpl implements UserService {
         u1.setEnabled(form.isEnabled());
 
         // update password only if it was set before
-        if (form.getPassword() != null) {
+        if (form.getPassword() != null && form.getPassword().length() > 0) {
             u1.setPassword(form.getPassword());
         }
 
