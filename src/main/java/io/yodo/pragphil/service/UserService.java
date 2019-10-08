@@ -3,20 +3,24 @@ package io.yodo.pragphil.service;
 import io.yodo.pragphil.entity.Role;
 import io.yodo.pragphil.entity.RoleName;
 import io.yodo.pragphil.entity.User;
+import org.springframework.security.access.annotation.Secured;
 
 import java.util.List;
 
+import static io.yodo.pragphil.entity.RoleName.*;
+
+@Secured(ROLE_ADMIN)
 public interface UserService {
 
     List<User> findAll();
 
-    List<User> findByRole(RoleName roleName);
+    List<User> findByRole(String roleName);
 
+    @Secured({ROLE_MEMBER, ROLE_ADMIN})
     User findById(int id);
 
+    @Secured({ROLE_MEMBER, ROLE_ADMIN})
     User findByIdWithLectures(int id);
-
-    User findByUsername(String username);
 
     void create(User user);
 

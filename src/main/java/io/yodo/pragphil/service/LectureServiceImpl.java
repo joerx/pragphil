@@ -1,6 +1,5 @@
 package io.yodo.pragphil.service;
 
-import io.yodo.pragphil.controller.UserEditor;
 import io.yodo.pragphil.dao.LectureDAO;
 import io.yodo.pragphil.dao.UserDAO;
 import io.yodo.pragphil.entity.Lecture;
@@ -8,8 +7,6 @@ import io.yodo.pragphil.entity.RoleName;
 import io.yodo.pragphil.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -48,12 +45,14 @@ public class LectureServiceImpl implements LectureService {
     @Override
     @Transactional
     public void create(Lecture lecture) {
+        loadLecturer(lecture);
         lectureDAO.create(lecture);
     }
 
     @Override
     @Transactional
     public void update(Lecture lecture) {
+        loadLecturer(lecture);
         lectureDAO.update(lecture);
     }
 
@@ -61,5 +60,20 @@ public class LectureServiceImpl implements LectureService {
     @Transactional
     public void delete(Lecture lecture) {
         lectureDAO.delete(lecture);
+    }
+
+    @Override
+    @Transactional
+    public List<User> findStudents(int lectureId) {
+        return lectureDAO.findStudents(lectureId);
+    }
+
+    // forms submitted will only contain the userId, so we need to reload the full user record
+    // - still better than having to expose the UserDAO on controller level
+    private void loadLecturer(Lecture lecture) {
+        if (lecture.getLecturer() != null) {
+            User lecturer = userDAO.findById(lecture.getLecturer().getId());
+            lecture.setLecturer(lecturer);
+        }
     }
 }

@@ -171,7 +171,7 @@ public class User implements Serializable  {
         return this.hasRole(RoleName.ROLE_LECTURER);
     }
 
-    public boolean hasRole(RoleName role) {
+    public boolean hasRole(String role) {
         return this.roles.contains(Role.byName(role));
     }
 

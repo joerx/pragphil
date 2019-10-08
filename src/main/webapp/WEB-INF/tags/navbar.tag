@@ -2,6 +2,7 @@
 
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags/form" %>
 
 <%--@elvariable id="userDetails" type="io.yodo.pragphil.security.UserDetailsImpl"--%>
 
@@ -26,7 +27,11 @@
                         <span class="oi oi-person" title="person" aria-hidden="true"></span>
                         ${userDetails.username}
                     </t:navlink>
-                    <t:navlink path="/logout">Log Out</t:navlink>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" onclick="document.getElementById('logout-form').submit();">
+                            Logout
+                        </a>
+                    </li>
                 </c:when>
                 <c:otherwise>
                     <t:navlink path="/login">Login</t:navlink>
@@ -35,5 +40,8 @@
         </ul>
 
     </div>
+
+    <spring:form cssStyle="display: none" id="logout-form" method="post" action="${pageContext.request.contextPath}/logout">
+    </spring:form>
 
 </nav>

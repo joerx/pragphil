@@ -1,4 +1,5 @@
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <t:internal pageTitle="Lecture \"${lecture.name}\"">
@@ -26,5 +27,12 @@
         <dt>Lecturer</dt>
         <dd>${(empty lecture.lecturer) ? "<em>unassigned</em>" : lecture.lecturer.username}</dd>
     </dl>
+
+    <h2>Students</h2>
+    <ul>
+        <c:forEach items="${students}" var="student">
+        <li>${student.username}</li>
+        </c:forEach>
+    </ul>
 
 </t:internal>

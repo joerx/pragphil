@@ -17,6 +17,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(path = "/lectures")
@@ -26,6 +28,8 @@ public class LectureController {
 
     private final UserService userService;
 
+    private Logger log = Logger.getLogger(getClass().getName());
+
     @Autowired
     public LectureController(LectureService lectureService, UserService userService) {
         this.lectureService = lectureService;
@@ -34,7 +38,7 @@ public class LectureController {
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
-        binder.addCustomFormatter(new IdToUserFormatter(userService), User.class);
+        binder.addCustomFormatter(new IdToUserFormatter(), User.class);
     }
 
     @RequestMapping(path = "", method = RequestMethod.GET)
@@ -52,10 +56,13 @@ public class LectureController {
     @RequestMapping(path = "/view/{id}", method = RequestMethod.GET)
     public String showLecture(@PathVariable int id, Model model) {
         Lecture lecture = lectureService.findById(id);
+        List<User> students = lectureService.findStudents(id);
 
         if (lecture == null) throw new NoSuchThingException("No lecture with id " + id);
 
         model.addAttribute("lecture", lecture);
+        model.addAttribute("students", students);
+
         return "lectures/view";
     }
 
@@ -73,6 +80,7 @@ public class LectureController {
             RedirectAttributes r
     ) {
         if (binding.hasErrors()) {
+            log.warning("binding has errors " + binding);
             prepareForm(model, lecture);
             return "lectures/new";
         }
@@ -100,6 +108,7 @@ public class LectureController {
             RedirectAttributes r
     ) {
         if (binding.hasErrors()) {
+            log.warning("binding has errors " + binding);
             prepareForm(model, lecture);
             return "lectures/edit";
         }
@@ -122,8 +131,15 @@ public class LectureController {
     }
 
     private void prepareForm(Model model, Lecture lecture) {
+        List<User> students = lectureService.findStudents(lecture.getId());
         List<User> lecturers = lectureService.findLecturers();
-        model.addAttribute("lecturers", lecturers);
+
+        // students can't be lecturers for the same lecture
+        List<User> result = lecturers.stream()
+                .filter(u -> !students.contains(u))
+                .collect(Collectors.toList());
+
+        model.addAttribute("lecturers", result);
         model.addAttribute("lecture", lecture);
     }
 }

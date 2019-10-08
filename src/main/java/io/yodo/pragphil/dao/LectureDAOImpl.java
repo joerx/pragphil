@@ -1,6 +1,7 @@
 package io.yodo.pragphil.dao;
 
 import io.yodo.pragphil.entity.Lecture;
+import io.yodo.pragphil.entity.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,5 +59,14 @@ public class LectureDAOImpl implements LectureDAO {
     public void delete(Lecture l) {
         Session sess = sessionFactory.getCurrentSession();
         sess.delete(l);
+    }
+
+    @Override
+    public List<User> findStudents(int lectureId) {
+        Session sess = sessionFactory.getCurrentSession();
+        String q = "select u from User u join u.attendedLectures l where l.id = :id";
+        return sess.createQuery(q, User.class)
+                .setParameter("id", lectureId)
+                .getResultList();
     }
 }

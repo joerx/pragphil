@@ -1,25 +1,27 @@
 package io.yodo.pragphil.formatters;
 
+import io.yodo.pragphil.dao.UserDAO;
 import io.yodo.pragphil.entity.User;
-import io.yodo.pragphil.service.UserService;
 import org.springframework.format.Formatter;
 
-import java.text.ParseException;
 import java.util.Locale;
 
 public class IdToUserFormatter implements Formatter<User> {
 
-    private final UserService userService;
+//    private final UserDAO userDAO;
 
-    public IdToUserFormatter(UserService userService) {
-        this.userService = userService;
+    public IdToUserFormatter() {
+//        this.userDAO = userDAO;
     }
 
     @Override
     public User parse(String s, Locale locale) {
         if (s.equals("") || s.equals("0")) return null;
         int userId = Integer.parseInt(s);
-        return userService.findById(userId);
+        User u = new User();
+        u.setId(userId);
+        return u;
+//        return userDAO.findById(userId);
     }
 
     @Override

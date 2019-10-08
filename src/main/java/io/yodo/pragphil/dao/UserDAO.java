@@ -9,7 +9,7 @@ public interface UserDAO {
 
     List<User> findAll();
 
-    List<User> findByRole(RoleName rolename);
+    List<User> findByRole(String rolename);
 
     User findById(int id);
 

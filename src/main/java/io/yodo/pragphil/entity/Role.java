@@ -14,24 +14,19 @@ public class Role implements Serializable {
     @Column(name = "id")
     private int id;
 
-    @Enumerated(EnumType.STRING)
     @NotNull(message = "is required")
     @Column(name = "name")
-    private RoleName name;
+    private String name;
 
     public Role() {
     }
 
-    private Role(RoleName name){
+    private Role(String name){
         this.name = name;
     }
-
-    static Role byName(RoleName name) {
-        return new Role(name);
-    }
-
+    
     static Role byName(String name) {
-        return new Role(RoleName.valueOf(name));
+        return new Role(name);
     }
 
     public int getId() {
@@ -42,11 +37,11 @@ public class Role implements Serializable {
         this.id = id;
     }
 
-    public RoleName getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(RoleName name) {
+    public void setName(String name) {
         this.name = name;
     }
 

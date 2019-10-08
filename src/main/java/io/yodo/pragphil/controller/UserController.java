@@ -55,7 +55,7 @@ public class UserController {
         if (role == null) {
             users = userService.findAll();
         } else {
-            users = userService.findByRole(RoleName.valueOf(role));
+            users = userService.findByRole(role);
         }
         model.addAttribute("users", users);
         return "users/list";

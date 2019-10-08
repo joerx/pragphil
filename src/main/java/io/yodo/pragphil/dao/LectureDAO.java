@@ -1,6 +1,7 @@
 package io.yodo.pragphil.dao;
 
 import io.yodo.pragphil.entity.Lecture;
+import io.yodo.pragphil.entity.User;
 
 import java.util.List;
 
@@ -17,4 +18,6 @@ public interface LectureDAO {
     void update(Lecture l);
 
     void delete(Lecture l);
+
+    List<User> findStudents(int lectureId);
 }

@@ -1,7 +1,12 @@
 package io.yodo.pragphil.entity;
 
-public enum RoleName {
-    ROLE_LECTURER,
-    ROLE_STUDENT,
-    ROLE_MEMBER
+public interface RoleName {
+
+    String ROLE_LECTURER = "ROLE_LECTURER";
+
+    String ROLE_STUDENT = "ROLE_STUDENT";
+
+    String ROLE_MEMBER = "ROLE_MEMBER";
+
+    String ROLE_ADMIN = "ROLE_ADMIN";
 }

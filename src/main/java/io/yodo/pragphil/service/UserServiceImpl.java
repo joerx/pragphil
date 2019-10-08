@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public List<User> findByRole(RoleName rolename) {
+    public List<User> findByRole(String rolename) {
         return userDAO.findByRole(rolename);
     }
 
@@ -49,12 +49,6 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public User findByIdWithLectures(int id) {
         return userDAO.findByIdWithLectures(id);
-    }
-
-    @Override
-    @Transactional
-    public User findByUsername(String username) {
-        return userDAO.findByUsername(username);
     }
 
     @Override
