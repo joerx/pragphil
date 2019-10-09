@@ -20,4 +20,6 @@ public interface LectureDAO {
     void delete(Lecture l);
 
     List<User> findStudents(int lectureId);
+
+    List<Lecture> findByLecturer(int userId);
 }

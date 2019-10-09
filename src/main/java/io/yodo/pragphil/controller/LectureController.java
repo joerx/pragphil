@@ -1,13 +1,16 @@
 package io.yodo.pragphil.controller;
 
 import io.yodo.pragphil.entity.Lecture;
+import io.yodo.pragphil.entity.RoleName;
 import io.yodo.pragphil.entity.User;
+import io.yodo.pragphil.error.AccessDeniedException;
 import io.yodo.pragphil.error.NoSuchThingException;
-import io.yodo.pragphil.formatters.IdToUserFormatter;
+import io.yodo.pragphil.security.PrincipalHelper;
 import io.yodo.pragphil.service.LectureService;
-import io.yodo.pragphil.service.UserService;
 import io.yodo.pragphil.view.helper.FlashHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.Formatter;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,7 +19,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -26,19 +31,16 @@ public class LectureController {
 
     private final LectureService lectureService;
 
-    private final UserService userService;
-
     private Logger log = Logger.getLogger(getClass().getName());
 
     @Autowired
-    public LectureController(LectureService lectureService, UserService userService) {
+    public LectureController(LectureService lectureService) {
         this.lectureService = lectureService;
-        this.userService = userService;
     }
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
-        binder.addCustomFormatter(new IdToUserFormatter(), User.class);
+        binder.addCustomFormatter(new IdToLecturerFormatter(lectureService), User.class);
     }
 
     @RequestMapping(path = "", method = RequestMethod.GET)
@@ -47,8 +49,10 @@ public class LectureController {
     }
 
     @RequestMapping(path = "/list", method = RequestMethod.GET)
-    public String findLectures(Model model) {
-        List<Lecture> lectures = lectureService.findAll();
+    public String findLectures(Model model, Authentication auth) {
+        User user = PrincipalHelper.getUser(auth);
+        List<Lecture> lectures = getLecturesForUser(user);
+
         model.addAttribute("lectures", lectures);
         return "lectures/list";
     }
@@ -141,5 +145,36 @@ public class LectureController {
 
         model.addAttribute("lecturers", result);
         model.addAttribute("lecture", lecture);
+    }
+
+    private List<Lecture> getLecturesForUser(User user) {
+        if (user.hasRole(RoleName.ROLE_ADMIN)) {
+            return lectureService.findAll();
+        }
+        if (user.hasRole(RoleName.ROLE_LECTURER)) {
+            return lectureService.findByLecturer(user);
+        }
+        throw new AccessDeniedException("User is not allowed to view this");
+    }
+
+    private static class IdToLecturerFormatter implements Formatter<User> {
+
+        private final LectureService lectureService;
+
+        IdToLecturerFormatter(LectureService lectureService) {
+            this.lectureService = lectureService;
+        }
+
+        @Override
+        public User parse(String s, Locale locale) {
+            if (s.equals("") || s.equals("0")) return null;
+            int userId = Integer.parseInt(s);
+            return lectureService.findLecturer(userId);
+        }
+
+        @Override
+        public String print(User user, Locale locale) {
+            return Integer.toString(user.getId());
+        }
     }
 }

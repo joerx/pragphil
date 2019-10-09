@@ -32,6 +32,12 @@ public class LectureServiceImpl implements LectureService {
 
     @Override
     @Transactional
+    public List<Lecture> findByLecturer(User lecturer) {
+        return lectureDAO.findByLecturer(lecturer.getId());
+    }
+
+    @Override
+    @Transactional
     public Lecture findById(int id) {
         return lectureDAO.findById(id);
     }
@@ -45,14 +51,12 @@ public class LectureServiceImpl implements LectureService {
     @Override
     @Transactional
     public void create(Lecture lecture) {
-        loadLecturer(lecture);
         lectureDAO.create(lecture);
     }
 
     @Override
     @Transactional
     public void update(Lecture lecture) {
-        loadLecturer(lecture);
         lectureDAO.update(lecture);
     }
 
@@ -68,12 +72,9 @@ public class LectureServiceImpl implements LectureService {
         return lectureDAO.findStudents(lectureId);
     }
 
-    // forms submitted will only contain the userId, so we need to reload the full user record
-    // - still better than having to expose the UserDAO on controller level
-    private void loadLecturer(Lecture lecture) {
-        if (lecture.getLecturer() != null) {
-            User lecturer = userDAO.findById(lecture.getLecturer().getId());
-            lecture.setLecturer(lecturer);
-        }
+    @Override
+    @Transactional
+    public User findLecturer(int userId) {
+        return userDAO.findById(userId);
     }
 }
