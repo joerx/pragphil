@@ -28,14 +28,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final Logger log = Logger.getLogger(getClass().getName());
 
+    @Autowired
+    private UserDAO userDAO;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
     @Bean
-    @Autowired
-    public UserDetailsService userDetailsService(UserDAO userDAO) {
+    public UserDetailsService userDetailsService() {
         return new UserDetailsServiceImpl(userDAO);
     }
 
@@ -55,9 +57,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                     .logoutSuccessUrl("/?logout")
+                    .deleteCookies("JSESSIONID")
                     .permitAll()
                 .and()
                     .exceptionHandling()
-                    .accessDeniedPage("/access-denied");
+                    .accessDeniedPage("/access-denied")
+                .and()
+                    .rememberMe().key("pragphilRememberMeSecret")
+                    .userDetailsService(userDetailsService());
     }
 }

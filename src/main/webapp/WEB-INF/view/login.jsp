@@ -14,14 +14,18 @@
 
             <auth:messages />
 
-            <p>
+            <div class="form-group">
                 <label for="username" class="sr-only">Username</label>
                 <input type="text" id="username" name="username" placeholder="Username" class="form-control" required autofocus/>
-            </p>
-            <p>
+            </div>
+            <div class="form-group">
                 <label for="password" class="sr-only">Password</label>
                 <input type="password" id="password" name="password" placeholder="Password" class="form-control" required/>
-            </p>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="remember-me" name="remember-me"  checked />
+                <label class="form-check-label" for="remember-me">Remember me</label>
+            </div>
             <button class="btn btn-lg btn-primary btn-block">Sign In</button>
         </form:form>
 
