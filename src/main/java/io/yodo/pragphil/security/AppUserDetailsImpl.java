@@ -8,17 +8,17 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class UserDetailsImpl implements PragPhilUserDetails {
+public class AppUserDetailsImpl implements AppUserDetails {
 
     private final User user;
 
     private final Collection<SimpleGrantedAuthority> authorities;
 
-    UserDetailsImpl(User user) {
+    AppUserDetailsImpl(User user) {
         this.user = user;
         this.authorities = new ArrayList<>();
         for (Role r : user.getRoles()) {
-            SimpleGrantedAuthority sga = new SimpleGrantedAuthority(r.getName().toString());
+            SimpleGrantedAuthority sga = new SimpleGrantedAuthority(r.getName());
             authorities.add(sga);
         }
     }

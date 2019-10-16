@@ -3,8 +3,9 @@
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-<%--@elvariable id="userDetails" type="io.yodo.pragphil.security.UserDetailsImpl"--%>
+<%--@elvariable id="userDetails" type="io.yodo.pragphil.security.AppUserDetailsImpl"--%>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="#">PragPhil</a>
@@ -14,10 +15,15 @@
 
     <div class="collapse navbar-collapse" id="navbarContent">
         <ul class="navbar-nav mr-auto">
-            <c:if test="${!empty userDetails}">
+            <sec:authorize access="hasAnyRole('LECTURER', 'ADMIN')">
                 <t:navlink path="/lectures/list">Lectures</t:navlink>
+            </sec:authorize>
+            <sec:authorize access="hasAnyRole('ADMIN')">
                 <t:navlink path="/users/list">Users</t:navlink>
-            </c:if>
+            </sec:authorize>
+            <sec:authorize access="hasRole('STUDENT')">
+                <t:navlink path="/students/view/${userDetails.user.id}">My Lectures</t:navlink>
+            </sec:authorize>
         </ul>
 
         <ul class="navbar-nav justify-content-end">

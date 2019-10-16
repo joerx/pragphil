@@ -25,7 +25,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         try {
             User user = userDAO.findByUsername(username);
-            UserDetails ud = new UserDetailsImpl(user);
+            UserDetails ud = new AppUserDetailsImpl(user);
             log.info("Loaded user details " + ud);
             return ud;
         } catch (NoResultException e) {

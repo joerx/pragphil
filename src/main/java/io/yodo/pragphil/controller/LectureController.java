@@ -5,12 +5,11 @@ import io.yodo.pragphil.entity.RoleName;
 import io.yodo.pragphil.entity.User;
 import io.yodo.pragphil.error.AccessDeniedException;
 import io.yodo.pragphil.error.NoSuchThingException;
-import io.yodo.pragphil.security.PrincipalHelper;
+import io.yodo.pragphil.security.AuthHelper;
 import io.yodo.pragphil.service.LectureService;
 import io.yodo.pragphil.view.helper.FlashHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.Formatter;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.security.Principal;
 import java.util.List;
 import java.util.Locale;
 import java.util.logging.Logger;
@@ -31,11 +29,14 @@ public class LectureController {
 
     private final LectureService lectureService;
 
-    private Logger log = Logger.getLogger(getClass().getName());
+    private final Logger log = Logger.getLogger(getClass().getName());
+
+    private final AuthHelper authHelper;
 
     @Autowired
-    public LectureController(LectureService lectureService) {
+    public LectureController(LectureService lectureService, AuthHelper authHelper) {
         this.lectureService = lectureService;
+        this.authHelper = authHelper;
     }
 
     @InitBinder
@@ -49,8 +50,8 @@ public class LectureController {
     }
 
     @RequestMapping(path = "/list", method = RequestMethod.GET)
-    public String findLectures(Model model, Authentication auth) {
-        User user = PrincipalHelper.getUser(auth);
+    public String findLectures(Model model) {
+        User user = authHelper.getCurrentUser();
         List<Lecture> lectures = getLecturesForUser(user);
 
         model.addAttribute("lectures", lectures);

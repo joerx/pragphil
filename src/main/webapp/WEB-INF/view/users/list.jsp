@@ -1,7 +1,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<jsp:useBean id="userHelper" scope="request" type="io.yodo.pragphil.view.helper.UserHelper"/>
 
 <t:internal pageTitle="Users">
 
@@ -31,11 +34,13 @@
         <tr>
             <th>&nbsp;</th>
             <th>Name</th>
+            <th>Roles</th>
             <th>Enabled</th>
             <th>&nbsp;</th>
         </tr>
         </thead>
         <tbody>
+
         <c:forEach items="${users}" var="user">
             <tr>
                 <td>
@@ -45,6 +50,9 @@
                 </td>
                 <td>
                     <a href="${pageContext.request.contextPath}/users/view/${user.id}">${user.username}</a>
+                </td>
+                <td>
+                    ${userHelper.listRoles(user.roles)}
                 </td>
                 <td>
                     <c:choose>
