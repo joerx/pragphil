@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 import java.util.Locale;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Controller
@@ -28,8 +28,6 @@ import java.util.stream.Collectors;
 public class LectureController {
 
     private final LectureService lectureService;
-
-    private final Logger log = Logger.getLogger(getClass().getName());
 
     private final AuthHelper authHelper;
 
@@ -50,11 +48,12 @@ public class LectureController {
     }
 
     @RequestMapping(path = "/list", method = RequestMethod.GET)
-    public String findLectures(Model model) {
-        User user = authHelper.getCurrentUser();
-        List<Lecture> lectures = getLecturesForUser(user);
+    public String findLectures(Model model, Principal principal) {
+        User user = authHelper.mustGetUserForPrincipal(principal);
 
+        List<Lecture> lectures = getLecturesForUser(user);
         model.addAttribute("lectures", lectures);
+
         return "lectures/list";
     }
 
@@ -85,7 +84,6 @@ public class LectureController {
             RedirectAttributes r
     ) {
         if (binding.hasErrors()) {
-            log.warning("binding has errors " + binding);
             prepareForm(model, lecture);
             return "lectures/new";
         }
@@ -113,7 +111,6 @@ public class LectureController {
             RedirectAttributes r
     ) {
         if (binding.hasErrors()) {
-            log.warning("binding has errors " + binding);
             prepareForm(model, lecture);
             return "lectures/edit";
         }

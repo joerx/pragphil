@@ -17,11 +17,13 @@ public class StudentAccess {
 
     public boolean canList(Object principal) {
         User user = authHelper.getUserForPrincipal(principal);
+        if (user == null) return false;
         return user.isAdmin() || user.isStudent();
     }
 
     public boolean isAdmin(Object principal, int studentId) {
         User user = authHelper.getUserForPrincipal(principal);
+        if (user == null) return false;
         return user.isAdmin() || (user.isStudent() && user.getId() == studentId);
     }
 }

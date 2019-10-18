@@ -2,17 +2,18 @@ package io.yodo.pragphil.security;
 
 import io.yodo.pragphil.dao.UserDAO;
 import io.yodo.pragphil.entity.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import javax.persistence.NoResultException;
 import javax.transaction.Transactional;
-import java.util.logging.Logger;
 
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final Logger log = Logger.getLogger(getClass().getName());
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     private final UserDAO userDAO;
 
@@ -26,7 +27,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         try {
             User user = userDAO.findByUsername(username);
             UserDetails ud = new AppUserDetailsImpl(user);
-            log.info("Loaded user details " + ud);
+            log.debug("Loaded user details " + ud);
             return ud;
         } catch (NoResultException e) {
             throw new UsernameNotFoundException(e.getMessage());

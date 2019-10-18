@@ -6,8 +6,6 @@ import io.yodo.pragphil.security.AuthHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.security.Principal;
-
 @Component
 public class LectureAccess {
 
@@ -20,11 +18,13 @@ public class LectureAccess {
 
     public boolean isAdmin(Object principal, Lecture lecture) {
         User user = authHelper.getUserForPrincipal(principal);
+        if (user == null) return false;
         return user.isAdmin() || (user.isLecturer() && user.equals(lecture.getLecturer()));
     }
 
     public boolean canList(Object principal) {
         User user = authHelper.getUserForPrincipal(principal);
+        if (user == null) return false;
         return user.isAdmin() || user.isLecturer();
     }
 }

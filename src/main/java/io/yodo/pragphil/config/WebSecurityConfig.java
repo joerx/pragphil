@@ -2,32 +2,25 @@ package io.yodo.pragphil.config;
 
 import io.yodo.pragphil.dao.UserDAO;
 import io.yodo.pragphil.security.UserDetailsServiceImpl;
-import io.yodo.pragphil.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import org.springframework.security.web.util.matcher.RequestMatcher;
-
-import java.util.logging.Logger;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final Logger log = Logger.getLogger(getClass().getName());
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
+    @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
     @Autowired
     private UserDAO userDAO;
 

@@ -1,12 +1,13 @@
 package io.yodo.pragphil.security;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-import java.util.logging.Logger;
 
 /**
  * Helper class to inject the current principals {@link AppUserDetails} into each view if a user is logged in.
@@ -17,12 +18,12 @@ import java.util.logging.Logger;
  * using <code>empty</code> checks.
  */
 @ControllerAdvice
-public class UserDetailsInjector {
+public class UserDetailsAdvice {
 
-    private final Logger log = Logger.getLogger(getClass().getName());
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     @ModelAttribute
-    public void injectUserDetails(Model model) {
+    public void userDetailsModel(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!auth.isAuthenticated()) {
             log.info("Not authenticated");
@@ -30,13 +31,13 @@ public class UserDetailsInjector {
         }
 
         Object principal = auth.getPrincipal();
-        log.info("Found principal " + principal);
+        log.debug("Found principal " + principal);
 
         if (principal instanceof AppUserDetails) {
             model.addAttribute("userDetails", principal);
             return;
         }
 
-        log.warning("Cannot cast " + principal + " to " + AppUserDetails.class);
+        log.warn("Cannot cast " + principal + " to " + AppUserDetails.class);
     }
 }
