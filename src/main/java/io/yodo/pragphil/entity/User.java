@@ -64,6 +64,9 @@ public class User implements Serializable  {
     )
     private List<Lecture> attendedLectures;
 
+    @Column(name = "api_token")
+    private String apiToken;
+
     public User() {
     }
 
@@ -129,6 +132,14 @@ public class User implements Serializable  {
 
     public void setAttendedLectures(List<Lecture> attendedLectures) {
         this.attendedLectures = attendedLectures;
+    }
+
+    public String getApiToken() {
+        return apiToken;
+    }
+
+    public void setApiToken(String apiToken) {
+        this.apiToken = apiToken;
     }
 
     public void enroll(Lecture l) {

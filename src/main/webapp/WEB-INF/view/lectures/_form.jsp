@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%--@elvariable id="lecture" type="io.yodo.pragphil.entity.Lecture"--%>
-<%--@elvariable id="userDetails" type="io.yodo.pragphil.security.AppUserDetailsImpl"--%>
+<%--@elvariable id="userDetails" type="io.yodo.pragphil.security.DefaultUserDetails"--%>
 
 <form:form
         action="${pageContext.request.contextPath}/lectures/${param.action}"

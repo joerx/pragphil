@@ -8,13 +8,13 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class AppUserDetailsImpl implements AppUserDetails {
+public class DefaultUserDetails implements AppUserDetails {
 
     private final User user;
 
     private final Collection<SimpleGrantedAuthority> authorities;
 
-    AppUserDetailsImpl(User user) {
+    public DefaultUserDetails(User user) {
         this.user = user;
         this.authorities = new ArrayList<>();
         for (Role r : user.getRoles()) {
@@ -64,7 +64,7 @@ public class AppUserDetailsImpl implements AppUserDetails {
 
     @Override
     public String toString() {
-        return "UserDetailsImpl{" +
+        return "DefaultUserDetails{" +
                 "user=" + user +
                 ", authorities=" + authorities +
                 '}';

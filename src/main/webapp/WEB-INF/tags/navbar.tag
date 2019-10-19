@@ -5,7 +5,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-<%--@elvariable id="userDetails" type="io.yodo.pragphil.security.AppUserDetailsImpl"--%>
+<%--@elvariable id="userDetails" type="io.yodo.pragphil.security.DefaultUserDetails"--%>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="#">PragPhil</a>

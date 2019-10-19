@@ -9,12 +9,12 @@ public class WebMvcInitializer extends AbstractAnnotationConfigDispatcherServlet
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[] { };
+        return new Class[] { WebMvcConfig.class, WebSecurityConfig.class, ApiSecurityConfig.class };
     }
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class[] { WebMvcConfig.class };
+        return null;
     }
 
     @Override

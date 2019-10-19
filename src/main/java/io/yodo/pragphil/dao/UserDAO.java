@@ -24,4 +24,6 @@ public interface UserDAO {
     void delete(User user);
 
     User findByIdWithLectures(int id);
+
+    User findByToken(Object token);
 }

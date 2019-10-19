@@ -25,6 +25,8 @@ public class UserDetailsAdvice {
     @ModelAttribute
     public void userDetailsModel(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        log.debug("Current securityContext.authentication is " + auth);
+
         if (!auth.isAuthenticated()) {
             log.info("Not authenticated");
             return;
@@ -38,6 +40,6 @@ public class UserDetailsAdvice {
             return;
         }
 
-        log.warn("Cannot cast " + principal + " to " + AppUserDetails.class);
+        log.debug("Cannot cast " + principal + " to " + AppUserDetails.class);
     }
 }

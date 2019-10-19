@@ -2,11 +2,9 @@ package io.yodo.pragphil.config;
 
 import io.yodo.pragphil.dao.UserDAO;
 import io.yodo.pragphil.security.UserDetailsServiceImpl;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -18,11 +16,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final Logger log = LoggerFactory.getLogger(getClass());
+    private final UserDAO userDAO;
 
-    @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
-    @Autowired
-    private UserDAO userDAO;
+    public WebSecurityConfig(UserDAO userDAO) {
+        this.userDAO = userDAO;
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -32,6 +30,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public UserDetailsService userDetailsService() {
         return new UserDetailsServiceImpl(userDAO);
+    }
+
+    @Override
+    public void configure(AuthenticationManagerBuilder auth) throws Exception {
+        // We have a custom auth provider for api tokens which only handles ApiAuthenticationToken
+        // This will explicitly register a DaoAuthenticationProvider to handle UsernamePasswordAuthenticationToken
+        auth.userDetailsService(userDetailsService());
     }
 
     @Override

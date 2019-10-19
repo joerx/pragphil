@@ -45,6 +45,14 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
+    public User findByToken(Object token) {
+        Session s = sessionFactory.getCurrentSession();
+        return s.createQuery("select u from User u where u.apiToken = :token and u.enabled = true", User.class)
+                .setParameter("token", token)
+                .getSingleResult();
+    }
+
+    @Override
     public User findByUsername(String username) {
         Session s = sessionFactory.getCurrentSession();
         return s.createQuery("from User where username = :username", User.class)

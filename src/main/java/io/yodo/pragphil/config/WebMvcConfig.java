@@ -56,7 +56,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
     }
 
-
     // data source to find, well - data
     @SuppressWarnings("ConstantConditions")
     @Bean

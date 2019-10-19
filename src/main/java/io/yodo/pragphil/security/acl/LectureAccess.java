@@ -4,6 +4,7 @@ import io.yodo.pragphil.entity.Lecture;
 import io.yodo.pragphil.entity.User;
 import io.yodo.pragphil.security.AuthHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 @Component
