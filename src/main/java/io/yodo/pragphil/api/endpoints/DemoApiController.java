@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping(path = "/api")
 public class DemoApiController {
 
     @RequestMapping(path = "/hello", method = RequestMethod.GET)
@@ -18,5 +17,10 @@ public class DemoApiController {
         Map<String, String> response = new HashMap<>();
         response.put("message", "hello");
         return response;
+    }
+
+    @RequestMapping(path = "/boom", method = RequestMethod.GET)
+    public String unavailable(Model model) {
+        throw new UnsupportedOperationException("Not implemented");
     }
 }

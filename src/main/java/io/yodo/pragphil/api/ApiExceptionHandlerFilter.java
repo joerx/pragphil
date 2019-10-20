@@ -1,10 +1,9 @@
 package io.yodo.pragphil.api;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import io.yodo.pragphil.core.error.ApiErrorResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;

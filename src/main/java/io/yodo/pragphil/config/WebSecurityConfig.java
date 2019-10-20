@@ -1,7 +1,7 @@
 package io.yodo.pragphil.config;
 
-import io.yodo.pragphil.dao.UserDAO;
-import io.yodo.pragphil.security.UserDetailsServiceImpl;
+import io.yodo.pragphil.core.dao.UserDAO;
+import io.yodo.pragphil.core.security.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;

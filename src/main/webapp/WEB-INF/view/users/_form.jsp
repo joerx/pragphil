@@ -5,7 +5,7 @@
 <%@ taglib prefix="f" tagdir="/WEB-INF/tags/form" %>
 
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%--@elvariable id="user" type="io.yodo.pragphil.entity.User"--%>
+<%--@elvariable id="user" type="io.yodo.pragphil.core.entity.User"--%>
 
 <form:form
         action="${pageContext.request.contextPath}/users/${param.action}"

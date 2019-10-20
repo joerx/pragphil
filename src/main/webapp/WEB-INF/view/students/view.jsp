@@ -7,7 +7,7 @@
 
     <ul class="page-nav">
         <li>
-            <a href="${pageContext.request.contextPath}/users/view/${student.id}">
+            <a href="${pageContext.request.contextPath}/users/${student.username}">
                 <span class="oi oi-person"></span> User Profile
             </a>
         </li>

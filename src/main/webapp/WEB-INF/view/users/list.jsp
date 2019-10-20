@@ -4,7 +4,7 @@
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<jsp:useBean id="userHelper" scope="request" type="io.yodo.pragphil.view.helper.UserHelper"/>
+<jsp:useBean id="userHelper" scope="request" type="io.yodo.pragphil.web.view.helper.UserHelper"/>
 
 <t:internal pageTitle="Users">
 
@@ -49,7 +49,7 @@
                     </a>
                 </td>
                 <td>
-                    <a href="${pageContext.request.contextPath}/users/view/${user.id}">${user.username}</a>
+                    <a href="${pageContext.request.contextPath}/users/${user.username}">${user.username}</a>
                 </td>
                 <td>
                     ${userHelper.listRoles(user.roles)}

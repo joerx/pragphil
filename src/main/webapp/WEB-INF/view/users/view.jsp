@@ -57,12 +57,12 @@
                 <dt>Conducted Lectures</dt>
                 <dd>
                     <c:choose>
-                        <c:when test="${empty user.conductedLectures}">
+                        <c:when test="${empty lectures}">
                             <em>No lectures</em>
                         </c:when>
                         <c:otherwise>
                             <ul class="list-unstyled">
-                                <c:forEach items="${user.conductedLectures}" var="lecture">
+                                <c:forEach items="${lectures}" var="lecture">
                                     <li>${lecture.name}</li>
                                 </c:forEach>
                             </ul>
@@ -73,7 +73,7 @@
                 <c:if test="${user.student}">
                     <dt>Attended Lectures</dt>
                     <dd>
-                        <a href="${pageContext.request.contextPath}/students/view/${user.id}">View Attended Lectures</a>
+                        <a href="${pageContext.request.contextPath}/students/${user.username}">View Attended Lectures</a>
                     </dd>
                 </c:if>
 

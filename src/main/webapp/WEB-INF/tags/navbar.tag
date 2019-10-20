@@ -5,7 +5,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-<%--@elvariable id="userDetails" type="io.yodo.pragphil.security.DefaultUserDetails"--%>
+<%--@elvariable id="auth" type="org.springframework.security.core.Authentication"--%>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="#">PragPhil</a>
@@ -22,16 +22,16 @@
                 <t:navlink path="/users/list">Users</t:navlink>
             </sec:authorize>
             <sec:authorize access="hasRole('STUDENT')">
-                <t:navlink path="/students/view/${userDetails.user.id}">My Lectures</t:navlink>
+                <t:navlink path="/students/${auth.name}">My Lectures</t:navlink>
             </sec:authorize>
         </ul>
 
         <ul class="navbar-nav justify-content-end">
             <c:choose>
-                <c:when test="${!empty userDetails}">
-                    <t:navlink path="/users/view/${userDetails.user.id}">
+                <c:when test="${!empty auth}">
+                    <t:navlink path="/users/${auth.name}">
                         <span class="oi oi-person" title="person" aria-hidden="true"></span>
-                        ${userDetails.username}
+                        ${auth.name}
                     </t:navlink>
                     <li class="nav-item">
                         <a href="#" class="nav-link" onclick="document.getElementById('logout-form').submit();">

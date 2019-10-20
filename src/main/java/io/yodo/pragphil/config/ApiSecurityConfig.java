@@ -1,8 +1,8 @@
 package io.yodo.pragphil.config;
 
-import io.yodo.pragphil.api.ApiErrorResolver;
+import io.yodo.pragphil.core.error.ApiErrorResolver;
 import io.yodo.pragphil.api.ApiExceptionHandlerFilter;
-import io.yodo.pragphil.api.auth.ApiAuthFilter;
+import io.yodo.pragphil.core.security.api.ApiAuthFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -52,6 +52,8 @@ public class ApiSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        log.debug("Configuring http security");
+
         http.antMatcher("/api/**")
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
