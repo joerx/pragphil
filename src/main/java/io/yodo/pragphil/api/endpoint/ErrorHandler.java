@@ -1,4 +1,4 @@
-package io.yodo.pragphil.api.endpoints;
+package io.yodo.pragphil.api.endpoint;
 
 import io.yodo.pragphil.core.error.NoSuchThingException;
 import org.slf4j.Logger;

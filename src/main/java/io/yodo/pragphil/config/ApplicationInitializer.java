@@ -15,7 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 import java.lang.reflect.AnnotatedType;
 
-public class WebMvcInitializer implements WebApplicationInitializer {
+public class ApplicationInitializer implements WebApplicationInitializer {
 
     @Override
     public void onStartup(ServletContext container) throws ServletException {

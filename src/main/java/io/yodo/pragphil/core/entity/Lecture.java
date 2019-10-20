@@ -1,5 +1,9 @@
 package io.yodo.pragphil.core.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -26,7 +30,7 @@ public class Lecture {
     @Size(min = LECTURE_NAME_MIN_LENGTH, message = LECTURE_NAME_VALIDATION_MSG)
     private String name;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "lecturer_id", referencedColumnName = "id")
     private User lecturer;
 

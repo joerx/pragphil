@@ -1,4 +1,4 @@
-package io.yodo.pragphil.api.endpoints;
+package io.yodo.pragphil.api.endpoint;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
