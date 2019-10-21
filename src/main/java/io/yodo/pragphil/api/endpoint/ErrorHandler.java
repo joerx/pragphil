@@ -1,5 +1,7 @@
 package io.yodo.pragphil.api.endpoint;
 
+import org.springframework.security.access.AccessDeniedException;
+import io.yodo.pragphil.core.error.InvalidArgumentException;
 import io.yodo.pragphil.core.error.NoSuchThingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.NoHandlerFoundException;
+
+import javax.persistence.NoResultException;
 
 @ControllerAdvice
 public class ErrorHandler {
@@ -22,6 +26,21 @@ public class ErrorHandler {
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handleException(NoHandlerFoundException ex) {
         return createResponse(ex, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorResponse> handleException(NoResultException ex) {
+        return createResponse(ex, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorResponse> handleException(InvalidArgumentException ex) {
+        return createResponse(ex, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorResponse> handleException(AccessDeniedException ex) {
+        return createResponse(ex, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler

@@ -68,13 +68,19 @@ public class LectureServiceImpl implements LectureService {
 
     @Override
     @Transactional
-    public List<User> findStudents(int lectureId) {
-        return lectureDAO.findStudents(lectureId);
+    public List<User> findStudents(Lecture lecture) {
+        return lectureDAO.findStudents(lecture.getId());
     }
 
     @Override
     @Transactional
     public User findLecturer(int userId) {
-        return userDAO.findById(userId);
+        return userDAO.findById(userId, RoleName.ROLE_LECTURER);
+    }
+
+    @Override
+    @Transactional
+    public User findLecturer(String name) {
+        return userDAO.findByUsername(name, RoleName.ROLE_LECTURER);
     }
 }

@@ -80,6 +80,7 @@ public class UserServiceImpl implements UserService {
         u1.setId(form.getId());
         u1.setUsername(form.getUsername());
         u1.setEnabled(form.isEnabled());
+        u1.setApiToken(form.getApiToken());
 
         // update password only if it was set before
         if (form.getPassword() != null && form.getPassword().length() > 0) {

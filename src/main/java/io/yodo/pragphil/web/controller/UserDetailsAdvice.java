@@ -3,6 +3,7 @@ package io.yodo.pragphil.web.controller;
 import io.yodo.pragphil.core.security.AppUserDetails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
@@ -27,23 +28,8 @@ public class UserDetailsAdvice {
     public void userDetailsModel(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         log.debug("Current securityContext.authentication is " + auth);
-        model.addAttribute("auth", auth);
-
-//
-//
-//        if (!auth.isAuthenticated()) {
-//            log.info("Not authenticated");
-//            return;
-//        }
-//
-//        Object principal = auth.getPrincipal();
-//        log.debug("Found principal " + principal);
-//
-//        if (principal instanceof AppUserDetails) {
-//            model.addAttribute("userDetails", principal);
-//            return;
-//        }
-//
-//        log.debug("Cannot cast " + principal + " to " + AppUserDetails.class);
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            model.addAttribute("auth", auth);
+        }
     }
 }

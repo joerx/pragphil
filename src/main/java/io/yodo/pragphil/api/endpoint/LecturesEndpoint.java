@@ -1,37 +1,66 @@
 package io.yodo.pragphil.api.endpoint;
 
 import io.yodo.pragphil.api.resource.LectureResource;
+import io.yodo.pragphil.api.resource.mapper.LectureMapper;
 import io.yodo.pragphil.core.entity.Lecture;
 import io.yodo.pragphil.core.service.LectureService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(path = "/lectures")
 public class LecturesEndpoint {
 
     private final LectureService lectureService;
 
+    private final LectureMapper lectureMapper;
+
     @Autowired
-    public LecturesEndpoint(LectureService lectureService) {
+    public LecturesEndpoint(LectureService lectureService, LectureMapper lectureMapper) {
         this.lectureService = lectureService;
+        this.lectureMapper = lectureMapper;
     }
 
-    @RequestMapping(path = "", method = RequestMethod.GET)
+    @RequestMapping(path = "/lectures", method = RequestMethod.GET)
     public List<LectureResource> listLectures() {
         List<Lecture> lectures = lectureService.findAll();
-        return lectures.stream().map(LectureResource::fromLecture).collect(Collectors.toList());
+
+        return lectures.stream().map(lectureMapper::toResource).collect(Collectors.toList());
     }
 
-    @RequestMapping(path = "/{lectureId}", method = RequestMethod.GET)
+    @RequestMapping(path = "/lectures/{lectureId}", method = RequestMethod.GET)
     public LectureResource getLecture(@PathVariable int lectureId) {
         Lecture lecture = lectureService.findById(lectureId);
-        return LectureResource.fromLecture(lecture);
+
+        return lectureMapper.toResource(lecture);
+    }
+
+    @RequestMapping(path = "/lectures", method = RequestMethod.POST)
+    public LectureResource createLecture(@RequestBody LectureResource lectureResource) {
+        Lecture lecture = lectureMapper.toLecture(lectureResource);
+
+        lectureService.create(lecture);
+
+        return lectureMapper.toResource(lecture);
+    }
+
+    @RequestMapping(path = "/lectures/{id}", method = RequestMethod.PUT)
+    public LectureResource updateLecture(@PathVariable int id, @RequestBody LectureResource lectureResource) {
+        Lecture lecture = lectureMapper.toLecture(lectureResource, lectureService.findById(id));
+
+        lectureService.update(lecture);
+
+        return lectureMapper.toResource(lecture);
+    }
+
+    @RequestMapping(path = "/lectures/{id}", method = RequestMethod.DELETE)
+    public LectureResource deleteLecture(@PathVariable int id) {
+        Lecture lecture = lectureService.findById(id);
+
+        lectureService.delete(lecture);
+
+        return lectureMapper.toResource(lecture);
     }
 }

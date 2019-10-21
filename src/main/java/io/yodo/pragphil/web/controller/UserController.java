@@ -6,6 +6,7 @@ import io.yodo.pragphil.core.entity.User;
 import io.yodo.pragphil.core.error.NoSuchThingException;
 import io.yodo.pragphil.core.service.LectureService;
 import io.yodo.pragphil.core.service.UserService;
+import io.yodo.pragphil.core.util.RandomTokenGenerator;
 import io.yodo.pragphil.web.view.helper.FlashHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -82,6 +83,7 @@ public class UserController {
     @RequestMapping(value = "/new", method = RequestMethod.GET)
     public String newUser(Model model) {
         User u = new User();
+        u.setApiToken(RandomTokenGenerator.generateRandomToken());
         u.setEnabled(true);
 
         prepareUserForm(model, u);
@@ -106,7 +108,7 @@ public class UserController {
         userService.create(user);
 
         FlashHelper.setInfo(ra, "User " + user.getUsername() + " created (" + user.getId() + ")");
-        return "redirect:/users/view/" + user.getId();
+        return "redirect:/users/" + user.getUsername();
     }
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
@@ -142,7 +144,7 @@ public class UserController {
         userService.update(user);
 
         FlashHelper.setInfo(ra, "User " + user.getUsername() + " updated");
-        return "redirect:/users/view/" + user.getId();
+        return "redirect:/users/" + user.getUsername();
     }
 
     @RequestMapping(value = "/disable/{id}", method = RequestMethod.GET)

@@ -1,5 +1,6 @@
 package io.yodo.pragphil.core.dao;
 
+import io.yodo.pragphil.core.entity.Role;
 import io.yodo.pragphil.core.entity.User;
 
 import java.util.List;
@@ -12,7 +13,11 @@ public interface UserDAO {
 
     User findById(int id);
 
+    User findById(int id, String role);
+
     User findByUsername(String username);
+
+    User findByUsername(String username, String role);
 
     void create(User user);
 

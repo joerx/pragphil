@@ -10,6 +10,9 @@ import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Objects;
 
+import static javax.persistence.CascadeType.*;
+import static javax.persistence.FetchType.*;
+
 @SuppressWarnings("unused")
 @Entity
 @Table(name = "lectures")
@@ -30,7 +33,7 @@ public class Lecture {
     @Size(min = LECTURE_NAME_MIN_LENGTH, message = LECTURE_NAME_VALIDATION_MSG)
     private String name;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = {DETACH, MERGE, PERSIST, REFRESH}, fetch = EAGER)
     @JoinColumn(name = "lecturer_id", referencedColumnName = "id")
     private User lecturer;
 

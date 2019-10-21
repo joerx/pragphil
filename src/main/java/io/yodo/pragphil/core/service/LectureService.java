@@ -9,18 +9,19 @@ import java.util.List;
 
 public interface LectureService {
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'LECTURER')")
+    @PreAuthorize("isAuthenticated()")
     List<Lecture> findAll();
 
-    @PreAuthorize("hasRole('ADMIN') or (hasRole('LECTURER') and principal.username == #lecturer.username)")
+    @PreAuthorize("isAuthenticated()")
     List<Lecture> findByLecturer(User lecturer);
 
-    @PostAuthorize("hasRole('ADMIN') or (hasRole('LECTURER') and principal.username == returnObject.lecturer.username)")
+    @PostAuthorize("isAuthenticated()")
     Lecture findById(int id);
 
+    @PostAuthorize("isAuthenticated()")
     List<User> findLecturers();
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'LECTURER')")
+    @PreAuthorize("hasAnyRole('ADMIN') or (hasRole('LECTURER') and principal.username == #lecture.lecturer.username)")
     void create(Lecture lecture);
 
     @PreAuthorize("hasRole('ADMIN') or (hasRole('LECTURER') and principal.username == #lecture.lecturer.username)")
@@ -29,9 +30,12 @@ public interface LectureService {
     @PreAuthorize("hasRole('ADMIN') or (hasRole('LECTURER') and principal.username == #lecture.lecturer.username)")
     void delete(Lecture lecture);
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'LECTURER')")
-    List<User> findStudents(int lectureId);
+    @PreAuthorize("hasAnyRole('ADMIN') or (hasRole('LECTURER') and principal.username == #lecture.lecturer.username)")
+    List<User> findStudents(Lecture lecture);
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'LECTURER')")
+    @PostAuthorize("isAuthenticated()")
     User findLecturer(int userId);
+
+    @PostAuthorize("isAuthenticated()")
+    User findLecturer(String username);
 }

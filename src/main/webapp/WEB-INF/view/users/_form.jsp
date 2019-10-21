@@ -18,11 +18,15 @@
     <f:global-errors name="user"/>
 
     <div class="form-group">
-    <f:input path="username" value="${user.username}" label="Username"/>
+    <f:input path="username" value="${user.username}" label="Username" />
     </div>
 
     <div class="form-group">
-    <f:input path="password" value="${user.password}" label="Password" type="password"/>
+    <f:input path="password" value="${user.password}" label="Password" type="password" />
+    </div>
+
+    <div class="form-group">
+        <f:input path="apiToken" value="${user.apiToken}" label="Api Token" />
     </div>
 
     <fieldset>

@@ -65,7 +65,7 @@ public class LectureController {
     @RequestMapping(path = "/view/{id}", method = RequestMethod.GET)
     public String showLecture(@PathVariable int id, Model model) {
         Lecture lecture = lectureService.findById(id);
-        List<User> students = lectureService.findStudents(id);
+        List<User> students = lectureService.findStudents(lecture);
 
         if (lecture == null) throw new NoSuchThingException("No lecture with id " + id);
 
@@ -119,6 +119,7 @@ public class LectureController {
             prepareForm(model, lecture);
             return "lectures/edit";
         }
+
         lectureService.update(lecture);
 
         FlashHelper.setInfo(r, "Lecture updated");
@@ -138,7 +139,7 @@ public class LectureController {
     }
 
     private void prepareForm(Model model, Lecture lecture) {
-        List<User> students = lectureService.findStudents(lecture.getId());
+        List<User> students = lectureService.findStudents(lecture);
         List<User> lecturers = lectureService.findLecturers();
 
         // students can't be lecturers for the same lecture

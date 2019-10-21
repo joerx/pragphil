@@ -15,12 +15,7 @@ public class LectureResource {
 
     private String lecturer;
 
-    public static LectureResource fromLecture(Lecture lecture) {
-        LectureResource lr = new LectureResource();
-        lr.id = lecture.getId();
-        lr.lecturer = lecture.getLecturer().getUsername();
-        lr.name = lecture.getName();
-        return lr;
+    public LectureResource() {
     }
 
     public int getId() {

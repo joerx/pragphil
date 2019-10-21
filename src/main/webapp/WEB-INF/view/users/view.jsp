@@ -40,6 +40,9 @@
                 <dt>Enabled</dt>
                 <dd>${user.enabled ? "yes" : "no"}</dd>
 
+                <dt>API Token</dt>
+                <dd><code>${user.apiToken}</code></dd>
+
                 <dt>Roles</dt>
                 <dd>
                     <ul class="list-unstyled">
