@@ -5,6 +5,7 @@ import io.yodo.pragphil.core.entity.Lecture;
 import io.yodo.pragphil.core.entity.User;
 import io.yodo.pragphil.core.error.InvalidArgumentException;
 import io.yodo.pragphil.core.service.LectureService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.NoResultException;
@@ -14,6 +15,7 @@ public class LectureMapper {
 
     private final LectureService lectureService;
 
+    @Autowired
     public LectureMapper(LectureService lectureService) {
         this.lectureService = lectureService;
     }

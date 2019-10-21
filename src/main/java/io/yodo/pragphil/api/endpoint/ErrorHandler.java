@@ -7,8 +7,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.persistence.NoResultException;
@@ -41,6 +43,11 @@ public class ErrorHandler {
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handleException(AccessDeniedException ex) {
         return createResponse(ex, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorResponse> handleException(HttpRequestMethodNotSupportedException ex) {
+        return createResponse(ex, HttpStatus.METHOD_NOT_ALLOWED);
     }
 
     @ExceptionHandler

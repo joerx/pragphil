@@ -3,7 +3,6 @@ package io.yodo.pragphil.core.service;
 import io.yodo.pragphil.core.dao.LectureDAO;
 import io.yodo.pragphil.core.dao.RolesDAO;
 import io.yodo.pragphil.core.dao.UserDAO;
-import io.yodo.pragphil.core.entity.Lecture;
 import io.yodo.pragphil.core.entity.Role;
 import io.yodo.pragphil.core.entity.User;
 import io.yodo.pragphil.core.error.InvalidRequestException;
