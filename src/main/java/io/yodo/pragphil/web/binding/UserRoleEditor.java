@@ -1,4 +1,4 @@
-package io.yodo.pragphil.web.controller;
+package io.yodo.pragphil.web.binding;
 
 import io.yodo.pragphil.core.entity.Role;
 import io.yodo.pragphil.core.service.UserService;
@@ -9,7 +9,7 @@ public class UserRoleEditor extends PropertyEditorSupport {
 
     private final UserService userService;
 
-    UserRoleEditor(UserService userService) {
+    public UserRoleEditor(UserService userService) {
         this.userService = userService;
     }
 

@@ -2,6 +2,7 @@ package io.yodo.pragphil.web;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -11,21 +12,9 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
 @EnableWebMvc
+@EnableAspectJAutoProxy
 @ComponentScan(basePackages = "io.yodo.pragphil.web")
 public class WebMvcConfig implements WebMvcConfigurer {
-
-//    private final Logger logger = LoggerFactory.getLogger(getClass());
-
-//    @Bean
-//    public SimpleMappingExceptionResolver errorHandler() {
-//        SimpleMappingExceptionResolver r = new SimpleMappingExceptionResolver();
-//
-//        r.setDefaultErrorView("error");
-//        r.setExceptionAttribute("ex");
-//        r.setWarnLogCategory("io.yodo.pragphil.core.error");
-//
-//        return r;
-//    }
 
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {

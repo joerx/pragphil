@@ -23,8 +23,8 @@
         <Logger name="org.springframework.web" level="info" additivity="false">
             <AppenderRef ref="ConsoleAppender"/>
         </Logger>
-        <!-- Appliction specific logging config -->
-        <Logger name="io.yodo.pragphil" level="debug" additivity="false">
+        <!-- Application specific logging config -->
+        <Logger name="io.yodo.pragphil" level="trace" additivity="false">
             <AppenderRef ref="ConsoleAppender"/>
         </Logger>
         <Root level="info">

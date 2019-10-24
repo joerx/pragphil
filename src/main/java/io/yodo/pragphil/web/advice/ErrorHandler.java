@@ -1,4 +1,4 @@
-package io.yodo.pragphil.web.controller;
+package io.yodo.pragphil.web.advice;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

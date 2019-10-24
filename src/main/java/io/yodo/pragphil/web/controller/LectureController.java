@@ -7,6 +7,7 @@ import io.yodo.pragphil.core.error.AccessDeniedException;
 import io.yodo.pragphil.core.error.NoSuchThingException;
 import io.yodo.pragphil.core.service.LectureService;
 import io.yodo.pragphil.core.service.UserService;
+import io.yodo.pragphil.core.tracing.NoTrace;
 import io.yodo.pragphil.web.view.helper.FlashHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,11 +43,13 @@ public class LectureController {
     }
 
     @InitBinder
+    @NoTrace
     public void initBinder(WebDataBinder binder) {
         binder.addCustomFormatter(new IdToLecturerFormatter(lectureService), User.class);
     }
 
     @RequestMapping(path = "", method = RequestMethod.GET)
+    @NoTrace
     public String index() {
         return "redirect:/lectures/list";
     }

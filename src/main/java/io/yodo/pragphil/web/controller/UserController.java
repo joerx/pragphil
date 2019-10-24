@@ -6,7 +6,9 @@ import io.yodo.pragphil.core.entity.User;
 import io.yodo.pragphil.core.error.NoSuchThingException;
 import io.yodo.pragphil.core.service.LectureService;
 import io.yodo.pragphil.core.service.UserService;
+import io.yodo.pragphil.core.tracing.NoTrace;
 import io.yodo.pragphil.core.util.RandomTokenGenerator;
+import io.yodo.pragphil.web.binding.UserRoleEditor;
 import io.yodo.pragphil.web.view.helper.FlashHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,6 +52,7 @@ public class UserController {
     }
 
     @InitBinder
+    @NoTrace
     public void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(Role.class, "roles", new UserRoleEditor(userService));
     }
