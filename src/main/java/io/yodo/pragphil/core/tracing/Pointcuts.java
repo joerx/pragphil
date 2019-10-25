@@ -11,5 +11,8 @@ abstract class Pointcuts {
     void webController() {}
 
     @Pointcut("execution(public * io.yodo.pragphil.api.endpoint.*Endpoint.*(..))")
+    void apiEndpoint() {}
+
+    @Pointcut("execution(public * io.yodo.pragphil.api.endpoint.*Endpoint.*(..))")
     void restEndpoint() {}
 }

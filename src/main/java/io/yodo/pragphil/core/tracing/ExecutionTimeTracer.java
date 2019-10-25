@@ -1,22 +1,19 @@
 package io.yodo.pragphil.core.tracing;
 
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-@Aspect
+/**
+ * Tracer to trace execution time of methods via the default logging facility set up for the application.
+ */
 @Component
-@Profile({"staging", "devel"})
-public class TracingAspect {
+public class ExecutionTimeTracer {
 
-    private final Logger log = LoggerFactory.getLogger(getClass());
+    private final Logger log = LoggerFactory.getLogger("io.yodo.pragphil.Tracing");
 
-    @Around("Pointcuts.webController() && !Pointcuts.noTrace()")
-    public Object traceController(ProceedingJoinPoint pjp) throws Throwable {
+    Object trace(ProceedingJoinPoint pjp) throws Throwable {
         long start = System.currentTimeMillis();
 
         try {

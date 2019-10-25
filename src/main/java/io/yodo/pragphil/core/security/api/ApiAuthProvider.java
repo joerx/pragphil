@@ -59,7 +59,6 @@ public class ApiAuthProvider implements AuthenticationProvider {
 
             return new DefaultUserDetails(user);
         } catch (NoResultException ex) {
-            log.warn("No user found for provided API token");
             throw new UnknownTokenException("No user found for provided API token");
         }
     }

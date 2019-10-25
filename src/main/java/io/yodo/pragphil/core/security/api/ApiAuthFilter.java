@@ -41,7 +41,6 @@ public class ApiAuthFilter extends AbstractAuthenticationProcessingFilter {
         log.debug("Attempting authentication");
 
         String tokenHeader = httpServletRequest.getHeader("Authorization");
-        log.debug("Authorization header found, value is \"" + tokenHeader + "\"");
 
         if (tokenHeader == null) {
             throw new InvalidAuthenticationException("No token found in request");
@@ -51,7 +50,7 @@ public class ApiAuthFilter extends AbstractAuthenticationProcessingFilter {
         }
 
         String token = tokenHeader.replaceFirst("Token\\s+", "").trim();
-        log.debug("Extracted token \"" + token + "\", trying to authenticate");
+        log.debug("Found a token, will try to authenticate");
 
         Authentication auth = new ApiAuthenticationToken(token);
         log.debug("Got auth " + auth);
