@@ -18,7 +18,7 @@ import java.util.Properties;
 @Configuration
 @EnableTransactionManagement
 @ComponentScan(basePackages = {"io.yodo.pragphil.core", "io.yodo.pragphil.config"})
-@PropertySource("classpath:datasource.properties")
+@PropertySource("classpath:application.properties")
 public class CoreConfig {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -36,6 +36,10 @@ public class CoreConfig {
     public DataSource dataSource() throws PropertyVetoException {
         // create connection pool
         ComboPooledDataSource ds = new ComboPooledDataSource();
+        // fail fast
+        ds.setCheckoutTimeout(5000);
+        ds.setAcquireRetryAttempts(5);
+        ds.setAcquireRetryDelay(1000);
 
         // set jdbc driver
         ds.setDriverClass(env.getProperty("jdbc.driver"));
