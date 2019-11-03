@@ -1,7 +1,8 @@
 package io.yodo.pragphil.core.service;
 
-import io.yodo.pragphil.core.entity.Lecture;
-import io.yodo.pragphil.core.entity.User;
+import io.yodo.pragphil.core.domain.entity.Lecture;
+import io.yodo.pragphil.core.domain.entity.User;
+import io.yodo.pragphil.core.domain.paging.Page;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 
@@ -13,7 +14,10 @@ public interface LectureService {
     List<Lecture> findAll();
 
     @PreAuthorize("isAuthenticated()")
-    List<Lecture> findByLecturer(User lecturer);
+    Page<Lecture> findOnPage(int pageNo);
+
+    @PreAuthorize("isAuthenticated()")
+    Page<Lecture> findByLecturer(User lecturer, int pageNo);
 
     @PostAuthorize("isAuthenticated()")
     Lecture findById(int id);

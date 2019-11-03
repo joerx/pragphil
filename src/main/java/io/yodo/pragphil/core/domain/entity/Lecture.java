@@ -1,8 +1,4 @@
-package io.yodo.pragphil.core.entity;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
+package io.yodo.pragphil.core.domain.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

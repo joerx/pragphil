@@ -1,6 +1,6 @@
 package io.yodo.pragphil.core.validation;
 
-import io.yodo.pragphil.core.entity.User;
+import io.yodo.pragphil.core.domain.entity.User;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

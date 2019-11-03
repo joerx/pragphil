@@ -1,7 +1,7 @@
 package io.yodo.pragphil.core.service;
 
-import io.yodo.pragphil.core.entity.Lecture;
-import io.yodo.pragphil.core.entity.User;
+import io.yodo.pragphil.core.domain.entity.Lecture;
+import io.yodo.pragphil.core.domain.entity.User;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 

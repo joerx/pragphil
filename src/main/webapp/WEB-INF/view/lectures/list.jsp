@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 
 <t:internal pageTitle="Lectures">
 
@@ -15,7 +15,7 @@
         </li>
     </ul>
 
-    <table class="table">
+    <table class="table table-w-800">
         <colgroup>
             <col style="width: 20px"/>
             <col/>
@@ -29,7 +29,7 @@
             </tr>
         </thead>
         <tbody>
-            <c:forEach items="${lectures}" var="lecture">
+            <c:forEach items="${lectures.contents}" var="lecture">
             <tr>
                 <td>
                     <a href="${pageContext.request.contextPath}/lectures/edit/${lecture.id}">
@@ -55,5 +55,9 @@
             </c:forEach>
         </tbody>
     </table>
+
+    <nav>
+        <t:pager pager="${lectures}" path="${pageContext.request.contextPath}/lectures/list" />
+    </nav>
 
 </t:internal>

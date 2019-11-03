@@ -1,9 +1,9 @@
 package io.yodo.pragphil.core.service;
 
-import io.yodo.pragphil.core.dao.LectureDAO;
-import io.yodo.pragphil.core.dao.UserDAO;
-import io.yodo.pragphil.core.entity.Lecture;
-import io.yodo.pragphil.core.entity.User;
+import io.yodo.pragphil.core.domain.dao.LectureDAO;
+import io.yodo.pragphil.core.domain.dao.UserDAO;
+import io.yodo.pragphil.core.domain.entity.Lecture;
+import io.yodo.pragphil.core.domain.entity.User;
 import io.yodo.pragphil.core.error.InvalidArgumentException;
 import io.yodo.pragphil.core.error.NoSuchThingException;
 import org.springframework.stereotype.Service;

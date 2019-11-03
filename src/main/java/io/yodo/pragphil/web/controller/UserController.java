@@ -1,8 +1,9 @@
 package io.yodo.pragphil.web.controller;
 
-import io.yodo.pragphil.core.entity.Lecture;
-import io.yodo.pragphil.core.entity.Role;
-import io.yodo.pragphil.core.entity.User;
+import io.yodo.pragphil.core.domain.entity.Lecture;
+import io.yodo.pragphil.core.domain.entity.Role;
+import io.yodo.pragphil.core.domain.entity.User;
+import io.yodo.pragphil.core.domain.paging.Page;
 import io.yodo.pragphil.core.error.NoSuchThingException;
 import io.yodo.pragphil.core.service.LectureService;
 import io.yodo.pragphil.core.service.UserService;
@@ -70,13 +71,17 @@ public class UserController {
     }
 
     @RequestMapping(value = "/{username}", method = RequestMethod.GET)
-    public String viewUser(@PathVariable String username, Model model) {
+    public String viewUser(
+            @PathVariable String username,
+            @RequestParam(defaultValue = "1") int lp,
+            Model model
+    ) {
         User user = userService.findByUsername(username);
         if (user == null) {
             throw new NoSuchThingException("No such user: " + username);
         }
 
-        List<Lecture> lectures = lectureService.findByLecturer(user);
+        Page<Lecture> lectures = lectureService.findByLecturer(user, lp);
 
         model.addAttribute("user", user);
         model.addAttribute("lectures", lectures);

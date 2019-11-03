@@ -1,6 +1,6 @@
-package io.yodo.pragphil.core.dao;
+package io.yodo.pragphil.core.domain.dao;
 
-import io.yodo.pragphil.core.entity.User;
+import io.yodo.pragphil.core.domain.entity.User;
 
 import java.util.List;
 

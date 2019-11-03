@@ -1,10 +1,10 @@
 package io.yodo.pragphil.core.service;
 
-import io.yodo.pragphil.core.dao.LectureDAO;
-import io.yodo.pragphil.core.dao.RolesDAO;
-import io.yodo.pragphil.core.dao.UserDAO;
-import io.yodo.pragphil.core.entity.Role;
-import io.yodo.pragphil.core.entity.User;
+import io.yodo.pragphil.core.domain.dao.LectureDAO;
+import io.yodo.pragphil.core.domain.dao.RolesDAO;
+import io.yodo.pragphil.core.domain.dao.UserDAO;
+import io.yodo.pragphil.core.domain.entity.Role;
+import io.yodo.pragphil.core.domain.entity.User;
 import io.yodo.pragphil.core.error.InvalidRequestException;
 import io.yodo.pragphil.core.error.NoSuchThingException;
 import org.springframework.beans.factory.annotation.Autowired;

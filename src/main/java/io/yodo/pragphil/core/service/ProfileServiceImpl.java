@@ -1,8 +1,8 @@
 package io.yodo.pragphil.core.service;
 
-import io.yodo.pragphil.core.dao.UserDAO;
-import io.yodo.pragphil.core.entity.User;
-import io.yodo.pragphil.core.entity.UserProfile;
+import io.yodo.pragphil.core.domain.dao.UserDAO;
+import io.yodo.pragphil.core.domain.entity.User;
+import io.yodo.pragphil.core.domain.entity.UserProfile;
 import org.springframework.stereotype.Service;
 
 @Service

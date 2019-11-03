@@ -60,17 +60,25 @@
                 <dt>Conducted Lectures</dt>
                 <dd>
                     <c:choose>
-                        <c:when test="${empty lectures}">
+                        <c:when test="${empty lectures.contents}">
                             <em>No lectures</em>
                         </c:when>
                         <c:otherwise>
                             <ul class="list-unstyled">
-                                <c:forEach items="${lectures}" var="lecture">
+                                <c:forEach items="${lectures.contents}" var="lecture">
                                     <li>${lecture.name}</li>
                                 </c:forEach>
                             </ul>
                         </c:otherwise>
                     </c:choose>
+                    <nav>
+                        <c:if test="${lectures.needsPaging()}">
+                            <t:pager pager="${lectures}"
+                                     path="${pageContext.request.contextPath}/users/${user.username}"
+                                     pageParam="lp"
+                                     size="sm"/>
+                        </c:if>
+                    </nav>
                 </dd>
 
                 <c:if test="${user.student}">
@@ -83,10 +91,5 @@
             </dl>
         </div>
     </div>
-
-
-
-
-
 
 </t:internal>

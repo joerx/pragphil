@@ -2,7 +2,7 @@ package io.yodo.pragphil.api.endpoint;
 
 import io.yodo.pragphil.api.resource.LectureResource;
 import io.yodo.pragphil.api.resource.mapper.LectureMapper;
-import io.yodo.pragphil.core.entity.Lecture;
+import io.yodo.pragphil.core.domain.entity.Lecture;
 import io.yodo.pragphil.core.service.LectureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

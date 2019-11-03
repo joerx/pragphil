@@ -1,7 +1,7 @@
 package io.yodo.pragphil.web.controller;
 
-import io.yodo.pragphil.core.entity.Lecture;
-import io.yodo.pragphil.core.entity.User;
+import io.yodo.pragphil.core.domain.entity.Lecture;
+import io.yodo.pragphil.core.domain.entity.User;
 import io.yodo.pragphil.core.service.StudentService;
 import io.yodo.pragphil.web.view.helper.FlashHelper;
 import org.springframework.stereotype.Controller;

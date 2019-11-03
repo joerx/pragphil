@@ -1,6 +1,6 @@
 package io.yodo.pragphil.web.view.helper;
 
-import io.yodo.pragphil.core.entity.Role;
+import io.yodo.pragphil.core.domain.entity.Role;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

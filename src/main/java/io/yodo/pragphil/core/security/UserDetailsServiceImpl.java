@@ -1,7 +1,7 @@
 package io.yodo.pragphil.core.security;
 
-import io.yodo.pragphil.core.dao.UserDAO;
-import io.yodo.pragphil.core.entity.User;
+import io.yodo.pragphil.core.domain.dao.UserDAO;
+import io.yodo.pragphil.core.domain.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -3,8 +3,8 @@ package io.yodo.pragphil.api.resource.mapper;
 import io.yodo.pragphil.api.resource.EnrollmentResource;
 import io.yodo.pragphil.api.resource.LectureResource;
 import io.yodo.pragphil.api.resource.StudentResource;
-import io.yodo.pragphil.core.entity.Lecture;
-import io.yodo.pragphil.core.entity.User;
+import io.yodo.pragphil.core.domain.entity.Lecture;
+import io.yodo.pragphil.core.domain.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

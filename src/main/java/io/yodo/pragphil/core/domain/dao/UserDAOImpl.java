@@ -1,6 +1,6 @@
-package io.yodo.pragphil.core.dao;
+package io.yodo.pragphil.core.domain.dao;
 
-import io.yodo.pragphil.core.entity.User;
+import io.yodo.pragphil.core.domain.entity.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;

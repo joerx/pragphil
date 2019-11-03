@@ -24,7 +24,7 @@
         </li>
     </ul>
 
-    <table class="table">
+    <table class="table table-w-800">
         <colgroup>
             <col style="width: 20px"/>
             <col/>

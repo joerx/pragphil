@@ -1,8 +1,8 @@
 package io.yodo.pragphil.api.resource.mapper;
 
 import io.yodo.pragphil.api.resource.LectureResource;
-import io.yodo.pragphil.core.entity.Lecture;
-import io.yodo.pragphil.core.entity.User;
+import io.yodo.pragphil.core.domain.entity.Lecture;
+import io.yodo.pragphil.core.domain.entity.User;
 import io.yodo.pragphil.core.error.InvalidArgumentException;
 import io.yodo.pragphil.core.service.LectureService;
 import org.springframework.beans.factory.annotation.Autowired;

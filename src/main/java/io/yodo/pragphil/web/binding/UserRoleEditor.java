@@ -1,6 +1,6 @@
 package io.yodo.pragphil.web.binding;
 
-import io.yodo.pragphil.core.entity.Role;
+import io.yodo.pragphil.core.domain.entity.Role;
 import io.yodo.pragphil.core.service.UserService;
 
 import java.beans.PropertyEditorSupport;

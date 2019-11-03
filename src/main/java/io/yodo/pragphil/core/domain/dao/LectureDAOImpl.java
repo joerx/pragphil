@@ -1,7 +1,8 @@
-package io.yodo.pragphil.core.dao;
+package io.yodo.pragphil.core.domain.dao;
 
-import io.yodo.pragphil.core.entity.Lecture;
-import io.yodo.pragphil.core.entity.User;
+import io.yodo.pragphil.core.domain.entity.Lecture;
+import io.yodo.pragphil.core.domain.entity.User;
+import io.yodo.pragphil.core.domain.paging.Page;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,40 @@ public class LectureDAOImpl implements LectureDAO {
     public List<Lecture> findAll() {
         Session sess = sessionFactory.getCurrentSession();
         return sess.createQuery("from Lecture order by id asc", Lecture.class).getResultList();
+    }
+
+    @Override
+    public Page<Lecture> findOnPage(int pageNo, int numRecords) {
+        Session sess = sessionFactory.getCurrentSession();
+
+        List<Lecture> lectures = sess.createQuery("from Lecture l order by id asc", Lecture.class)
+                .setFirstResult((pageNo-1) * numRecords)
+                .setMaxResults(numRecords)
+                .getResultList();
+
+        long total = sess.createQuery("select count(l) from Lecture l", Long.class)
+                .getSingleResult();
+
+        return new Page<>(lectures, total, pageNo, numRecords);
+    }
+
+    @Override
+    public Page<Lecture> findByLecturer(int userId, int pageNo, int numRecords) {
+        Session sess = sessionFactory.getCurrentSession();
+
+        String q1 = "select l from Lecture l join l.lecturer u where u.id = :id";
+        List<Lecture> lectures = sess.createQuery(q1, Lecture.class)
+                .setParameter("id", userId)
+                .setFirstResult((pageNo-1) * numRecords)
+                .setMaxResults(numRecords)
+                .getResultList();
+
+        String q2 = "select count(l) from Lecture l join l.lecturer u where u.id = :id";
+        long total = sess.createQuery(q2, Long.class)
+                .setParameter("id", userId)
+                .getSingleResult();
+
+        return new Page<>(lectures, total, pageNo, numRecords);
     }
 
     @Override
@@ -66,15 +101,6 @@ public class LectureDAOImpl implements LectureDAO {
         String q = "select u from User u join u.attendedLectures l where l.id = :id";
         return sess.createQuery(q, User.class)
                 .setParameter("id", lectureId)
-                .getResultList();
-    }
-
-    @Override
-    public List<Lecture> findByLecturer(int userId) {
-        Session sess = sessionFactory.getCurrentSession();
-        String q = "select l from Lecture l join l.lecturer u where u.id = :id";
-        return sess.createQuery(q, Lecture.class)
-                .setParameter("id", userId)
                 .getResultList();
     }
 }
