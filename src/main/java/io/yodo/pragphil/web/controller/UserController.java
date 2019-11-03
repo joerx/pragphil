@@ -59,12 +59,16 @@ public class UserController {
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public String listUsers(@RequestParam(required=false) String role, Model model) {
-        List<User> users;
+    public String listUsers(
+            @RequestParam(required=false) String role,
+            @RequestParam(defaultValue = "1") int p,
+            Model model
+    ) {
+        Page<User> users;
         if (role == null) {
-            users = userService.findAll();
+            users = userService.findOnPage(p);
         } else {
-            users = userService.findByRole(role);
+            users = userService.findByRole(role, p);
         }
         model.addAttribute("users", users);
         return "users/list";

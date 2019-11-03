@@ -1,6 +1,7 @@
 package io.yodo.pragphil.core.domain.dao;
 
 import io.yodo.pragphil.core.domain.entity.User;
+import io.yodo.pragphil.core.domain.paging.Page;
 
 import java.util.List;
 
@@ -8,7 +9,11 @@ public interface UserDAO {
 
     List<User> findAll();
 
-    List<User> findByRole(String rolename);
+    Page<User> findOnPage(int pageNo, int numRecords);
+
+    Page<User> findByRole(String rolename, int pageNo, int numRecords);
+
+    List<User> findByRole(String role);
 
     User findById(int id);
 

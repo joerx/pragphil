@@ -14,13 +14,11 @@
     <c:set var="sizeClass" value="pagination-${size}"/>
 </c:if>
 
-<c:set var="prefix" value="${path}?${pageParam}"/>
-
 <ul class="pagination ${sizeClass}">
     <c:choose>
         <c:when test="${pager.hasPreviousPage()}">
             <li class="page-item">
-                <a class="page-link" href="${prefix}=${pager.previousPage}">Previous</a>
+                <a class="page-link" href="${urlHelper.withPage(path, pageParam, pager.previousPage)}">Previous</a>
             </li>
         </c:when>
         <c:otherwise>
@@ -32,14 +30,14 @@
 
     <c:forEach items="${pager.pageIterator()}" var="p">
         <li class="page-item ${p.current ? "active" : ""}">
-            <a class="page-link" href="${prefix}=${p.number}">${p.number}</a>
+            <a class="page-link" href="${urlHelper.withPage(path, pageParam, p.number)}">${p.number}</a>
         </li>
     </c:forEach>
 
     <c:choose>
         <c:when test="${pager.hasNextPage()}">
             <li class="page-item">
-                <a class="page-link" href="${prefix}=${pager.nextPage}">Next</a>
+                <a class="page-link" href="${urlHelper.withPage(path, pageParam, pager.nextPage)}">Next</a>
             </li>
         </c:when>
         <c:otherwise>
