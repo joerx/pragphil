@@ -1,7 +1,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
+
+<jsp:useBean id="student" scope="request" type="io.yodo.pragphil.core.domain.entity.User"/>
+<jsp:useBean id="lectures" scope="request" type="io.yodo.pragphil.core.domain.paging.Page"/>
+<jsp:useBean id="attendedLectures" scope="request" type="io.yodo.pragphil.core.domain.paging.Page"/>
 
 <t:internal pageTitle="Student ${student.username}">
 
@@ -13,35 +17,64 @@
         </li>
     </ul>
 
-    <h2>Enrolled Lectures</h2>
-    <ul>
-        <c:forEach items="${attendedLectures}" var="lecture">
-        <li>${lecture.name}
-            <a href="${pageContext.request.contextPath}/students/delist/${student.id}?l=${lecture.id}">delist</a>
-        </li>
-        </c:forEach>
-    </ul>
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Attended Lectures</h2>
+            <table class="table table-sm" style="max-width: 650px;">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Lecturer</th>
+                    <th>&nbsp;</th>
+                </tr>
+                </thead>
+                <tbody>
 
-    <h2>Available Lectures</h2>
-    <table class="table table-sm" style="max-width: 650px;">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Lecturer</th>
-                <th>&nbsp;</th>
-            </tr>
-        </thead>
-        <tbody>
-        <c:forEach items="${lectures}" var="lecture">
-            <tr>
-                <td>${lecture.name}</td>
-                <td>${lecture.lecturer.username}</td>
-                <td>
-                    <a href="${pageContext.request.contextPath}/students/enroll/${student.id}?l=${lecture.id}">enroll</a>
-                </td>
-            </tr>
-        </c:forEach>
-        </tbody>
-    </table>
+                <c:forEach items="${attendedLectures.contents}" var="lecture">
+                    <tr>
+                        <td>${lecture.name}</td>
+                        <td>${lecture.lecturer.username}</td>
+                        <td>
+                            <a href="${pageContext.request.contextPath}/students/delist/${student.id}?l=${lecture.id}">delist</a>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+            <t:pager pager="${attendedLectures}"
+                     path="${pageContext.request.contextPath}/students/${student.username}"
+                     pageParam="ap"
+                     size="sm" />
+        </div>
+
+        <div class="col-md-6">
+            <h2>Eligible Lectures</h2>
+            <table class="table table-sm" style="max-width: 650px;">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Lecturer</th>
+                    <th>&nbsp;</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <c:forEach items="${lectures.contents}" var="lecture">
+                    <tr>
+                        <td>${lecture.name}</td>
+                        <td>${lecture.lecturer.username}</td>
+                        <td>
+                            <a href="${pageContext.request.contextPath}/students/enroll/${student.id}?l=${lecture.id}">enroll</a>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+            <t:pager pager="${lectures}"
+                     path="${pageContext.request.contextPath}/students/${student.username}"
+                     pageParam="ep"
+                     size="sm" />
+        </div>
+    </div>
 
 </t:internal>

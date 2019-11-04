@@ -18,6 +18,10 @@ public interface LectureDAO {
 
     List<Lecture> findAttendedLectures(int studentId);
 
+    Page<Lecture> findAttendedLectures(int studentId, int pageNo, int numRecords);
+
+    Page<Lecture> findEligibleLectures(int id, int pageNo, int recordsPerPage);
+
     void create(Lecture l);
 
     void update(Lecture l);

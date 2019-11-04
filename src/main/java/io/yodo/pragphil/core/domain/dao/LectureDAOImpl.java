@@ -8,7 +8,9 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class LectureDAOImpl implements LectureDAO {
@@ -71,10 +73,68 @@ public class LectureDAOImpl implements LectureDAO {
     @Override
     public List<Lecture> findAttendedLectures(int studentId) {
         Session sess = sessionFactory.getCurrentSession();
+
         String q = "select l from Lecture l join l.students s where s.id = :id";
         return sess.createQuery(q, Lecture.class)
                 .setParameter("id", studentId)
                 .getResultList();
+    }
+
+    @Override
+    public Page<Lecture> findAttendedLectures(int studentId, int pageNo, int numRecords) {
+        Session sess = sessionFactory.getCurrentSession();
+
+        String q = "select l from Lecture l join l.students s where s.id = :id";
+        List<Lecture> lectures = sess.createQuery(q, Lecture.class)
+                .setParameter("id", studentId)
+                .setFirstResult((pageNo-1) * numRecords)
+                .setMaxResults(numRecords)
+                .getResultList();
+
+        String q2 = "select count(l) from Lecture l join l.students s where s.id = :id";
+        long total = sess.createQuery(q2, Long.class)
+                .setParameter("id", studentId)
+                .getSingleResult();
+
+        return new Page<>(lectures, total, pageNo, numRecords);
+    }
+
+    @Override
+    public Page<Lecture> findEligibleLectures(int studentId, int pageNo, int numRecords) {
+        Session sess = sessionFactory.getCurrentSession();
+
+        // all lectures the user is already enrolled in
+        String q1a = "select l.id from Lecture l join l.students s where :id = s.id";
+        List<Integer> asStudent = sess.createQuery(q1a, Integer.class)
+                .setParameter("id", studentId)
+                .getResultList();
+
+        // all lectures the user is lecturer of
+        String q1b = "select l.id from Lecture l join l.lecturer u where u.id = :id";
+        List<Integer> asLecturer = sess.createQuery(q1b, Integer.class)
+                .setParameter("id", studentId)
+                .getResultList();
+
+        // combine ids, avoid duplicates
+        Set<Integer> ids = new HashSet<>();
+        ids.addAll(asStudent);
+        ids.addAll(asLecturer);
+
+        // records for page
+        String q2 = "select l from Lecture l where l.id not in :ids";
+        List<Lecture> lectures = sess.createQuery(q2, Lecture.class)
+                .setParameterList("ids", ids)
+                .setFirstResult((pageNo-1) * numRecords)
+                .setMaxResults(numRecords)
+                .getResultList();
+
+        // total number of records
+        String q3 = "select count(l) from Lecture l where l.id not in :ids";
+        long total = sess.createQuery(q3, Long.class)
+                .setParameterList("ids", ids)
+                .getSingleResult();
+
+        return new Page<>(lectures, total, pageNo, numRecords);
     }
 
     @Override

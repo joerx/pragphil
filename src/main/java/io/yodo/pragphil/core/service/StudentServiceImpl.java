@@ -4,8 +4,10 @@ import io.yodo.pragphil.core.domain.dao.LectureDAO;
 import io.yodo.pragphil.core.domain.dao.UserDAO;
 import io.yodo.pragphil.core.domain.entity.Lecture;
 import io.yodo.pragphil.core.domain.entity.User;
+import io.yodo.pragphil.core.domain.paging.Page;
 import io.yodo.pragphil.core.error.InvalidArgumentException;
 import io.yodo.pragphil.core.error.NoSuchThingException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -19,9 +21,16 @@ public class StudentServiceImpl implements StudentService {
 
     private final LectureDAO lectureDAO;
 
-    public StudentServiceImpl(UserDAO userDAO, LectureDAO lectureDAO) {
+    private final int recordsPerPage;
+
+    public StudentServiceImpl(
+            UserDAO userDAO,
+            LectureDAO lectureDAO,
+            @Value("${paging.recordsPerPage}") int recordsPerPage
+    ) {
         this.userDAO = userDAO;
         this.lectureDAO = lectureDAO;
+        this.recordsPerPage = recordsPerPage;
     }
 
     @Override
@@ -32,12 +41,20 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     @Transactional
-    public List<Lecture> findEligibleLectures(User student) {
-        User u = findStudentById(student.getId()); // it f***g hate you hibernate
-        List<Lecture> lectures = lectureDAO.findAll();
-        return lectures.stream()
-                .filter(l -> !u.isEnrolledIn(l) && l.getLecturer() != student)
-                .collect(Collectors.toList());
+    public Page<Lecture> findAttendedLectures(User student, int pageNo) {
+        return lectureDAO.findAttendedLectures(student.getId(), pageNo, recordsPerPage);
+    }
+
+    @Override
+    @Transactional
+    public Page<Lecture> findEligibleLectures(User student, int pageNo) {
+        return lectureDAO.findEligibleLectures(student.getId(), pageNo, recordsPerPage);
+//        User u = findStudentById(student.getId());
+//        List<Lecture> lectures = lectureDAO.findAll();
+//
+//        return lectures.stream()
+//                .filter(l -> !u.isEnrolledIn(l) && l.getLecturer() != student)
+//                .collect(Collectors.toList());
     }
 
     @Override

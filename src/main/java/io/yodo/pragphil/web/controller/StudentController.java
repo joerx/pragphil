@@ -2,6 +2,7 @@ package io.yodo.pragphil.web.controller;
 
 import io.yodo.pragphil.core.domain.entity.Lecture;
 import io.yodo.pragphil.core.domain.entity.User;
+import io.yodo.pragphil.core.domain.paging.Page;
 import io.yodo.pragphil.core.service.StudentService;
 import io.yodo.pragphil.web.view.helper.FlashHelper;
 import org.springframework.stereotype.Controller;
@@ -11,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.util.List;
 
 @Controller
 @RequestMapping(path = "/students")
@@ -27,11 +26,16 @@ public class StudentController {
     }
 
     @RequestMapping(value = "/{username}", method = RequestMethod.GET)
-    public String view(@PathVariable String username, Model model) {
+    public String view(
+            @PathVariable String username,
+            @RequestParam(defaultValue = "1") int ep,
+            @RequestParam(defaultValue = "1") int ap,
+            Model model
+    ) {
         User student = studentService.findStudentByUsername(username);
 
-        List<Lecture> lectures = studentService.findEligibleLectures(student);
-        List<Lecture> attendedLectures = studentService.findAttendedLectures(student);
+        Page<Lecture> lectures = studentService.findEligibleLectures(student, ep);
+        Page<Lecture> attendedLectures = studentService.findAttendedLectures(student, ap);
 
         model.addAttribute("student", student);
         model.addAttribute("attendedLectures", attendedLectures);
@@ -65,7 +69,7 @@ public class StudentController {
         studentService.delist(student, lectureId);
 
         Lecture lecture = studentService.findLectureById(lectureId);
-        FlashHelper.setInfo(rs, "Student " + student.getUsername() + " delisted from in " + lecture.getName());
+        FlashHelper.setInfo(rs, "Student " + student.getUsername() + " delisted from " + lecture.getName());
 
         return "redirect:" + String.format(STUDENTS_VIEW_PATH_TPL, student.getUsername());
     }
