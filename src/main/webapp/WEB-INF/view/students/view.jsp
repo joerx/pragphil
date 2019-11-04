@@ -41,10 +41,12 @@
                 </c:forEach>
                 </tbody>
             </table>
-            <t:pager pager="${attendedLectures}"
-                     path="${pageContext.request.contextPath}/students/${student.username}"
-                     pageParam="ap"
-                     size="sm" />
+            <c:if test="${attendedLectures.needsPaging()}">
+                <t:pager pager="${attendedLectures}"
+                         path="${pageContext.request.contextPath}/students/${student.username}"
+                         pageParam="ap"
+                         size="sm" />
+            </c:if>
         </div>
 
         <div class="col-md-6">
@@ -70,10 +72,12 @@
                 </c:forEach>
                 </tbody>
             </table>
-            <t:pager pager="${lectures}"
-                     path="${pageContext.request.contextPath}/students/${student.username}"
-                     pageParam="ep"
-                     size="sm" />
+            <c:if test="${attendedLectures.needsPaging()}">
+                <t:pager pager="${lectures}"
+                         path="${pageContext.request.contextPath}/students/${student.username}"
+                         pageParam="ep"
+                         size="sm" />
+            </c:if>
         </div>
     </div>
 
