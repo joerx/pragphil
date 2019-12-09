@@ -27,3 +27,7 @@
     max-width: 350px;
     margin: 70px auto 0 auto;
 }
+
+.table-w-800 {
+    max-width: 800px;
+}

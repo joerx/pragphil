@@ -1,8 +1,9 @@
 package io.yodo.pragphil.web.controller;
 
-import io.yodo.pragphil.core.entity.Lecture;
-import io.yodo.pragphil.core.entity.RoleName;
-import io.yodo.pragphil.core.entity.User;
+import io.yodo.pragphil.core.domain.entity.Lecture;
+import io.yodo.pragphil.core.domain.entity.RoleName;
+import io.yodo.pragphil.core.domain.entity.User;
+import io.yodo.pragphil.core.domain.paging.Page;
 import io.yodo.pragphil.core.error.AccessDeniedException;
 import io.yodo.pragphil.core.error.NoSuchThingException;
 import io.yodo.pragphil.core.service.LectureService;
@@ -55,11 +56,11 @@ public class LectureController {
     }
 
     @RequestMapping(path = "/list", method = RequestMethod.GET)
-    public String findLectures(Model model, Authentication auth) {
+    public String findLectures(@RequestParam(defaultValue = "1") int p, Model model, Authentication auth) {
         log.debug("Finding lectures for user " + auth);
         User user = userService.findByUsername(auth.getName());
 
-        List<Lecture> lectures = getLecturesForUser(user);
+        Page<Lecture> lectures = getLecturesForUser(user, p);
         model.addAttribute("lectures", lectures);
 
         return "lectures/list";
@@ -154,12 +155,12 @@ public class LectureController {
         model.addAttribute("lecture", lecture);
     }
 
-    private List<Lecture> getLecturesForUser(User user) {
+    private Page<Lecture> getLecturesForUser(User user, int pageNo) {
         if (user.hasRole(RoleName.ROLE_ADMIN)) {
-            return lectureService.findAll();
+            return lectureService.findOnPage(pageNo);
         }
         if (user.hasRole(RoleName.ROLE_LECTURER)) {
-            return lectureService.findByLecturer(user);
+            return lectureService.findByLecturer(user, pageNo);
         }
         throw new AccessDeniedException("User is not allowed to view this");
     }

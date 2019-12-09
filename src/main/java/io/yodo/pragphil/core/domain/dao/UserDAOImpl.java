@@ -1,6 +1,7 @@
-package io.yodo.pragphil.core.dao;
+package io.yodo.pragphil.core.domain.dao;
 
-import io.yodo.pragphil.core.entity.User;
+import io.yodo.pragphil.core.domain.entity.User;
+import io.yodo.pragphil.core.domain.paging.Page;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,47 @@ public class UserDAOImpl implements UserDAO {
     public List<User> findAll() {
         Session s = sessionFactory.getCurrentSession();
         return s.createQuery( "from User order by id asc", User.class).getResultList();
+    }
+
+    @Override
+    public Page<User> findOnPage(int pageNo, int numRecords) {
+        Session s = sessionFactory.getCurrentSession();
+
+        List<User> users = s.createQuery("from User u", User.class)
+                .setFirstResult((pageNo-1) * numRecords)
+                .setMaxResults(numRecords)
+                .getResultList();
+
+        long total = s.createQuery("select count(u) from User u", Long.class).getSingleResult();
+
+        return new Page<>(users, total, pageNo, numRecords);
+    }
+
+    @Override
+    public Page<User> findByRole(String rolename, int pageNo, int numRecords) {
+        Session s = sessionFactory.getCurrentSession();
+
+        String q1 = "select u from User u join u.roles r where r.name = :rolename";
+        List<User> users = s.createQuery(q1, User.class)
+                .setFirstResult((pageNo-1) * numRecords)
+                .setMaxResults(numRecords)
+                .setParameter("rolename", rolename)
+                .getResultList();
+
+        String q2 = "select count(u) from User u join u.roles r where r.name = :rolename";
+        long total = s.createQuery(q2, Long.class)
+                .setParameter("rolename", rolename)
+                .getSingleResult();
+
+        return new Page<>(users, total, pageNo, numRecords);
+    }
+
+    @Override
+    public List<User> findByRole(String role) {
+        Session s = sessionFactory.getCurrentSession();
+        return  s.createQuery("select u from User u join u.roles r where r.name = :role", User.class)
+                .setParameter("role", role)
+                .getResultList();
     }
 
     @Override
@@ -68,15 +110,6 @@ public class UserDAOImpl implements UserDAO {
                 .setParameter("username", username)
                 .setParameter("role", role)
                 .getSingleResult();
-    }
-
-    @Override
-    public List<User> findByRole(String roleName) {
-        Session s = sessionFactory.getCurrentSession();
-        String query = "select u from User u join u.roles r where r.name = :rolename";
-        return s.createQuery(query, User.class)
-                .setParameter("rolename", roleName)
-                .getResultList();
     }
 
     @Override

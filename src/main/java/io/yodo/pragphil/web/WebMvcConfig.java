@@ -19,7 +19,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {
         InternalResourceViewResolver vr = new InternalResourceViewResolver();
-        vr.setExposedContextBeanNames("userHelper");
+        vr.setExposedContextBeanNames("userHelper", "urlHelper");
         vr.setPrefix("/WEB-INF/view/");
         vr.setSuffix(".jsp");
         registry.viewResolver(vr);

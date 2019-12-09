@@ -24,7 +24,7 @@
         </li>
     </ul>
 
-    <table class="table">
+    <table class="table table-w-800">
         <colgroup>
             <col style="width: 20px"/>
             <col/>
@@ -41,7 +41,7 @@
         </thead>
         <tbody>
 
-        <c:forEach items="${users}" var="user">
+        <c:forEach items="${users.contents}" var="user">
             <tr>
                 <td>
                     <a href="${pageContext.request.contextPath}/users/edit/${user.id}">
@@ -82,5 +82,9 @@
         </c:forEach>
         </tbody>
     </table>
+
+    <nav>
+        <t:pager pager="${users}" path="${pageContext.request.contextPath}/users/list"/>
+    </nav>
 
 </t:internal>

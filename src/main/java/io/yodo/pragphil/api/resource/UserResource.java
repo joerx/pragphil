@@ -1,7 +1,7 @@
 package io.yodo.pragphil.api.resource;
 
-import io.yodo.pragphil.core.entity.Role;
-import io.yodo.pragphil.core.entity.User;
+import io.yodo.pragphil.core.domain.entity.Role;
+import io.yodo.pragphil.core.domain.entity.User;
 
 import java.util.List;
 import java.util.stream.Collectors;

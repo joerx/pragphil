@@ -1,6 +1,6 @@
 package io.yodo.pragphil.api.resource;
 
-import io.yodo.pragphil.core.entity.Lecture;
+import io.yodo.pragphil.core.domain.entity.Lecture;
 
 import java.util.Objects;
 

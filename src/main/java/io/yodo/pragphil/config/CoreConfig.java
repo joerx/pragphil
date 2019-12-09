@@ -78,7 +78,7 @@ public class CoreConfig {
 
         LocalSessionFactoryBean sf = new LocalSessionFactoryBean();
         sf.setDataSource(ds);
-        sf.setPackagesToScan("io.yodo.pragphil.core.entity");
+        sf.setPackagesToScan("io.yodo.pragphil.core.domain.entity");
         sf.setHibernateProperties(props);
 
         return sf;

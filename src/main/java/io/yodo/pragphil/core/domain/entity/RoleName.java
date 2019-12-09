@@ -1,4 +1,4 @@
-package io.yodo.pragphil.core.entity;
+package io.yodo.pragphil.core.domain.entity;
 
 public interface RoleName {
 

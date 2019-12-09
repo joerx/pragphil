@@ -1,7 +1,8 @@
 package io.yodo.pragphil.core.service;
 
-import io.yodo.pragphil.core.entity.Role;
-import io.yodo.pragphil.core.entity.User;
+import io.yodo.pragphil.core.domain.entity.Role;
+import io.yodo.pragphil.core.domain.entity.User;
+import io.yodo.pragphil.core.domain.paging.Page;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 
@@ -13,7 +14,10 @@ public interface UserService {
     List<User> findAll();
 
     @PreAuthorize("hasRole('ADMIN')")
-    List<User> findByRole(String roleName);
+    Page<User> findOnPage(int pageNo);
+
+    @PreAuthorize("hasRole('ADMIN')")
+    Page<User> findByRole(String roleName, int pageNo);
 
     @PostAuthorize("hasRole('ADMIN') or (isAuthenticated() and principal.username == returnObject.username)")
     User findById(int id);

@@ -1,11 +1,13 @@
 package io.yodo.pragphil.core.service;
 
-import io.yodo.pragphil.core.dao.LectureDAO;
-import io.yodo.pragphil.core.dao.UserDAO;
-import io.yodo.pragphil.core.entity.Lecture;
-import io.yodo.pragphil.core.entity.RoleName;
-import io.yodo.pragphil.core.entity.User;
+import io.yodo.pragphil.core.domain.dao.LectureDAO;
+import io.yodo.pragphil.core.domain.dao.UserDAO;
+import io.yodo.pragphil.core.domain.entity.Lecture;
+import io.yodo.pragphil.core.domain.entity.RoleName;
+import io.yodo.pragphil.core.domain.entity.User;
+import io.yodo.pragphil.core.domain.paging.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -18,10 +20,17 @@ public class LectureServiceImpl implements LectureService {
 
     private final UserDAO userDAO;
 
+    private final int recordsPerPage;
+
     @Autowired
-    public LectureServiceImpl(LectureDAO lectureDAO, UserDAO userDAO) {
+    public LectureServiceImpl(
+            LectureDAO lectureDAO,
+            UserDAO userDAO,
+            @Value("${paging.recordsPerPage}") int recordsPerPage
+    ) {
         this.lectureDAO = lectureDAO;
         this.userDAO = userDAO;
+        this.recordsPerPage = recordsPerPage;
     }
 
     @Override
@@ -32,8 +41,14 @@ public class LectureServiceImpl implements LectureService {
 
     @Override
     @Transactional
-    public List<Lecture> findByLecturer(User lecturer) {
-        return lectureDAO.findByLecturer(lecturer.getId());
+    public Page<Lecture> findOnPage(int pageNo) {
+        return lectureDAO.findOnPage(pageNo, recordsPerPage);
+    }
+
+    @Override
+    @Transactional
+    public Page<Lecture> findByLecturer(User lecturer, int pageNo) {
+        return lectureDAO.findByLecturer(lecturer.getId(), pageNo, recordsPerPage);
     }
 
     @Override

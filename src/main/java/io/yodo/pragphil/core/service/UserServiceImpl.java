@@ -1,13 +1,14 @@
 package io.yodo.pragphil.core.service;
 
-import io.yodo.pragphil.core.dao.LectureDAO;
-import io.yodo.pragphil.core.dao.RolesDAO;
-import io.yodo.pragphil.core.dao.UserDAO;
-import io.yodo.pragphil.core.entity.Role;
-import io.yodo.pragphil.core.entity.User;
+import io.yodo.pragphil.core.domain.dao.RolesDAO;
+import io.yodo.pragphil.core.domain.dao.UserDAO;
+import io.yodo.pragphil.core.domain.entity.Role;
+import io.yodo.pragphil.core.domain.entity.User;
+import io.yodo.pragphil.core.domain.paging.Page;
 import io.yodo.pragphil.core.error.InvalidRequestException;
 import io.yodo.pragphil.core.error.NoSuchThingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -20,13 +21,17 @@ public class UserServiceImpl implements UserService {
 
     private final RolesDAO rolesDAO;
 
-    private final LectureDAO lectureDAO;
+    private final int recordsPerPage;
 
     @Autowired
-    public UserServiceImpl(UserDAO userDAO, RolesDAO rolesDAO, LectureDAO lectureDAO) {
+    public UserServiceImpl(
+            UserDAO userDAO,
+            RolesDAO rolesDAO,
+            @Value("${paging.recordsPerPage}") int recordsPerPage
+    ) {
         this.userDAO = userDAO;
         this.rolesDAO = rolesDAO;
-        this.lectureDAO = lectureDAO;
+        this.recordsPerPage = recordsPerPage;
     }
 
     @Override
@@ -37,8 +42,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public List<User> findByRole(String rolename) {
-        return userDAO.findByRole(rolename);
+    public Page<User> findOnPage(int pageNo) {
+        return userDAO.findOnPage(pageNo, recordsPerPage);
+    }
+
+    @Override
+    @Transactional
+    public Page<User> findByRole(String rolename, int pageNo) {
+        return userDAO.findByRole(rolename, pageNo, recordsPerPage);
     }
 
     @Override

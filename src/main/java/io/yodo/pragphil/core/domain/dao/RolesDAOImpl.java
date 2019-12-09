@@ -1,6 +1,6 @@
-package io.yodo.pragphil.core.dao;
+package io.yodo.pragphil.core.domain.dao;
 
-import io.yodo.pragphil.core.entity.Role;
+import io.yodo.pragphil.core.domain.entity.Role;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;

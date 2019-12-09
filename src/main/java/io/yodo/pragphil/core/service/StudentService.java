@@ -1,7 +1,8 @@
 package io.yodo.pragphil.core.service;
 
-import io.yodo.pragphil.core.entity.Lecture;
-import io.yodo.pragphil.core.entity.User;
+import io.yodo.pragphil.core.domain.entity.Lecture;
+import io.yodo.pragphil.core.domain.entity.User;
+import io.yodo.pragphil.core.domain.paging.Page;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 
@@ -13,7 +14,10 @@ public interface StudentService {
     List<Lecture> findAttendedLectures(User student);
 
     @PreAuthorize("hasRole('ADMIN') or (hasRole('STUDENT') and principal.username == #student.username)")
-    List<Lecture> findEligibleLectures(User student);
+    Page<Lecture> findAttendedLectures(User student, int pageNo);
+
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('STUDENT') and principal.username == #student.username)")
+    Page<Lecture> findEligibleLectures(User student, int pageNo);
 
     @PostAuthorize("hasRole('ADMIN') or (hasRole('STUDENT') and principal.username == returnObject.username)")
     User findStudentById(int id);
