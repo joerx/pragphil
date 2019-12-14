@@ -1,6 +1,7 @@
 package io.yodo.pragphil.config;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+import org.flywaydb.core.Flyway;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -70,8 +71,11 @@ public class CoreConfig {
     }
 
     @Bean
+    @DependsOn("flyway")
     @Autowired
     public LocalSessionFactoryBean sessionFactory(DataSource ds) {
+        logger.debug("Loading session manager bean");
+
         Properties props = new Properties();
         props.put("hibernate.dialect", env.getProperty("hibernate.dialect"));
         props.put("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
@@ -89,5 +93,16 @@ public class CoreConfig {
         HibernateTransactionManager m = new HibernateTransactionManager();
         m.setSessionFactory(sess);
         return m;
+    }
+
+    @Bean(initMethod = "migrate")
+    public Flyway flyway(DataSource dataSource) {
+        logger.debug("Loading flyway bean");
+        return Flyway
+            .configure()
+            .dataSource(dataSource)
+            .baselineOnMigrate(true)
+            .locations("classpath:/db-migrations")
+            .load();
     }
 }

@@ -2,6 +2,8 @@ package io.yodo.pragphil.web.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -9,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 public class PagesController {
 
     @GetMapping("/")
-    public String getHomepage(HttpServletRequest req) {
+    public String getHomepage() {
         return "home";
     }
 
@@ -18,7 +20,7 @@ public class PagesController {
         return "login";
     }
 
-    @GetMapping("/access-denied")
+    @RequestMapping(value = "/access-denied", method = {RequestMethod.GET, RequestMethod.POST})
     public String accessDenied() {
         return "access-denied";
     }

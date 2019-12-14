@@ -19,6 +19,10 @@
         <Logger name="org.hibernate.type.descriptor.sql" level="debug" additivity="false">
             <AppenderRef ref="ConsoleAppender"/>
         </Logger>
+        <!-- Flyway -->
+        <Logger name="org.flywaydb" level="debug" additivity="false">
+            <AppenderRef ref="ConsoleAppender"/>
+        </Logger>
         <!-- Spring loggging config -->
         <Logger name="org.springframework.web" level="info" additivity="false">
             <AppenderRef ref="ConsoleAppender"/>
@@ -32,3 +36,4 @@
         </Root>
     </Loggers>
 </Configuration>
+

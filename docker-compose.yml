@@ -1,0 +1,54 @@
+version: "3.7"
+
+services:
+
+  nginx:
+    image: nginx:1.17.2-alpine
+    ports: 
+      - "8080:8080"
+    networks:
+      - backend
+    volumes:
+      - "./docker/conf/nginx-default.conf:/etc/nginx/conf.d/default.conf"
+
+  app:
+    build:
+      context: .
+      dockerfile: docker/dev.dockerfile
+    networks:
+      - backend
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      DATASOURCE_URL: jdbc:postgresql://postgres:5432/pragphil
+      DATASOURCE_USER: postgres
+      DATASOURCE_PASSWORD: postgres
+    volumes:
+      - "webapps:/usr/local/tomcat/webapps"
+      
+  postgres:
+    image: postgres:9.4
+    environment:
+      POSTGRES_DB: pragphil
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - backend
+
+  adminer:
+    image: adminer:4.7
+    networks:
+      - backend
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - "./docker/conf/adminer-login-servers.php:/var/www/html/plugins-enabled/login-servers.php"
+
+networks:
+  backend:
+
+volumes:
+  db-data:
+  webapps:

@@ -1,19 +1,40 @@
 # The Pragmatic Philosopher
 
-Best Philosopher management app on the web. Discover how ancient wisdom can lead to a better life for you and your favourite pet. Spring WebMVC demo app, loosely based on [Chad Darbys Udemy course](https://www.udemy.com/spring-hibernate-tutorial)
+Best Philosopher management app on the web. Discover how ancient wisdom can lead to a better life for you and your 
+favourite pet. 
 
-## Usage
+Classic Spring WebMVC demo app, loosely based on [Chad Darbys Udemy course](https://www.udemy.com/spring-hibernate-tutorial)
 
-- Setup Postgres and Tomcat locally or via Docker, check [docker-spring-stack](https://github.com/joerx/docker-spring-stack) to get the full stack up quickly
-- Ensure Tomcat manager is running on http://localhost:8080/manager, manager username must be `tomcat`, password `tomcat`
-- Create a database `pragphil`, initialise it with the [provided schema](./src/main/resources/schema.sql)
-- Deploy project into Tomcat via Maven:
+## Run Locally Via Docker
 
+Build maven package, then run `docker-compose`:
+
+```sh
+mvn clean package
+docker-compose up --build
 ```
-mvn clean tomcat7:redeploy
-``` 
 
-- Login with one of the test users, e.g. `plato`, password is `test123` for all of them
+Or using `make`:
+
+```sh
+make clean run
+```
+
+This will boot the application using docker-compose, migrate and seed the database. You can then access the app at 
+http://localhost:8080/pragphil/
+
+For subsequent deploys, use the tomcat plugin:
+
+```sh
+mvn clean tomcat7:redeploy
+```
+
+A simple database administration app is built into the docker compose stack, it's available on http://localhost:8080/adminer
+
+## Logging In
+
+- Open the app at http://localhost:8080/pragphil/
+- Login with one of the test users, e.g. `plato`, default password is `password` for all users
 - Add/update users as you like, use [this bcrypt calculator](https://www.bcryptcalculator.com/) to generate passwords 
 
 ## Hot Reload & Debugging
@@ -24,7 +45,7 @@ mvn clean tomcat7:redeploy
 ### Database
 
 - Install & Postgres locally following the instructions for your respective OS
-- _Or_ only run the postgres container in docker compose:
+- Or only run the postgres container in docker compose:
 
 ```
 $ docker-compose up postgres
