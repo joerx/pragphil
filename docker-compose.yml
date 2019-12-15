@@ -11,7 +11,7 @@ services:
     volumes:
       - "./docker/conf/nginx-default.conf:/etc/nginx/conf.d/default.conf"
 
-  app:
+  tomcat:
     build:
       context: .
       dockerfile: docker/dev.dockerfile
