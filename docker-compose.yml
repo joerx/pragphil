@@ -8,6 +8,9 @@ services:
       - "8080:8080"
     networks:
       - backend
+    depends_on:
+      - tomcat
+      - adminer
     volumes:
       - "./docker/conf/nginx-default.conf:/etc/nginx/conf.d/default.conf"
 
@@ -22,6 +25,11 @@ services:
       DATASOURCE_URL: jdbc:postgresql://postgres:5432/pragphil
       DATASOURCE_USER: postgres
       DATASOURCE_PASSWORD: postgres
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    depends_on:
+      - redis
+      - postgres
     volumes:
       - "webapps:/usr/local/tomcat/webapps"
       
@@ -46,9 +54,17 @@ services:
     volumes:
       - "./docker/conf/adminer-login-servers.php:/var/www/html/plugins-enabled/login-servers.php"
 
+  redis:
+    image: redis:5.0
+    networks:
+      - backend
+    volumes:
+      - "redis-data:/data"
+
 networks:
   backend:
 
 volumes:
   db-data:
+  redis-data:
   webapps:

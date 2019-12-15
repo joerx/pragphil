@@ -8,16 +8,21 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
+import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
+import java.util.Objects;
 import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
+@EnableRedisHttpSession
 @ComponentScan(basePackages = {"io.yodo.pragphil.core", "io.yodo.pragphil.config"})
 @PropertySource("classpath:application.properties")
 public class CoreConfig {
@@ -104,5 +109,12 @@ public class CoreConfig {
             .baselineOnMigrate(true)
             .locations("classpath:/db-migrations")
             .load();
+    }
+
+    @Bean
+    public LettuceConnectionFactory connectionFactory() {
+        String port = Objects.requireNonNull(env.getProperty("redis.port"));
+        String host = Objects.requireNonNull(env.getProperty("redis.host"));
+        return new LettuceConnectionFactory(new RedisStandaloneConfiguration(host, Integer.parseInt(port)));
     }
 }
