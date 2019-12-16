@@ -13,8 +13,13 @@ import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactor
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
+import org.springframework.session.security.web.authentication.SpringSessionRememberMeServices;
+import org.springframework.session.web.http.CookieSerializer;
+import org.springframework.session.web.http.DefaultCookieSerializer;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import javax.servlet.ServletContext;
+import javax.servlet.SessionCookieConfig;
 import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
 import java.util.Objects;
@@ -116,5 +121,33 @@ public class CoreConfig {
         String port = Objects.requireNonNull(env.getProperty("redis.port"));
         String host = Objects.requireNonNull(env.getProperty("redis.host"));
         return new LettuceConnectionFactory(new RedisStandaloneConfiguration(host, Integer.parseInt(port)));
+    }
+
+    // Creating our own CookieSerializer to avoid running into this issue:
+    // https://github.com/spring-projects/spring-framework/issues/22319
+    @Bean
+    public CookieSerializer cookieSerializer(ServletContext ctx) {
+        logger.debug("Creating cookie serializer");
+        DefaultCookieSerializer cs = new DefaultCookieSerializer();
+
+        try {
+            SessionCookieConfig cfg = ctx.getSessionCookieConfig();
+            logger.debug("Cookie domain: " + cfg.getDomain());
+            logger.debug("Cookie path: " + cfg.getPath());
+
+            cs.setCookieName(cfg.getName());
+            cs.setDomainName(cfg.getDomain());
+            cs.setCookiePath(cfg.getPath());
+            cs.setCookieMaxAge(cfg.getMaxAge());
+        } catch (UnsupportedOperationException e) {
+            logger.info("Failed to get default session cookie config, will fall back to defaults");
+            logger.debug("Setting cookie path to '" + ctx.getContextPath() + "'");
+
+            cs.setCookieName("PRAGPHIL_SESSID");
+            cs.setCookiePath(ctx.getContextPath());
+        }
+
+        cs.setRememberMeRequestAttribute(SpringSessionRememberMeServices.REMEMBER_ME_LOGIN_ATTR);
+        return cs;
     }
 }
