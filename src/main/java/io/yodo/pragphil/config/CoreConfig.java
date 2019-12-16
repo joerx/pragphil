@@ -116,6 +116,7 @@ public class CoreConfig {
             .load();
     }
 
+    // Redis connection stuff
     @Bean
     public LettuceConnectionFactory connectionFactory() {
         String port = Objects.requireNonNull(env.getProperty("redis.port"));
